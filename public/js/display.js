@@ -1,6 +1,5 @@
 const socket = io();
 const ranks = Array.from(document.querySelectorAll("[data-rank]"));
-const gate = document.querySelector("[data-audio-gate]");
 
 function formatTime(deltaMs) {
   if (deltaMs === 0) return "FIRST";
@@ -28,28 +27,19 @@ function render(state) {
   });
 }
 
-const enableBtn = gate.querySelector("[data-enable-sound]");
-const readyBtn = gate.querySelector("[data-ready-display]");
-const testButtons = Array.from(gate.querySelectorAll("[data-test]"));
-
-enableBtn.addEventListener("click", async () => {
+async function enableSound() {
   await window.unlockBells();
-  testButtons.forEach((button) => {
-    button.disabled = false;
-  });
-  readyBtn.disabled = false;
-  enableBtn.textContent = "Sound on";
-});
+}
 
-testButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    window.playTeamBell(button.dataset.test);
-  });
-});
+enableSound();
 
-readyBtn.addEventListener("click", () => {
-  gate.classList.add("hidden");
-});
+document.addEventListener(
+  "pointerdown",
+  () => {
+    enableSound();
+  },
+  { once: true }
+);
 
 socket.on("state", render);
 socket.on("ring", (ring) => {

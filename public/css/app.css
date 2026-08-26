@@ -336,57 +336,6 @@ h1 {
   100% { transform: scale(1); filter: brightness(1); }
 }
 
-.audio-gate {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.82);
-  display: grid;
-  place-items: center;
-  z-index: 5;
-}
-
-.audio-panel {
-  width: min(520px, 90vw);
-  text-align: center;
-}
-
-.audio-panel p {
-  margin: 16px 0 18px;
-  color: #d8c89a;
-}
-
-.audio-gate button {
-  border: 0;
-  background: var(--dunamis);
-  color: #ffffff;
-  padding: 18px 28px;
-  border-radius: 999px;
-  font-size: 22px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.audio-gate button:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-.test-bells {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.test-bells [data-test="dunamis"] { background: var(--dunamis); }
-.test-bells [data-test="zoe"] { background: var(--zoe); }
-.test-bells [data-test="pneuma"] { background: var(--pneuma); }
-
-.audio-gate .ready {
-  background: #f4efe4;
-  color: #070705;
-}
-
 .hidden {
   display: none;
 }
