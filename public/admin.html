@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz Bell Admin</title>
+    <link rel="stylesheet" href="/css/app.css" />
+  </head>
+  <body class="admin">
+    <main class="wrap">
+      <div class="admin-bar">
+        <div>
+          <p class="kicker">Control</p>
+          <h1>Admin</h1>
+          <p class="lede">Watch the order live, then reset after the answer.</p>
+        </div>
+        <button class="reset" data-reset type="button">Reset bells</button>
+      </div>
+      <p class="empty" data-empty>No one has rung yet.</p>
+      <section class="results" data-results></section>
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/admin.js"></script>
+  </body>
+</html>

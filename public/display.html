@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz Bell Display</title>
+    <link rel="stylesheet" href="/css/app.css" />
+  </head>
+  <body class="display">
+    <div class="audio-gate" data-audio-gate>
+      <div class="audio-panel">
+        <button type="button" data-enable-sound>Enable sound</button>
+        <p>Then tap each team to hear their bell.</p>
+        <div class="test-bells">
+          <button type="button" data-test="dunamis" disabled>Dunamis</button>
+          <button type="button" data-test="zoe" disabled>Zoe</button>
+          <button type="button" data-test="pneuma" disabled>Pneuma</button>
+        </div>
+        <button type="button" class="ready" data-ready-display disabled>Ready</button>
+      </div>
+    </div>
+    <aside class="display-panel">
+      <header class="display-header">
+        <p class="display-kicker">Live</p>
+        <h1>Bell Order</h1>
+      </header>
+      <section class="display-slots">
+        <article class="slot" data-rank>
+          <div class="slot-bar">
+            <span class="slot-place">1</span>
+            <span class="slot-name" data-name>Waiting</span>
+          </div>
+          <p class="slot-time" data-time>—</p>
+        </article>
+        <article class="slot" data-rank>
+          <div class="slot-bar">
+            <span class="slot-place">2</span>
+            <span class="slot-name" data-name>Waiting</span>
+          </div>
+          <p class="slot-time" data-time>—</p>
+        </article>
+        <article class="slot" data-rank>
+          <div class="slot-bar">
+            <span class="slot-place">3</span>
+            <span class="slot-name" data-name>Waiting</span>
+          </div>
+          <p class="slot-time" data-time>—</p>
+        </article>
+      </section>
+    </aside>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/bells.js"></script>
+    <script src="/js/display.js"></script>
+  </body>
+</html>

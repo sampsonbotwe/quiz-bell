@@ -1,0 +1,17 @@
+{
+  "name": "quiz-bell",
+  "version": "1.0.0",
+  "description": "Local quiz bell for Dunamis, Zoe, and Pneuma",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true,
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
