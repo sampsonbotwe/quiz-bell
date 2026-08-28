@@ -3,40 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quiz Bell Display</title>
+    <title>Display</title>
     <link rel="stylesheet" href="/css/app.css" />
   </head>
   <body class="display">
-    <aside class="display-panel">
-      <header class="display-header">
-        <p class="display-kicker">Live</p>
-        <h1>Bell Order</h1>
-      </header>
-      <section class="display-slots">
-        <article class="slot" data-rank>
-          <div class="slot-bar">
-            <span class="slot-place">1</span>
-            <span class="slot-name" data-name>Waiting</span>
-          </div>
-          <p class="slot-time" data-time>—</p>
-        </article>
-        <article class="slot" data-rank>
-          <div class="slot-bar">
-            <span class="slot-place">2</span>
-            <span class="slot-name" data-name>Waiting</span>
-          </div>
-          <p class="slot-time" data-time>—</p>
-        </article>
-        <article class="slot" data-rank>
-          <div class="slot-bar">
-            <span class="slot-place">3</span>
-            <span class="slot-name" data-name>Waiting</span>
-          </div>
-          <p class="slot-time" data-time>—</p>
-        </article>
+    <main class="display-question hidden" data-quiz-overlay>
+      <section class="display-category-picker hidden" data-category-picker>
+        <div class="display-category-grid" data-category-grid></div>
       </section>
+
+      <section class="display-category-chosen hidden" data-category-chosen>
+        <p class="display-chosen-kicker">Category chosen</p>
+        <p class="display-chosen-name" data-chosen-name></p>
+      </section>
+
+      <div class="display-question-main hidden" data-question-panel>
+        <div class="question-lower-third">
+          <p class="question-round" data-round-label></p>
+          <p class="question-body hidden" data-question></p>
+          <ul class="question-clues hidden" data-clues></ul>
+          <ul class="question-options hidden" data-options></ul>
+        </div>
+        <aside class="question-ladder hidden" data-ladder-panel>
+          <p class="question-ladder-title">Money Round</p>
+          <ul data-ladder></ul>
+          <p class="question-ladder-earned" data-earned></p>
+        </aside>
+      </div>
+    </main>
+
+    <aside class="display-panel">
+      <section class="display-slots" data-slots></section>
     </aside>
+
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/display.js"></script>
+    <script src="/js/display.js?v=7"></script>
   </body>
 </html>

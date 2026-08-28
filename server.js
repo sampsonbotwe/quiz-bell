@@ -3,11 +3,12 @@ const path = require("path");
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
+const quiz = require("./quiz-state");
 
 const PORT = Number(process.env.PORT) || 3000;
 const TEAMS = {
   dunamis: { id: "dunamis", name: "Dunamis", color: "#1A7CFF" },
-  zoe: { id: "zoe", name: "Zoe", color: "#72C044" },
+  zoe: { id: "zoe", name: "Zoe", color: "#E02020" },
   pneuma: { id: "pneuma", name: "Pneuma", color: "#E3A21C" },
 };
 
@@ -29,6 +30,12 @@ function createTimer() {
 
 let round = createRound();
 let timer = createTimer();
+let quizState = quiz.createQuizState();
+
+function emitQuizState() {
+  io.emit("quiz:display", quiz.publicDisplayPayload(quizState));
+  io.emit("quiz:host", quiz.publicHostPayload(quizState));
+}
 
 function timerRemainingMs() {
   if (timer.status === "running" && timer.endsAt) {
@@ -163,6 +170,7 @@ app.get("/admin", sendPage("admin.html"));
 app.get("/display", sendPage("display.html"));
 app.get("/timer", sendPage("timer.html"));
 app.get("/timer-control", sendPage("timer-control.html"));
+app.get("/host", sendPage("host.html"));
 app.get("/dunamis", sendPage("team.html"));
 app.get("/zoe", sendPage("team.html"));
 app.get("/pneuma", sendPage("team.html"));
@@ -175,9 +183,15 @@ app.get("/api/timer", (_req, res) => {
   res.json(publicTimerState());
 });
 
+app.get("/api/quiz/rounds", (_req, res) => {
+  res.json(quiz.getRoundSummaries());
+});
+
 io.on("connection", (socket) => {
   socket.emit("state", publicState());
   socket.emit("timerState", publicTimerState());
+  socket.emit("quiz:display", quiz.publicDisplayPayload(quizState));
+  socket.emit("quiz:host", quiz.publicHostPayload(quizState));
 
   socket.on("ring", (payload) => {
     const teamId = payload && payload.team;
@@ -223,6 +237,84 @@ io.on("connection", (socket) => {
   socket.on("timer:reset", () => {
     resetTimer();
   });
+
+  socket.on("quiz:setRound", (payload) => {
+    var roundNum = payload && Number(payload.round);
+    if (!roundNum || roundNum < 1 || roundNum > 5) return;
+    quiz.resetRoundFields(quizState, roundNum);
+    emitQuizState();
+  });
+
+  socket.on("quiz:setSet", (payload) => {
+    if (quizState.round !== 1 || !payload || !payload.set) return;
+    if (quiz.SET_IDS.indexOf(payload.set) < 0) return;
+    quizState.set = payload.set;
+    quizState.categoryId = null;
+    quizState.blockIndex = 0;
+    quizState.part = "main";
+    quizState.visible = true;
+    emitQuizState();
+  });
+
+  socket.on("quiz:selectCategory", (payload) => {
+    if (!payload || !payload.categoryId) return;
+    if (quizState.round !== 1 && quizState.round !== 2) return;
+    quiz.selectCategory(quizState, payload.categoryId);
+    emitQuizState();
+  });
+
+  socket.on("quiz:prev", () => {
+    quiz.navigatePrev(quizState);
+    emitQuizState();
+  });
+
+  socket.on("quiz:next", () => {
+    quiz.navigateNext(quizState);
+    emitQuizState();
+  });
+
+  socket.on("quiz:setPart", (payload) => {
+    if (!payload || !payload.part) return;
+    quiz.selectBlockPart(quizState, payload.part);
+    emitQuizState();
+  });
+
+  socket.on("quiz:nextSet", () => {
+    quiz.nextSet(quizState);
+    emitQuizState();
+  });
+
+  socket.on("quiz:revealClue", () => {
+    quiz.revealClue(quizState);
+    emitQuizState();
+  });
+
+  socket.on("quiz:hideClues", () => {
+    quiz.hideAllClues(quizState);
+    emitQuizState();
+  });
+
+  socket.on("quiz:setVisible", (payload) => {
+    if (!payload || typeof payload.visible !== "boolean") return;
+    quizState.visible = payload.visible;
+    emitQuizState();
+  });
+
+  socket.on("quiz:round5Answer", (payload) => {
+    if (!payload || typeof payload.correct !== "boolean") return;
+    quiz.markRound5Answer(quizState, payload.correct);
+    emitQuizState();
+  });
+
+  socket.on("quiz:round5Reset", () => {
+    if (quizState.round !== 5) return;
+    quizState.questionIndex = 0;
+    quizState.earnedAmount = 0;
+    quizState.round5Complete = false;
+    quizState.round5LastResult = null;
+    quizState.visible = true;
+    emitQuizState();
+  });
 });
 
 setInterval(() => {
@@ -242,6 +334,7 @@ function printUrls(host) {
   console.log(`  Display        http://${host}:${PORT}/display`);
   console.log(`  Timer          http://${host}:${PORT}/timer`);
   console.log(`  Timer Control  http://${host}:${PORT}/timer-control`);
+  console.log(`  Quiz Host      http://${host}:${PORT}/host`);
 }
 
 server.listen(PORT, "0.0.0.0", function () {

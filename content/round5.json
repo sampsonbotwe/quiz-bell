@@ -1,0 +1,161 @@
+{
+  "round": 5,
+  "title": "Round 5 — Money Round",
+  "winnerOnly": true,
+  "currency": "GHS",
+  "displayShowsOptions": true,
+  "ladder": [
+    { "step": 1, "amount": 100 },
+    { "step": 2, "amount": 200 },
+    { "step": 3, "amount": 300 },
+    { "step": 4, "amount": 400 },
+    { "step": 5, "amount": 500 },
+    { "step": 6, "amount": 600 },
+    { "step": 7, "amount": 700 },
+    { "step": 8, "amount": 800 },
+    { "step": 9, "amount": 900 },
+    { "step": 10, "amount": 1000 }
+  ],
+  "question": [
+    {
+      "id": 1,
+      "step": 1,
+      "amount": 100,
+      "question": "Who built the ark to survive the great flood?",
+      "options": [
+        "Noah",
+        "Moses",
+        "Abraham",
+        "Joshua"
+      ],
+      "correctIndex": 0,
+      "correctAnswer": "Noah"
+    },
+    {
+      "id": 2,
+      "step": 2,
+      "amount": 200,
+      "question": "In which city was Jesus born?",
+      "options": [
+        "Nazareth",
+        "Jerusalem",
+        "Bethlehem",
+        "Capernaum"
+      ],
+      "correctIndex": 2,
+      "correctAnswer": "Bethlehem"
+    },
+    {
+      "id": 3,
+      "step": 3,
+      "amount": 300,
+      "question": "How many disciples did Jesus choose as His apostles?",
+      "options": [
+        "7",
+        "10",
+        "12",
+        "40"
+      ],
+      "correctIndex": 2,
+      "correctAnswer": "12"
+    },
+    {
+      "id": 4,
+      "step": 4,
+      "amount": 400,
+      "question": "Who was thrown into a lions' den but came out unharmed?",
+      "options": [
+        "Daniel",
+        "David",
+        "Joseph",
+        "Jeremiah"
+      ],
+      "correctIndex": 0,
+      "correctAnswer": "Daniel"
+    },
+    {
+      "id": 5,
+      "step": 5,
+      "amount": 500,
+      "question": "What did God provide for the Israelites to eat in the wilderness?",
+      "options": [
+        "Quail only",
+        "Manna",
+        "Bread from Egypt",
+        "Figs and dates"
+      ],
+      "correctIndex": 1,
+      "correctAnswer": "Manna"
+    },
+    {
+      "id": 6,
+      "step": 6,
+      "amount": 600,
+      "question": "Who interpreted Pharaoh's dreams of seven fat cows and seven lean cows?",
+      "options": [
+        "Daniel",
+        "Joseph",
+        "Moses",
+        "Samuel"
+      ],
+      "correctIndex": 1,
+      "correctAnswer": "Joseph"
+    },
+    {
+      "id": 7,
+      "step": 7,
+      "amount": 700,
+      "question": "Which king had a dream of a great statue, interpreted by Daniel?",
+      "options": [
+        "Darius",
+        "Cyrus",
+        "Nebuchadnezzar",
+        "Herod"
+      ],
+      "correctIndex": 2,
+      "correctAnswer": "Nebuchadnezzar"
+    },
+    {
+      "id": 8,
+      "step": 8,
+      "amount": 800,
+      "question": "On which day of creation did God make the sun, moon, and stars?",
+      "options": [
+        "Day 1",
+        "Day 3",
+        "Day 4",
+        "Day 6"
+      ],
+      "correctIndex": 2,
+      "correctAnswer": "Day 4"
+    },
+    {
+      "id": 9,
+      "step": 9,
+      "amount": 900,
+      "question": "Who was the Roman governor who authorized Jesus' crucifixion?",
+      "options": [
+        "Herod Antipas",
+        "Pontius Pilate",
+        "Caesar Augustus",
+        "Felix"
+      ],
+      "correctIndex": 1,
+      "correctAnswer": "Pontius Pilate"
+    },
+    {
+      "id": 10,
+      "step": 10,
+      "amount": 1000,
+      "question": "Which two Old Testament figures were taken up to heaven without dying?",
+      "options": [
+        "Moses and Elijah",
+        "Enoch and Elijah",
+        "Abraham and Enoch",
+        "Elijah and Elisha"
+      ],
+      "correctIndex": 1,
+      "correctAnswer": "Enoch and Elijah"
+    }
+  ]
+}

@@ -1,8 +1,6 @@
 # Quiz Bell
 
-A local quiz buzzer app for three teams: **Dunamis**, **Zoe**, and **Pneuma**.
-
-Teams press a bell on their phone during a riddle. The app records who rang first, plays a unique sound for each team, and shows the order on a display screen. An admin can reset the bells after each question.
+A local quiz app for three teams: **Dunamis**, **Zoe**, and **Pneuma**. Teams buzz in on their phones, the host runs questions from the Quiz Host screen, and overlays feed vMix/OBS on the LED machine.
 
 No database is required. Everything runs in memory on one machine on your local network.
 
@@ -11,7 +9,7 @@ No database is required. Everything runs in memory on one machine on your local 
 | Team | Color | Bell page |
 | --- | --- | --- |
 | Dunamis | Blue | `/dunamis` |
-| Zoe | Green | `/zoe` |
+| Zoe | Red | `/zoe` |
 | Pneuma | Gold | `/pneuma` |
 
 ## Screens
@@ -23,29 +21,67 @@ No database is required. Everything runs in memory on one machine on your local 
 | Zoe | `/zoe` | Zoe team bell button |
 | Pneuma | `/pneuma` | Pneuma team bell button |
 | Admin | `/admin` | See live order, reset bells, and play team bell sounds |
-| Display | `/display` | LED overlay with order (silent) |
-| Timer | `/timer` | Large countdown display with wrong-answer sound at 0 |
+| Display | `/display` | Bell order + question overlay (chroma key green) |
+| Timer | `/timer` | Large countdown display (chroma key green) |
 | Timer Control | `/timer-control` | Set, start, stop, and reset the timer |
+| Quiz Host | `/host` | Host control — rounds, questions, answers, scoring |
 
-## How it works
+## Quiz rounds
+
+Question content lives in `content/round1.json` through `content/round5.json`.
+
+| Round | Format |
+| --- | --- |
+| 1 | Sets A/B/C — pick a category, 3 blocks × (main + 2 subs) |
+| 2 | Books of the Bible — 4 categories, same block structure as Round 1 |
+| 3 | 60-second rapid fire — flat question list, use Timer Control |
+| 4 | Riddles — reveal clues one at a time; display shows clues only |
+| 5 | Money round (winner only) — multiple choice + GHS ladder |
+
+## Quiz Host
+
+Open `/host` on the host laptop.
+
+- Switch **R1–R5** at any time
+- **Round 1:** pick Set A/B/C, choose a category, navigate main/sub questions
+- **Round 2:** pick a category, navigate questions
+- **Round 3:** use **Previous/Next** while the 60s timer runs on Timer Control
+- **Round 4:** reveal clues to the display; all clues + answer visible to host
+- **Round 5:** mark **Correct** or **Wrong** to advance the money ladder
+- **Hide display** toggles the question overlay off without changing position
+- Progress shows current question number at the top
+
+## Display
+
+Open `/display` on the LED machine. Green background (`#00FF00`) for chroma key — key out the green in vMix/OBS.
+
+- **Right side:** live bell order (who rang 1st, 2nd, 3rd)
+- **Bottom left:** question lower-third when the host sends one
+- Rounds 1–3: question text only
+- Round 4: revealed clues only (no riddle title on screen)
+- Round 5: question, four options, and money ladder
+
+Use **Hide display** on the Quiz Host page to clear the question overlay; the bell panel stays visible.
+
+## Bells
 
 1. Start the app on the host laptop.
 2. Open each team page on a phone or tablet.
 3. Open the admin page on the host laptop.
 4. Open the display page on the LED machine.
-5. When a riddle is read, teams press **RING** once.
-6. Each button locks after one press so teams cannot ring twice.
-7. The display shows who rang first, second, and third, with timings.
+5. When a question is live, teams press **RING** once.
+6. Each button locks after one press.
+7. The display shows who rang first, second, and third.
 8. After the answer, admin presses **Reset bells** for the next question.
 
 ## Timer
 
-Use **Timer Control** to pick 5s, 10s, 60s, or a custom number of seconds, then start the countdown.
+Use **Timer Control** for Round 3 (60s) or any timed segment.
 
-- Once the timer is running, the duration cannot be changed until you stop it.
-- **Stop** pauses the countdown and enables **Reset**.
-- **Reset** puts the timer display back to the selected duration. Your duration choice stays on the control page.
-- **Timer** shows the live countdown. Sound plays on **Timer Control** when it reaches 0.
+- Pick 5s, 10s, 60s, or a custom duration, then start.
+- Duration is locked while running.
+- **Stop** pauses; **Reset** restores the selected duration.
+- Sound plays on **Timer Control** when time reaches 0.
 
 ## Requirements
 
@@ -59,18 +95,7 @@ npm install
 npm start
 ```
 
-The server prints URLs for `localhost` and your machine's network IP, for example:
-
-```text
-Home     http://192.168.1.10:3000/
-Dunamis  http://192.168.1.10:3000/dunamis
-Zoe      http://192.168.1.10:3000/zoe
-Pneuma   http://192.168.1.10:3000/pneuma
-Admin    http://192.168.1.10:3000/admin
-Display  http://192.168.1.10:3000/display
-Timer    http://192.168.1.10:3000/timer
-Timer Control  http://192.168.1.10:3000/timer-control
-```
+The server prints URLs for `localhost` and your machine's network IP.
 
 Use the network IP on phones and the LED machine.
 
@@ -84,7 +109,7 @@ PORT=4000 npm start
 
 ## Notes
 
-- State is stored in memory only. Restarting the server clears the current round.
+- State is stored in memory only. Restarting the server clears bells, timer, and quiz position.
 - The admin page plays team bell sounds. Tap the page once if the browser blocks audio.
-- The display is silent and designed for the right side of the screen so video can sit on the left in vMix or similar software.
-- The timer page uses a green background (`#00FF00`) for chroma key. Key out the green in vMix/OBS and keep the top-centre pill overlay.
+- The display is silent. Bell order sits on the right; questions appear as a lower-third on the left. Key out the green background in vMix.
+- Edit questions by changing the JSON files in `content/` and restarting the server.

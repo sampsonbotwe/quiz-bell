@@ -1,0 +1,127 @@
+{
+  "round": 4,
+  "title": "Round 4 — Riddles",
+  "displayShowsQuestion": false,
+  "riddles": [
+    {
+      "id": 1,
+      "answer": "Noah",
+      "clues": [
+        "I lived in a generation that had turned far from God.",
+        "I was told to build something very large out of gopher wood.",
+        "I gathered my family and pairs of every kind of animal.",
+        "After the waters receded, a dove brought me an olive leaf."
+      ]
+    },
+    {
+      "id": 2,
+      "answer": "David",
+      "clues": [
+        "I was the youngest in my family and kept my father's sheep.",
+        "A prophet anointed me king while I was still a boy.",
+        "I defeated a giant with a sling and a single stone.",
+        "I wrote many psalms and ruled Israel from Jerusalem."
+      ]
+    },
+    {
+      "id": 3,
+      "answer": "Moses",
+      "clues": [
+        "I was hidden in a basket among the reeds as a baby.",
+        "I fled to Midian after taking a man's life in Egypt.",
+        "I spoke with God at a burning bush on a holy mountain.",
+        "I led Israel through the Red Sea and received the Ten Commandments."
+      ]
+    },
+    {
+      "id": 4,
+      "answer": "Jonah",
+      "clues": [
+        "I tried to run away from an assignment God gave me.",
+        "I boarded a ship heading in the opposite direction of where I was sent.",
+        "A great storm threatened the ship until I was thrown overboard.",
+        "I spent three days inside a great fish before preaching in Nineveh."
+      ]
+    },
+    {
+      "id": 5,
+      "answer": "Samson",
+      "clues": [
+        "I was set apart from birth by a Nazirite vow.",
+        "My strength was a gift, but I often used it recklessly.",
+        "I tore a lion apart with my bare hands.",
+        "Delilah cut my hair, and my strength left me."
+      ]
+    },
+    {
+      "id": 6,
+      "answer": "Esther",
+      "clues": [
+        "I was an orphan raised by my cousin Mordecai.",
+        "I was chosen in a royal search across the kingdom.",
+        "I became queen of Persia without revealing my Jewish identity at first.",
+        "I risked my life to save my people from Haman's plot."
+      ]
+    },
+    {
+      "id": 7,
+      "answer": "Peter",
+      "clues": [
+        "I was a fisherman on the Sea of Galilee.",
+        "Jesus gave me a new name meaning \"rock.\"",
+        "I walked on water toward Jesus — until I began to sink.",
+        "I denied knowing Jesus three times before the rooster crowed."
+      ]
+    },
+    {
+      "id": 8,
+      "answer": "Daniel",
+      "clues": [
+        "I was taken to Babylon as a young exile from Judah.",
+        "I refused the king's rich food and ate only vegetables.",
+        "I interpreted dreams that baffled the wise men of the empire.",
+        "I was thrown into a lions' den but came out unharmed."
+      ]
+    },
+    {
+      "id": 9,
+      "answer": "Jericho",
+      "clues": [
+        "I was a fortified city standing in Israel's path.",
+        "Two spies were hidden in my walls before the attack.",
+        "Israel marched around me once a day for six days.",
+        "On the seventh day, my walls fell after seven trumpets and a great shout."
+      ]
+    },
+    {
+      "id": 10,
+      "answer": "Joseph (son of Jacob)",
+      "clues": [
+        "My brothers hated me because of my father's favor and my dreams.",
+        "They sold me to traders heading toward Egypt.",
+        "I rose from prison by interpreting the ruler's dreams.",
+        "I stored grain for seven years and saved Egypt and my family from famine."
+      ]
+    },
+    {
+      "id": 11,
+      "answer": "Elijah",
+      "clues": [
+        "I announced a drought that lasted for years.",
+        "I was fed by ravens beside a brook called Cherith.",
+        "I challenged hundreds of false prophets on Mount Carmel.",
+        "I was taken up to heaven in a whirlwind, leaving my cloak for Elisha."
+      ]
+    },
+    {
+      "id": 12,
+      "answer": "The Ark of the Covenant",
+      "clues": [
+        "I was built according to precise instructions given on a mountain.",
+        "I was overlaid with gold and carried by poles so no one touched me directly.",
+        "I held the stone tablets of God's law.",
+        "I was carried around Jericho before its walls fell."
+      ]
+    }
+  ]
+}
