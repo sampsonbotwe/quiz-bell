@@ -87,3 +87,4 @@ PORT=4000 npm start
 - State is stored in memory only. Restarting the server clears the current round.
 - The admin page plays team bell sounds. Tap the page once if the browser blocks audio.
 - The display is silent and designed for the right side of the screen so video can sit on the left in vMix or similar software.
+- The timer page uses a green background (`#00FF00`) for chroma key. Key out the green in vMix/OBS and keep the top-centre pill overlay.
