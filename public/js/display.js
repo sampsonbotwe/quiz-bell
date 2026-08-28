@@ -3,15 +3,15 @@ const ranks = Array.from(document.querySelectorAll("[data-rank]"));
 
 function formatTime(deltaMs) {
   if (deltaMs === 0) return "FIRST";
-  return `+${(deltaMs / 1000).toFixed(2)}s`;
+  return "+" + (deltaMs / 1000).toFixed(2) + "s";
 }
 
 function render(state) {
-  ranks.forEach((node, index) => {
-    const ring = state.rings[index];
-    const name = node.querySelector("[data-name]");
-    const time = node.querySelector("[data-time]");
-    const bar = node.querySelector(".slot-bar");
+  ranks.forEach(function (node, index) {
+    var ring = state.rings[index];
+    var name = node.querySelector("[data-name]");
+    var time = node.querySelector("[data-time]");
+    var bar = node.querySelector(".slot-bar");
 
     node.classList.toggle("live", Boolean(ring));
     name.textContent = ring ? ring.name : "Waiting";
@@ -27,24 +27,9 @@ function render(state) {
   });
 }
 
-async function enableSound() {
-  await window.unlockBells();
-}
-
-enableSound();
-
-document.addEventListener(
-  "pointerdown",
-  () => {
-    enableSound();
-  },
-  { once: true }
-);
-
 socket.on("state", render);
-socket.on("ring", (ring) => {
-  window.playTeamBell(ring.team);
-  const node = ranks[ring.order - 1];
+socket.on("ring", function (ring) {
+  var node = ranks[ring.order - 1];
   if (node) {
     node.classList.remove("flash");
     void node.offsetWidth;

@@ -22,8 +22,8 @@ No database is required. Everything runs in memory on one machine on your local 
 | Dunamis | `/dunamis` | Dunamis team bell button |
 | Zoe | `/zoe` | Zoe team bell button |
 | Pneuma | `/pneuma` | Pneuma team bell button |
-| Admin | `/admin` | See live order and reset bells |
-| Display | `/display` | LED overlay with order and sound |
+| Admin | `/admin` | See live order, reset bells, and play team bell sounds |
+| Display | `/display` | LED overlay with order (silent) |
 | Timer | `/timer` | Large countdown display with wrong-answer sound at 0 |
 | Timer Control | `/timer-control` | Set, start, stop, and reset the timer |
 
@@ -85,5 +85,5 @@ PORT=4000 npm start
 ## Notes
 
 - State is stored in memory only. Restarting the server clears the current round.
-- The display page enables sound automatically. If a browser blocks audio, tap the page once.
-- The display is designed for the right side of the screen so video can sit on the left in vMix or similar software.
+- The admin page plays team bell sounds. Tap the page once if the browser blocks audio.
+- The display is silent and designed for the right side of the screen so video can sit on the left in vMix or similar software.

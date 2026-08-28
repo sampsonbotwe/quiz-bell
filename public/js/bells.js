@@ -154,8 +154,16 @@ window.playDeniedSound = function playDeniedSound() {
   const out = dest();
   const now = context().currentTime + 0.02;
 
-  tone({ start: now, type: "sine", freq: 392, peak: 0.35, attack: 0.005, decay: 0.18, out });
-  tone({ start: now + 0.16, type: "sine", freq: 262, peak: 0.35, attack: 0.005, decay: 0.28, out });
+  strike({ start: now, freq: 140, peak: 0.8, duration: 0.14, filter: "bandpass", q: 1.5, out });
+  tone({ start: now, type: "square", freq: 127, peak: 0.6, attack: 0.003, decay: 1.1, out });
+  tone({ start: now, type: "sawtooth", freq: 133, peak: 0.45, attack: 0.003, decay: 1.1, out });
+
+  for (let i = 0; i < 10; i += 1) {
+    const t = now + i * 0.1;
+    tone({ start: t, type: "square", freq: 220, peak: 0.5, attack: 0.002, decay: 0.08, out });
+    tone({ start: t, type: "square", freq: 233, peak: 0.42, attack: 0.002, decay: 0.08, out });
+    tone({ start: t + 0.04, type: "sawtooth", freq: 311, peak: 0.3, attack: 0.002, decay: 0.06, out });
+  }
 };
 
 window.playWrongAnswer = window.playDeniedSound;
