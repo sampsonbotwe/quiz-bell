@@ -18,7 +18,95 @@ function createRound() {
   };
 }
 
+function createTimer() {
+  return {
+    durationSec: null,
+    status: "idle",
+    endsAt: null,
+    remainingMs: 0,
+  };
+}
+
 let round = createRound();
+let timer = createTimer();
+
+function timerRemainingMs() {
+  if (timer.status === "running" && timer.endsAt) {
+    return Math.max(0, timer.endsAt - Date.now());
+  }
+  return timer.remainingMs;
+}
+
+function publicTimerState() {
+  const remainingMs = timerRemainingMs();
+  const canChangeDuration = timer.status === "idle" || timer.status === "stopped";
+
+  return {
+    durationSec: timer.durationSec,
+    status: timer.status,
+    remainingMs,
+    canChangeDuration,
+    canStart:
+      (timer.status === "idle" || timer.status === "stopped") &&
+      timer.durationSec > 0 &&
+      remainingMs > 0,
+    canStop: timer.status === "running",
+    canReset: timer.status === "stopped" || timer.status === "expired",
+  };
+}
+
+function emitTimerState() {
+  io.emit("timerState", publicTimerState());
+}
+
+function setTimerDuration(seconds) {
+  const value = Math.round(Number(seconds));
+  if (!Number.isFinite(value) || value < 1 || value > 3600) return false;
+  if (timer.status !== "idle" && timer.status !== "stopped") return false;
+
+  timer.durationSec = value;
+  timer.remainingMs = value * 1000;
+  emitTimerState();
+  return true;
+}
+
+function startTimer() {
+  const state = publicTimerState();
+  if (!state.canStart) return;
+
+  timer.status = "running";
+  timer.endsAt = Date.now() + timerRemainingMs();
+  emitTimerState();
+}
+
+function stopTimer() {
+  if (timer.status !== "running") return;
+
+  timer.remainingMs = Math.max(0, timer.endsAt - Date.now());
+  timer.endsAt = null;
+  timer.status = "stopped";
+  emitTimerState();
+}
+
+function resetTimer() {
+  if (timer.status !== "stopped" && timer.status !== "expired") return;
+  if (!timer.durationSec) return;
+
+  timer.endsAt = null;
+  timer.remainingMs = timer.durationSec * 1000;
+  timer.status = "idle";
+  emitTimerState();
+}
+
+function expireTimer() {
+  if (timer.status !== "running") return;
+
+  timer.remainingMs = 0;
+  timer.endsAt = null;
+  timer.status = "expired";
+  emitTimerState();
+  io.emit("timer:expired");
+}
 
 function publicState() {
   return {
@@ -61,6 +149,8 @@ function sendPage(file) {
 app.get("/", sendPage("index.html"));
 app.get("/admin", sendPage("admin.html"));
 app.get("/display", sendPage("display.html"));
+app.get("/timer", sendPage("timer.html"));
+app.get("/timer-control", sendPage("timer-control.html"));
 app.get("/dunamis", sendPage("team.html"));
 app.get("/zoe", sendPage("team.html"));
 app.get("/pneuma", sendPage("team.html"));
@@ -69,8 +159,13 @@ app.get("/api/state", (_req, res) => {
   res.json(publicState());
 });
 
+app.get("/api/timer", (_req, res) => {
+  res.json(publicTimerState());
+});
+
 io.on("connection", (socket) => {
   socket.emit("state", publicState());
+  socket.emit("timerState", publicTimerState());
 
   socket.on("ring", (payload) => {
     const teamId = payload && payload.team;
@@ -99,18 +194,49 @@ io.on("connection", (socket) => {
     io.emit("state", publicState());
     io.emit("reset");
   });
+
+  socket.on("timer:setDuration", (payload) => {
+    if (!payload || payload.seconds == null) return;
+    setTimerDuration(payload.seconds);
+  });
+
+  socket.on("timer:start", () => {
+    startTimer();
+  });
+
+  socket.on("timer:stop", () => {
+    stopTimer();
+  });
+
+  socket.on("timer:reset", () => {
+    resetTimer();
+  });
 });
+
+setInterval(() => {
+  if (timer.status === "running" && timer.endsAt && Date.now() >= timer.endsAt) {
+    expireTimer();
+  } else if (timer.status === "running") {
+    emitTimerState();
+  }
+}, 100);
+
+function printUrls(host) {
+  console.log(`  Home           http://${host}:${PORT}/`);
+  console.log(`  Dunamis        http://${host}:${PORT}/dunamis`);
+  console.log(`  Zoe            http://${host}:${PORT}/zoe`);
+  console.log(`  Pneuma         http://${host}:${PORT}/pneuma`);
+  console.log(`  Admin          http://${host}:${PORT}/admin`);
+  console.log(`  Display        http://${host}:${PORT}/display`);
+  console.log(`  Timer          http://${host}:${PORT}/timer`);
+  console.log(`  Timer Control  http://${host}:${PORT}/timer-control`);
+}
 
 server.listen(PORT, "0.0.0.0", () => {
   const urls = ["localhost", ...lanAddresses()];
   console.log("Quiz Bell is running\n");
   for (const host of urls) {
-    console.log(`  Home     http://${host}:${PORT}/`);
-    console.log(`  Dunamis  http://${host}:${PORT}/dunamis`);
-    console.log(`  Zoe      http://${host}:${PORT}/zoe`);
-    console.log(`  Pneuma   http://${host}:${PORT}/pneuma`);
-    console.log(`  Admin    http://${host}:${PORT}/admin`);
-    console.log(`  Display  http://${host}:${PORT}/display`);
+    printUrls(host);
     console.log("");
   }
 });

@@ -5,6 +5,8 @@ const links = {
   pneuma: `${origin}/pneuma`,
   admin: `${origin}/admin`,
   display: `${origin}/display`,
+  timer: `${origin}/timer`,
+  "timer-control": `${origin}/timer-control`,
 };
 
 for (const [key, url] of Object.entries(links)) {

@@ -24,6 +24,8 @@ No database is required. Everything runs in memory on one machine on your local 
 | Pneuma | `/pneuma` | Pneuma team bell button |
 | Admin | `/admin` | See live order and reset bells |
 | Display | `/display` | LED overlay with order and sound |
+| Timer | `/timer` | Large countdown display with wrong-answer sound at 0 |
+| Timer Control | `/timer-control` | Set, start, stop, and reset the timer |
 
 ## How it works
 
@@ -35,6 +37,15 @@ No database is required. Everything runs in memory on one machine on your local 
 6. Each button locks after one press so teams cannot ring twice.
 7. The display shows who rang first, second, and third, with timings.
 8. After the answer, admin presses **Reset bells** for the next question.
+
+## Timer
+
+Use **Timer Control** to pick 5s, 10s, 60s, or a custom number of seconds, then start the countdown.
+
+- Once the timer is running, the duration cannot be changed until you stop it.
+- **Stop** pauses the countdown and enables **Reset**.
+- **Reset** puts the timer display back to the selected duration. Your duration choice stays on the control page.
+- **Timer** shows the live countdown and plays a wrong-answer sound when it reaches 0.
 
 ## Requirements
 
@@ -57,6 +68,8 @@ Zoe      http://192.168.1.10:3000/zoe
 Pneuma   http://192.168.1.10:3000/pneuma
 Admin    http://192.168.1.10:3000/admin
 Display  http://192.168.1.10:3000/display
+Timer    http://192.168.1.10:3000/timer
+Timer Control  http://192.168.1.10:3000/timer-control
 ```
 
 Use the network IP on phones and the LED machine.

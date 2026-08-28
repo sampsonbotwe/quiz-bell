@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Timer Control</title>
+    <link rel="stylesheet" href="/css/app.css" />
+  </head>
+  <body class="timer-control-page">
+    <main class="wrap">
+      <div class="admin-bar">
+        <div>
+          <p class="kicker">Control</p>
+          <h1>Timer</h1>
+          <p class="lede">Pick a time, start the countdown, then stop or reset.</p>
+        </div>
+      </div>
+
+      <section class="timer-control-panel">
+        <p class="timer-control-label">Duration</p>
+        <div class="timer-presets" data-presets>
+          <button type="button" data-seconds="5">5s</button>
+          <button type="button" data-seconds="10">10s</button>
+          <button type="button" data-seconds="60">60s</button>
+        </div>
+
+        <div class="timer-custom">
+          <label for="custom-seconds">Custom seconds</label>
+          <div class="timer-custom-row">
+            <input
+              id="custom-seconds"
+              data-custom-input
+              type="number"
+              min="1"
+              max="3600"
+              placeholder="e.g. 30"
+            />
+            <button type="button" data-custom-apply>Set</button>
+          </div>
+        </div>
+
+        <p class="timer-selected" data-selected-time>No time selected</p>
+
+        <div class="timer-actions">
+          <button type="button" class="timer-start" data-start disabled>Start</button>
+          <button type="button" class="timer-stop" data-stop disabled>Stop</button>
+          <button type="button" class="timer-reset" data-reset disabled>Reset</button>
+        </div>
+      </section>
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/timer-control.js"></script>
+  </body>
+</html>
