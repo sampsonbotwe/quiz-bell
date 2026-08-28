@@ -17,6 +17,8 @@
       </div>
 
       <section class="timer-control-panel">
+        <p class="timer-control-countdown" data-timer-value>00</p>
+
         <p class="timer-control-label">Duration</p>
         <div class="timer-presets" data-presets>
           <button type="button" data-seconds="5">5s</button>
@@ -49,6 +51,7 @@
       </section>
     </main>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/bells.js"></script>
     <script src="/js/timer-control.js"></script>
   </body>
 </html>

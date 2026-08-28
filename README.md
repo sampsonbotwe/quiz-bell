@@ -45,7 +45,7 @@ Use **Timer Control** to pick 5s, 10s, 60s, or a custom number of seconds, then 
 - Once the timer is running, the duration cannot be changed until you stop it.
 - **Stop** pauses the countdown and enables **Reset**.
 - **Reset** puts the timer display back to the selected duration. Your duration choice stays on the control page.
-- **Timer** shows the live countdown and plays a wrong-answer sound when it reaches 0.
+- **Timer** shows the live countdown. Sound plays on **Timer Control** when it reaches 0.
 
 ## Requirements
 

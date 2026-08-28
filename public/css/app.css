@@ -392,6 +392,21 @@ h1 {
   max-width: 560px;
 }
 
+.timer-control-countdown {
+  text-align: center;
+  font-size: clamp(72px, 14vw, 120px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 24px;
+}
+
+.timer-control-page.timer-expired .timer-control-countdown {
+  color: #ff0000;
+}
+
 .timer-control-label {
   letter-spacing: 0.18em;
   text-transform: uppercase;

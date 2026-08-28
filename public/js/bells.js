@@ -154,15 +154,8 @@ window.playDeniedSound = function playDeniedSound() {
   const out = dest();
   const now = context().currentTime + 0.02;
 
-  strike({ start: now, freq: 120, peak: 1.2, duration: 0.12, filter: "bandpass", q: 1.2, out });
-  tone({ start: now, type: "square", freq: 110, peak: 1.0, attack: 0.004, decay: 0.95, out });
-  tone({ start: now, type: "sawtooth", freq: 111, peak: 0.65, attack: 0.004, decay: 0.95, out });
-
-  for (let i = 0; i < 14; i += 1) {
-    const t = now + i * 0.06;
-    tone({ start: t, type: "square", freq: 155, peak: 0.85, attack: 0.002, decay: 0.05, out });
-    tone({ start: t, type: "square", freq: 148, peak: 0.55, attack: 0.002, decay: 0.05, out });
-  }
+  tone({ start: now, type: "sine", freq: 392, peak: 0.35, attack: 0.005, decay: 0.18, out });
+  tone({ start: now + 0.16, type: "sine", freq: 262, peak: 0.35, attack: 0.005, decay: 0.28, out });
 };
 
 window.playWrongAnswer = window.playDeniedSound;
