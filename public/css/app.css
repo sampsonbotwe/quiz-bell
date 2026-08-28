@@ -372,6 +372,8 @@ h1 {
 
 .timer-page.timer-expired .timer-value {
   color: #ff0000;
+  font-size: clamp(56px, 14vw, 160px);
+  letter-spacing: 0.04em;
 }
 
 .timer-control-page {
@@ -405,6 +407,8 @@ h1 {
 
 .timer-control-page.timer-expired .timer-control-countdown {
   color: #ff0000;
+  font-size: clamp(40px, 10vw, 72px);
+  letter-spacing: 0.06em;
 }
 
 .timer-control-label {

@@ -150,19 +150,26 @@ window.playTeamBell = function playTeamBell(teamId) {
   playDunamis(now);
 };
 
+var buzzClip = null;
+
+function buzzAudio() {
+  if (!buzzClip) {
+    buzzClip = new Audio("/assets/buzz.mp3");
+    buzzClip.preload = "auto";
+  }
+  return buzzClip;
+}
+
+window.preloadBuzzSound = function preloadBuzzSound() {
+  buzzAudio();
+};
+
 window.playDeniedSound = function playDeniedSound() {
-  const out = dest();
-  const now = context().currentTime + 0.02;
-
-  strike({ start: now, freq: 140, peak: 0.8, duration: 0.14, filter: "bandpass", q: 1.5, out });
-  tone({ start: now, type: "square", freq: 127, peak: 0.6, attack: 0.003, decay: 1.1, out });
-  tone({ start: now, type: "sawtooth", freq: 133, peak: 0.45, attack: 0.003, decay: 1.1, out });
-
-  for (let i = 0; i < 10; i += 1) {
-    const t = now + i * 0.1;
-    tone({ start: t, type: "square", freq: 220, peak: 0.5, attack: 0.002, decay: 0.08, out });
-    tone({ start: t, type: "square", freq: 233, peak: 0.42, attack: 0.002, decay: 0.08, out });
-    tone({ start: t + 0.04, type: "sawtooth", freq: 311, peak: 0.3, attack: 0.002, decay: 0.06, out });
+  var clip = buzzAudio();
+  clip.currentTime = 0;
+  var playPromise = clip.play();
+  if (playPromise && playPromise.catch) {
+    playPromise.catch(function () {});
   }
 };
 
