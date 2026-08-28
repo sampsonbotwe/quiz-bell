@@ -2,7 +2,7 @@ const os = require("os");
 const path = require("path");
 const express = require("express");
 const http = require("http");
-const { Server } = require("socket.io");
+const socketIo = require("socket.io");
 
 const PORT = Number(process.env.PORT) || 3000;
 const TEAMS = {
@@ -108,25 +108,37 @@ function expireTimer() {
   io.emit("timer:expired");
 }
 
+function buildPressed() {
+  var pressed = {};
+  var ids = Object.keys(TEAMS);
+  for (var i = 0; i < ids.length; i++) {
+    var id = ids[i];
+    pressed[id] = round.rings.some(function (ring) {
+      return ring.team === id;
+    });
+  }
+  return pressed;
+}
+
 function publicState() {
   return {
     teams: Object.values(TEAMS),
     rings: round.rings,
-    pressed: Object.fromEntries(
-      Object.keys(TEAMS).map((id) => [
-        id,
-        round.rings.some((ring) => ring.team === id),
-      ])
-    ),
+    pressed: buildPressed(),
   };
 }
 
 function lanAddresses() {
-  const nets = os.networkInterfaces();
-  const addresses = [];
-  for (const entries of Object.values(nets)) {
-    for (const entry of entries || []) {
-      if (entry.family === "IPv4" && !entry.internal) {
+  var nets = os.networkInterfaces();
+  var addresses = [];
+  var netNames = Object.keys(nets);
+
+  for (var n = 0; n < netNames.length; n++) {
+    var entries = nets[netNames[n]] || [];
+    for (var i = 0; i < entries.length; i++) {
+      var entry = entries[i];
+      var family = entry.family;
+      if ((family === "IPv4" || family === 4) && !entry.internal) {
         addresses.push(entry.address);
       }
     }
@@ -136,7 +148,7 @@ function lanAddresses() {
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = socketIo(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -232,11 +244,11 @@ function printUrls(host) {
   console.log(`  Timer Control  http://${host}:${PORT}/timer-control`);
 }
 
-server.listen(PORT, "0.0.0.0", () => {
-  const urls = ["localhost", ...lanAddresses()];
+server.listen(PORT, "0.0.0.0", function () {
+  var urls = ["localhost"].concat(lanAddresses());
   console.log("Quiz Bell is running\n");
-  for (const host of urls) {
-    printUrls(host);
+  for (var h = 0; h < urls.length; h++) {
+    printUrls(urls[h]);
     console.log("");
   }
 });

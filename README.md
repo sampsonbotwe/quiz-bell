@@ -49,7 +49,7 @@ Use **Timer Control** to pick 5s, 10s, 60s, or a custom number of seconds, then 
 
 ## Requirements
 
-- Node.js 18 or newer
+- Node.js 8.9.4 or newer
 - All devices on the same Wi-Fi/network as the host machine
 
 ## Run locally
