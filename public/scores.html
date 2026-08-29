@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Live scores</title>
-    <link rel="stylesheet" href="/css/app.css?v=43" />
+    <link rel="stylesheet" href="/css/app.css?v=75" />
   </head>
   <body class="scores-page">
+    <button type="button" class="control-logout" data-control-logout>Sign out</button>
     <main class="scores-shell">
       <div class="scores-header">
         <div>
@@ -30,6 +31,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/dev-reload.js"></script>
-    <script src="/js/scores.js?v=2"></script>
+    <script src="/js/scores.js?v=3"></script>
+    <script src="/js/control-auth.js?v=1"></script>
   </body>
 </html>

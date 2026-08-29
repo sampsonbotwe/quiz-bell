@@ -3164,19 +3164,19 @@ h1 {
 }
 
 .scores-card__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .scores-card__btn {
-  min-width: 56px;
-  padding: 10px 12px;
-  border-radius: 10px;
+  min-height: 58px;
+  padding: 16px 14px;
+  border-radius: 12px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.06);
   color: #fff;
-  font-size: 15px;
+  font-size: clamp(18px, 2.4vw, 22px);
   font-weight: 800;
   cursor: pointer;
 }
@@ -3190,5 +3190,108 @@ h1 {
   .scores-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+
+.control-login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #0b1220;
+  color: #f4f1ea;
+}
+
+.control-login-shell {
+  width: min(420px, 100%);
+}
+
+.control-login-card {
+  padding: 28px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+}
+
+.control-login-kicker {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.45);
+}
+
+.control-login-card h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 34px);
+}
+
+.control-login-lede {
+  margin: 0 0 20px;
+  color: rgba(244, 241, 234, 0.72);
+  line-height: 1.5;
+}
+
+.control-login-form {
+  display: grid;
+  gap: 12px;
+}
+
+.control-login-label {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(244, 241, 234, 0.62);
+}
+
+.control-login-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.22);
+  color: #fff;
+  font-size: 18px;
+}
+
+.control-login-input:focus {
+  outline: none;
+  border-color: rgba(202, 138, 4, 0.55);
+}
+
+.control-login-error {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.control-login-submit {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.control-logout {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.28);
+  color: rgba(244, 241, 234, 0.82);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.control-logout:hover {
+  border-color: rgba(202, 138, 4, 0.45);
+  color: #fde68a;
 }
 

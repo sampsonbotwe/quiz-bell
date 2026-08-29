@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Control login</title>
+    <link rel="stylesheet" href="/css/app.css?v=76" />
+  </head>
+  <body class="control-login-page">
+    <main class="control-login-shell">
+      <section class="control-login-card">
+        <p class="control-login-kicker">Quiz Bell</p>
+        <h1>Control login</h1>
+        <p class="control-login-lede">Enter the control password to open host, admin, scores, and timer tools.</p>
+        <form class="control-login-form" data-control-login-form>
+          <label class="control-login-label" for="control-password">Password</label>
+          <input
+            id="control-password"
+            class="control-login-input"
+            type="password"
+            name="password"
+            autocomplete="current-password"
+            inputmode="numeric"
+            required
+          />
+          <p class="control-login-error hidden" data-control-login-error>Incorrect password.</p>
+          <button type="submit" class="host-nav-btn host-nav-primary control-login-submit">Sign in</button>
+        </form>
+      </section>
+    </main>
+    <script src="/js/control-login.js?v=1"></script>
+  </body>
+</html>

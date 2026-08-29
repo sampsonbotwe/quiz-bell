@@ -5,12 +5,15 @@ const resetBtn = document.querySelector("[data-scores-reset]");
 const displayToggleBtn = document.querySelector("[data-scores-display-toggle]");
 const statusEl = document.querySelector("[data-scores-status]");
 
-const QUICK_DELTAS = [-10, -5, -1, 1, 5, 10];
+const ALLOWED_DELTAS = [-5, 5, 10, 20];
+
+const QUICK_DELTAS = ALLOWED_DELTAS;
 
 function adjustScore(teamId, delta) {
   socket.emit("scores:adjust", { teamId: teamId, delta: delta });
   fetch("/api/team-scores/adjust", {
     method: "POST",
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ teamId: teamId, delta: delta }),
   }).catch(function () {
@@ -22,6 +25,7 @@ function setDisplayVisible(visible) {
   socket.emit("scores:setDisplayVisible", { visible: visible });
   fetch("/api/team-scores/display-visible", {
     method: "POST",
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ visible: visible }),
   }).catch(function () {
@@ -102,7 +106,7 @@ function renderScores(payload) {
 if (resetBtn) {
   resetBtn.addEventListener("click", function () {
     socket.emit("scores:reset");
-    fetch("/api/team-scores/reset", { method: "POST" }).catch(function () {});
+    fetch("/api/team-scores/reset", { method: "POST", credentials: "same-origin" }).catch(function () {});
   });
 }
 
@@ -113,7 +117,7 @@ if (displayToggleBtn) {
   });
 }
 
-fetch("/api/team-scores")
+fetch("/api/team-scores", { credentials: "same-origin" })
   .then(function (res) {
     return res.json();
   })

@@ -3,6 +3,7 @@ const path = require("path");
 
 const SCORES_FILE = path.join(__dirname, ".team-scores.json");
 const TEAM_IDS = ["dunamis", "pneuma", "zoe"];
+const ALLOWED_DELTAS = [-5, 5, 10, 20];
 
 function defaultScores() {
   return {
@@ -63,6 +64,7 @@ function isValidTeamId(teamId) {
 function normalizeDelta(value) {
   var delta = Math.round(Number(value));
   if (!Number.isFinite(delta)) return null;
+  if (ALLOWED_DELTAS.indexOf(delta) < 0) return null;
   return delta;
 }
 
@@ -76,8 +78,8 @@ function adjustTeamScore(scores, teamId, delta) {
 
 function setTeamScore(scores, teamId, value) {
   if (!isValidTeamId(teamId)) return false;
-  var next = normalizeDelta(value);
-  if (next == null) return false;
+  var next = Math.round(Number(value));
+  if (!Number.isFinite(next)) return false;
   scores[teamId] = Math.max(0, next);
   return true;
 }
