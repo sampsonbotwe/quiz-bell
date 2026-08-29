@@ -95,6 +95,14 @@ npm install
 npm start
 ```
 
+For development, run with auto-restart when server or question files change:
+
+```bash
+npm run dev
+```
+
+Nodemon watches `server.js`, `quiz-state.js`, `content/*.json`, and files in `public/`. Open pages reload automatically when the server restarts — no manual refresh needed.
+
 The server prints URLs for `localhost` and your machine's network IP.
 
 Use the network IP on phones and the LED machine.
@@ -112,4 +120,4 @@ PORT=4000 npm start
 - State is stored in memory only. Restarting the server clears bells, timer, and quiz position.
 - The admin page plays team bell sounds. Tap the page once if the browser blocks audio.
 - The display is silent. Bell order sits on the right; questions appear as a lower-third on the left. Key out the green background in vMix.
-- Edit questions by changing the JSON files in `content/` and restarting the server.
+- Edit questions by changing the JSON files in `content/` — `npm run dev` picks up changes automatically.

@@ -11,12 +11,25 @@
   --cat-1: #7c3aed;
   --cat-2: #db2777;
   --cat-3: #ea580c;
+  --cat-0-bg:
+    radial-gradient(circle at 88% 108%, rgba(0, 0, 0, 0.26), transparent 46%),
+    linear-gradient(135deg, #6366f1 0%, #4f46e5 52%, #4338ca 100%);
+  --cat-1-bg:
+    radial-gradient(circle at 88% 108%, rgba(0, 0, 0, 0.24), transparent 46%),
+    linear-gradient(135deg, #8b5cf6 0%, #7c3aed 52%, #6d28d9 100%);
+  --cat-2-bg:
+    radial-gradient(circle at 88% 108%, rgba(0, 0, 0, 0.22), transparent 46%),
+    linear-gradient(135deg, #ec4899 0%, #db2777 52%, #be185d 100%);
+  --cat-3-bg:
+    radial-gradient(circle at 88% 108%, rgba(0, 0, 0, 0.24), transparent 46%),
+    linear-gradient(135deg, #f97316 0%, #ea580c 52%, #c2410c 100%);
   --cat-0-accent: #fde68a;
   --cat-1-accent: #fef08a;
   --cat-2-accent: #fef08a;
   --cat-3-accent: #dbeafe;
   --danger: #ff5c5c;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  --display-text-shadow: 0 1px 2px rgba(0, 0, 0, 0.42);
 }
 
 * {
@@ -283,7 +296,7 @@ h1 {
   width: clamp(220px, 24vw, 320px);
   min-width: 0;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.25);
+  border: none;
   border-radius: 24px;
   padding: clamp(36px, 5vh, 52px) clamp(20px, 2.2vw, 28px);
   color: #ffffff;
@@ -292,48 +305,115 @@ h1 {
   line-height: 1.15;
   letter-spacing: -0.02em;
   text-align: center;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
   animation: category-block-in 520ms cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+
+.display-category-block::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
+.display-category-chosen::after,
+.question-lower-third--0::after,
+.question-lower-third--1::after,
+.question-lower-third--2::after,
+.question-lower-third--3::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 4px;
+  background: linear-gradient(
+    125deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(255, 255, 255, 0.35) 46%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.35) 54%,
+    transparent 62%,
+    transparent 100%
+  );
+  background-size: 320% 320%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  mix-blend-mode: screen;
+  animation: cat-edge-shine 10s ease infinite;
+  pointer-events: none;
 }
 
 .display-category-block__label {
   position: relative;
   z-index: 1;
   display: block;
+  text-shadow: var(--display-text-shadow);
 }
 
 .display-category-block--0,
 .display-category-chosen--0 {
-  background: var(--cat-0);
+  background: var(--cat-0-bg);
 }
 
 .display-category-block--1,
 .display-category-chosen--1 {
-  background: var(--cat-1);
+  background: var(--cat-1-bg);
 }
 
 .display-category-block--2,
 .display-category-chosen--2 {
-  background: var(--cat-2);
+  background: var(--cat-2-bg);
 }
 
 .display-category-block--3,
 .display-category-chosen--3 {
-  background: var(--cat-3);
+  background: var(--cat-3-bg);
 }
 
 .display-category-chosen {
+  position: relative;
+  overflow: hidden;
   width: auto;
   min-width: min(92vw, 520px);
   max-width: min(92vw, 720px);
-  border: 2px solid rgba(255, 255, 255, 0.25);
+  border: none;
   border-radius: 24px;
   padding: clamp(36px, 6vh, 56px) clamp(28px, 4vw, 48px);
   text-align: center;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.display-category-chosen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  pointer-events: none;
 }
 
 .display-chosen-kicker {
+  position: relative;
+  z-index: 1;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-size: clamp(14px, 1.6vw, 18px);
@@ -343,11 +423,14 @@ h1 {
 }
 
 .display-chosen-name {
+  position: relative;
+  z-index: 1;
   color: #ffffff;
   font-size: clamp(32px, 5vw, 56px);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.1;
+  text-shadow: var(--display-text-shadow);
 }
 
 .display-picker-enter {
@@ -389,6 +472,42 @@ h1 {
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cat-edge-shine {
+  0%,
+  38% {
+    opacity: 0;
+    background-position: 140% -20%;
+  }
+  48% {
+    opacity: 0.45;
+    background-position: 95% 10%;
+  }
+  58% {
+    opacity: 1;
+    background-position: 55% 45%;
+  }
+  68% {
+    opacity: 0.85;
+    background-position: 15% 80%;
+  }
+  78%,
+  100% {
+    opacity: 0;
+    background-position: -40% 120%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .display-category-chosen::after,
+  .question-lower-third--0::after,
+  .question-lower-third--1::after,
+  .question-lower-third--2::after,
+  .question-lower-third--3::after {
+    animation: none;
+    opacity: 0;
   }
 }
 
@@ -1190,6 +1309,8 @@ h1 {
 }
 
 .question-lower-third {
+  position: relative;
+  overflow: hidden;
   flex: 1;
   background: #001a3d;
   border: 2px solid rgba(255, 255, 255, 0.25);
@@ -1198,20 +1319,25 @@ h1 {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
 }
 
+.question-lower-third > * {
+  position: relative;
+  z-index: 1;
+}
+
 .question-lower-third--0 {
-  background: var(--cat-0);
+  background: var(--cat-0-bg);
 }
 
 .question-lower-third--1 {
-  background: var(--cat-1);
+  background: var(--cat-1-bg);
 }
 
 .question-lower-third--2 {
-  background: var(--cat-2);
+  background: var(--cat-2-bg);
 }
 
 .question-lower-third--3 {
-  background: var(--cat-3);
+  background: var(--cat-3-bg);
 }
 
 .question-round {
@@ -1245,6 +1371,7 @@ h1 {
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.02em;
+  text-shadow: var(--display-text-shadow);
 }
 
 .question-clues,
@@ -1260,6 +1387,7 @@ h1 {
   font-size: clamp(20px, 2.8vw, 36px);
   font-weight: 700;
   line-height: 1.25;
+  text-shadow: var(--display-text-shadow);
 }
 
 .question-ladder {

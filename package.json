@@ -4,7 +4,8 @@
   "description": "Local quiz bell for Dunamis, Zoe, and Pneuma",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "NODE_ENV=development nodemon server.js"
   },
   "engines": {
     "node": ">=8.9.4"
@@ -13,5 +14,8 @@
   "dependencies": {
     "express": "4.17.3",
     "socket.io": "2.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }

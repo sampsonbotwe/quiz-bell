@@ -1,0 +1,5 @@
+{
+  "watch": ["server.js", "quiz-state.js", "content", "public"],
+  "ext": "js,json,css,html",
+  "ignore": ["node_modules/**"]
+}

@@ -6,6 +6,8 @@ const socketIo = require("socket.io");
 const quiz = require("./quiz-state");
 
 const PORT = Number(process.env.PORT) || 3000;
+const IS_DEV = process.env.NODE_ENV === "development";
+const DEV_SESSION = Date.now();
 const TEAMS = {
   dunamis: { id: "dunamis", name: "Dunamis", color: "#1A7CFF" },
   zoe: { id: "zoe", name: "Zoe", color: "#E02020" },
@@ -157,6 +159,15 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+if (IS_DEV) {
+  app.use(function (req, res, next) {
+    if (/\.(css|js|html)$/.test(req.path)) {
+      res.set("Cache-Control", "no-store, no-cache, must-revalidate");
+    }
+    next();
+  });
+}
+
 app.use(express.static(path.join(__dirname, "public")));
 
 function sendPage(file) {
@@ -188,6 +199,10 @@ app.get("/api/quiz/rounds", (_req, res) => {
 });
 
 io.on("connection", (socket) => {
+  if (IS_DEV) {
+    socket.emit("dev:session", DEV_SESSION);
+  }
+
   socket.emit("state", publicState());
   socket.emit("timerState", publicTimerState());
   socket.emit("quiz:display", quiz.publicDisplayPayload(quizState));
