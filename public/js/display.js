@@ -14,11 +14,30 @@ const cluesEl = document.querySelector("[data-clues]");
 const optionsEl = document.querySelector("[data-options]");
 const ladderPanel = document.querySelector("[data-ladder-panel]");
 const ladderEl = document.querySelector("[data-ladder]");
+const earnedPanel = document.querySelector("[data-money-earned-panel]");
 const earnedEl = document.querySelector("[data-earned]");
+const celebrationEl = document.querySelector("[data-money-celebration]");
+const celebrationTotalEl = document.querySelector("[data-celebration-total]");
+const moneyRainEl = document.querySelector("[data-money-rain]");
+const displayTimerEl = document.querySelector("[data-display-timer]");
+const displayTimerValueEl = document.querySelector("[data-display-timer-value]");
 
 var lastCategoryId = null;
 var chosenTimer = null;
 var CHOSEN_HOLD_MS = 1400;
+var showingMoneyCelebration = false;
+var quizDisplayLive = false;
+var displayTimerFadeTimer = null;
+var displayTimerExpireTimer = null;
+var displayTimerBuzzMs = 1800;
+
+document.addEventListener(
+  "pointerdown",
+  function () {
+    if (window.unlockBells) window.unlockBells();
+  },
+  { once: true }
+);
 
 function formatTime(deltaMs) {
   if (deltaMs === 0) return "1st";
@@ -106,14 +125,32 @@ function hideQuizPanels() {
   pickerEl.classList.add("hidden");
   chosenEl.classList.add("hidden");
   questionPanel.classList.add("hidden");
+  ladderPanel.classList.add("hidden");
+  if (earnedPanel) earnedPanel.classList.add("hidden");
+  hideMoneyCelebration();
+  document.body.classList.remove("display-money-active");
   overlay.classList.remove("display-mode-picker", "display-mode-question");
+}
+
+function hideMoneyCelebration() {
+  if (!celebrationEl) return;
+  showingMoneyCelebration = false;
+  celebrationEl.classList.add("hidden");
+  celebrationEl.classList.remove("display-money-celebration--visible");
+  if (window.MoneyAnimate) {
+    MoneyAnimate.stopMoneyRain();
+  }
 }
 
 function hideQuestionContent() {
   questionEl.classList.add("hidden");
   cluesEl.classList.add("hidden");
   optionsEl.classList.add("hidden");
+  optionsEl.classList.remove("question-options--grid", "question-options--money");
+  questionCard.classList.remove("question-lower-third--money");
   ladderPanel.classList.add("hidden");
+  if (earnedPanel) earnedPanel.classList.add("hidden");
+  document.body.classList.remove("display-money-active");
 }
 
 function renderCategoryPicker(payload) {
@@ -183,22 +220,71 @@ function renderCategoryChosen(name, colorIndex, onDone) {
   }, 280);
 }
 
-function renderLadder(payload) {
+function renderLadder(payload, animateTotal) {
   ladderEl.innerHTML = "";
-  if (!payload.ladder) return;
+  if (!payload.ladder || !payload.ladder.length) return;
 
-  payload.ladder.forEach(function (step) {
-    var li = document.createElement("li");
-    li.textContent = step.amount + " " + payload.currency;
-    var isCurrent = !payload.gameOver && payload.step === step.step;
-    var isPassed = payload.earnedAmount >= step.amount && !isCurrent;
-    li.classList.toggle("ladder-current", isCurrent);
-    li.classList.toggle("ladder-passed", isPassed);
-    ladderEl.appendChild(li);
+  document.body.classList.add("display-money-active");
+
+  var cumulative = 0;
+  var rungs = payload.ladder.map(function (step) {
+    cumulative += step.amount;
+    return {
+      step: step.step,
+      increment: step.amount,
+      total: cumulative,
+    };
   });
 
-  earnedEl.textContent = "Earned: " + payload.earnedAmount + " " + payload.currency;
+  rungs
+    .slice()
+    .reverse()
+    .forEach(function (rung) {
+      var li = document.createElement("li");
+      li.className = "money-ladder-row";
+      li.dataset.step = String(rung.step);
+
+      var isCurrent = !payload.gameOver && payload.step === rung.step;
+      var isPassed = rung.step < payload.step;
+      var isMilestone = rung.step % 5 === 0;
+
+      li.classList.toggle("money-ladder-row--current", isCurrent);
+      li.classList.toggle("money-ladder-row--passed", isPassed);
+      li.classList.toggle("money-ladder-row--milestone", isMilestone);
+
+      var stepNum = document.createElement("span");
+      stepNum.className = "money-ladder-step";
+      stepNum.textContent = rung.step;
+
+      var diamond = document.createElement("span");
+      diamond.className = "money-ladder-diamond";
+      diamond.setAttribute("aria-hidden", "true");
+
+      var amount = document.createElement("span");
+      amount.className = "money-ladder-amount";
+      amount.textContent = window.MoneyAnimate
+        ? MoneyAnimate.formatMoney(rung.total, payload.currency)
+        : rung.total + " " + payload.currency;
+
+      li.appendChild(stepNum);
+      li.appendChild(diamond);
+      li.appendChild(amount);
+      ladderEl.appendChild(li);
+    });
+
+  if (animateTotal) {
+    ladderPanel.classList.remove("hidden");
+    if (earnedPanel) earnedPanel.classList.remove("hidden");
+    return;
+  }
+
+  if (window.MoneyAnimate) {
+    MoneyAnimate.setTotal(earnedEl, payload.earnedAmount, payload.currency);
+  } else {
+    earnedEl.textContent = payload.earnedAmount + " " + payload.currency;
+  }
   ladderPanel.classList.remove("hidden");
+  if (earnedPanel) earnedPanel.classList.remove("hidden");
 }
 
 function setQuestionTheme(colorIndex) {
@@ -220,6 +306,16 @@ function setQuestionTheme(colorIndex) {
   roundLabel.classList.add("question-round--" + idx);
 }
 
+function resolveQuestionTheme(payload) {
+  if (payload.type === "block" && payload.categoryColorIndex != null) {
+    return payload.categoryColorIndex;
+  }
+  if (payload.round >= 3 && payload.round <= 5) {
+    return 0;
+  }
+  return null;
+}
+
 function formatRoundLabel(payload) {
   if (payload.categoryName) {
     var label = payload.roundTitle + " - " + payload.categoryName;
@@ -228,16 +324,15 @@ function formatRoundLabel(payload) {
     }
     return label;
   }
+  if (payload.setLabel) {
+    return payload.roundTitle + " - " + payload.setLabel;
+  }
   return payload.roundTitle;
 }
 
 function renderQuestionContent(payload, animateOpen) {
   hideQuestionContent();
-  if (payload.type === "block" && payload.categoryColorIndex != null) {
-    setQuestionTheme(payload.categoryColorIndex);
-  } else {
-    setQuestionTheme(null);
-  }
+  setQuestionTheme(resolveQuestionTheme(payload));
   roundLabel.textContent = formatRoundLabel(payload);
 
   if (payload.type === "riddle") {
@@ -256,7 +351,12 @@ function renderQuestionContent(payload, animateOpen) {
   }
 
   if (payload.type === "money") {
+    if (payload.gameOver && payload.round5LastResult === "wrong") {
+      return;
+    }
     renderLadder(payload);
+    questionCard.classList.add("question-lower-third--money");
+    roundLabel.textContent = "Money Round";
     if (payload.gameOver) {
       questionEl.textContent = "Money Round complete";
       questionEl.classList.remove("hidden");
@@ -265,14 +365,32 @@ function renderQuestionContent(payload, animateOpen) {
     questionEl.textContent = payload.question;
     questionEl.classList.remove("hidden");
     optionsEl.innerHTML = "";
-    payload.options.forEach(function (opt, index) {
-      var li = document.createElement("li");
-      li.textContent = String.fromCharCode(65 + index) + ". " + opt;
-      optionsEl.appendChild(li);
-    });
-    optionsEl.classList.remove("hidden");
+    optionsEl.classList.remove("question-options--grid", "question-options--money");
+    if (payload.displayShowsOptions && payload.options && payload.options.length) {
+      var hiddenOptions = payload.hiddenOptions || [];
+      payload.options.forEach(function (opt, index) {
+        var li = document.createElement("li");
+        li.dataset.optionIndex = String(index);
+        var letter = String.fromCharCode(65 + index);
+        var isDropped = hiddenOptions.indexOf(index) >= 0;
+        if (isDropped) {
+          li.classList.add("question-option--dropped");
+          li.textContent = letter + ". —";
+        } else {
+          li.textContent = letter + ". " + opt;
+        }
+        optionsEl.appendChild(li);
+      });
+      optionsEl.classList.add("question-options--grid", "question-options--money");
+      optionsEl.classList.remove("hidden");
+    } else {
+      optionsEl.classList.add("hidden");
+    }
     return;
   }
+
+  questionCard.classList.remove("question-lower-third--money");
+  optionsEl.classList.remove("question-options--grid", "question-options--money");
 
   if (payload.question) {
     questionEl.textContent = payload.question;
@@ -282,6 +400,78 @@ function renderQuestionContent(payload, animateOpen) {
       void questionEl.offsetWidth;
       questionEl.classList.add("display-question-reveal");
     }
+  }
+}
+
+function flashCorrectAnswer(correctIndex) {
+  if (!optionsEl || correctIndex == null) {
+    flashCorrectQuestion();
+    return;
+  }
+  var option = optionsEl.querySelector(
+    '[data-option-index="' + correctIndex + '"]'
+  );
+  if (
+    !option ||
+    option.classList.contains("question-option--dropped") ||
+    optionsEl.classList.contains("hidden")
+  ) {
+    flashCorrectQuestion();
+    return;
+  }
+  option.classList.remove("question-option--correct-flash");
+  void option.offsetWidth;
+  option.classList.add("question-option--correct-flash");
+}
+
+function flashCorrectQuestion() {
+  if (!questionEl) return;
+  questionEl.classList.remove("question-body--correct-flash");
+  void questionEl.offsetWidth;
+  questionEl.classList.add("question-body--correct-flash");
+}
+
+function celebrationEarned(payload) {
+  return Number(payload.earnedAmount) || 0;
+}
+
+function updateMoneyCelebrationTotal(payload) {
+  if (!celebrationTotalEl) return;
+  var earned = celebrationEarned(payload);
+  var currency = payload.currency || "GHS";
+  if (window.MoneyAnimate) {
+    MoneyAnimate.setTotal(celebrationTotalEl, earned, currency);
+  } else {
+    celebrationTotalEl.textContent = earned + " " + currency;
+  }
+}
+
+function showMoneyCelebration(payload) {
+  showingMoneyCelebration = true;
+  overlay.classList.add("hidden");
+  overlay.classList.remove("display-mode-picker", "display-mode-question");
+  questionPanel.classList.add("hidden");
+  ladderPanel.classList.add("hidden");
+  if (earnedPanel) earnedPanel.classList.add("hidden");
+  document.body.classList.remove("display-money-active");
+
+  celebrationEl.classList.remove("hidden");
+  celebrationEl.classList.remove("display-money-celebration--visible");
+  void celebrationEl.offsetWidth;
+  celebrationEl.classList.add("display-money-celebration--visible");
+
+  var earned = celebrationEarned(payload);
+  var currency = payload.currency || "GHS";
+
+  if (window.MoneyAnimate) {
+    MoneyAnimate.startMoneyRain(moneyRainEl);
+    MoneyAnimate.runMoneyCelebration(
+      celebrationTotalEl,
+      { total: earned, currency: currency },
+      { animate: false }
+    );
+  } else {
+    celebrationTotalEl.textContent = earned + " " + currency;
   }
 }
 
@@ -296,7 +486,8 @@ function showQuestionPanel(payload, animateOpen) {
   renderQuestionContent(payload, animateOpen);
 }
 
-function renderQuiz(payload) {
+function renderQuiz(payload, options) {
+  options = options || {};
   if (!payload.visible) {
     clearChosenTimer();
     hideQuizPanels();
@@ -334,6 +525,26 @@ function renderQuiz(payload) {
     return;
   }
 
+  if (
+    payload.type === "money" &&
+    payload.gameOver &&
+    payload.round5LastResult === "wrong"
+  ) {
+    if (showingMoneyCelebration) {
+      updateMoneyCelebrationTotal(payload);
+      return;
+    }
+    clearChosenTimer();
+    lastCategoryId = null;
+    hideQuizPanels();
+    showMoneyCelebration(payload);
+    return;
+  }
+
+  if (showingMoneyCelebration) {
+    hideMoneyCelebration();
+  }
+
   clearChosenTimer();
   lastCategoryId = null;
   hideQuizPanels();
@@ -347,4 +558,113 @@ socket.on("state", renderBells);
 socket.on("ring", function (ring) {
   flashSlot(ring.order);
 });
-socket.on("quiz:display", renderQuiz);
+socket.on("quiz:display", function (payload) {
+  renderQuiz(payload, { live: quizDisplayLive });
+  quizDisplayLive = true;
+});
+
+socket.on("quiz:round5CorrectReveal", function (data) {
+  if (!data || data.correctIndex == null) return;
+  flashCorrectAnswer(data.correctIndex);
+});
+
+socket.on("quiz:moneyRoundEnd", function (data) {
+  if (!data || data.result !== "wrong") return;
+  if (!celebrationTotalEl) return;
+  if (window.MoneyAnimate) {
+    MoneyAnimate.setTotal(celebrationTotalEl, data.total, data.currency);
+    MoneyAnimate.runMoneyCelebration(
+      celebrationTotalEl,
+      { total: data.total, currency: data.currency },
+      { animate: false }
+    );
+  } else {
+    celebrationTotalEl.textContent = data.total + " " + data.currency;
+  }
+});
+
+socket.on("quiz:moneyGain", function (data) {
+  if (!earnedEl || !data) return;
+  if (window.MoneyAnimate) {
+    MoneyAnimate.runMoneyGain(earnedEl, data);
+  }
+  if (data.step && ladderEl) {
+    var stepEl = ladderEl.querySelector(
+      '.money-ladder-row[data-step="' + data.step + '"]'
+    );
+    if (stepEl) {
+      stepEl.classList.remove("money-ladder-row--pop");
+      void stepEl.offsetWidth;
+      stepEl.classList.add("money-ladder-row--pop");
+    }
+  }
+});
+
+function formatDisplayTimer(ms, status) {
+  if (status === "expired") return "Time up";
+  if (status === "idle" && ms <= 0) return "00";
+  var seconds = Math.max(0, Math.ceil(ms / 1000));
+  return String(seconds);
+}
+
+function clearDisplayTimerTimers() {
+  if (displayTimerFadeTimer) clearTimeout(displayTimerFadeTimer);
+  if (displayTimerExpireTimer) clearTimeout(displayTimerExpireTimer);
+  displayTimerFadeTimer = null;
+  displayTimerExpireTimer = null;
+}
+
+function hideDisplayTimer() {
+  if (!displayTimerEl) return;
+  displayTimerEl.classList.remove("display-timer-visible", "display-timer-fade-out");
+  displayTimerEl.classList.add("hidden");
+  displayTimerEl.setAttribute("aria-hidden", "true");
+}
+
+function showDisplayTimer() {
+  if (!displayTimerEl) return;
+  displayTimerEl.classList.remove("hidden", "display-timer-fade-out");
+  displayTimerEl.classList.add("display-timer-visible");
+  displayTimerEl.setAttribute("aria-hidden", "false");
+}
+
+function fadeOutDisplayTimer() {
+  if (!displayTimerEl) return;
+  displayTimerEl.classList.add("display-timer-fade-out");
+  displayTimerFadeTimer = setTimeout(hideDisplayTimer, 700);
+}
+
+function renderDisplayTimer(state) {
+  if (!displayTimerEl || !displayTimerValueEl || !state) return;
+
+  displayTimerValueEl.textContent = formatDisplayTimer(
+    state.remainingMs,
+    state.status
+  );
+  document.body.classList.toggle("display-timer-expired", state.status === "expired");
+
+  if (state.status === "running") {
+    clearDisplayTimerTimers();
+    showDisplayTimer();
+    return;
+  }
+
+  if (state.status === "expired") {
+    if (displayTimerEl.classList.contains("hidden")) {
+      showDisplayTimer();
+    }
+    if (
+      !displayTimerExpireTimer &&
+      !displayTimerEl.classList.contains("display-timer-fade-out")
+    ) {
+      displayTimerExpireTimer = setTimeout(fadeOutDisplayTimer, displayTimerBuzzMs);
+    }
+    return;
+  }
+
+  clearDisplayTimerTimers();
+  hideDisplayTimer();
+}
+
+hideDisplayTimer();
+socket.on("timerState", renderDisplayTimer);

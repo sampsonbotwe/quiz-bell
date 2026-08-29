@@ -32,9 +32,12 @@ function createTimer() {
 
 let round = createRound();
 let timer = createTimer();
-let quizState = quiz.createQuizState();
+let quizState = quiz.loadPersistedQuizState() || quiz.createQuizState();
+let round5AnswerPending = false;
+const ROUND5_CORRECT_REVEAL_MS = 1300;
 
 function emitQuizState() {
+  quiz.saveQuizState(quizState);
   io.emit("quiz:display", quiz.publicDisplayPayload(quizState));
   io.emit("quiz:host", quiz.publicHostPayload(quizState));
 }
@@ -253,6 +256,12 @@ io.on("connection", (socket) => {
     resetTimer();
   });
 
+  socket.on("quiz:hostReady", () => {
+    if (quiz.hasActiveQuestion(quizState)) return;
+    quiz.resetRoundFields(quizState, 1);
+    emitQuizState();
+  });
+
   socket.on("quiz:setRound", (payload) => {
     var roundNum = payload && Number(payload.round);
     if (!roundNum || roundNum < 1 || roundNum > 5) return;
@@ -261,14 +270,23 @@ io.on("connection", (socket) => {
   });
 
   socket.on("quiz:setSet", (payload) => {
-    if (quizState.round !== 1 || !payload || !payload.set) return;
+    if (!payload || !payload.set) return;
     if (quiz.SET_IDS.indexOf(payload.set) < 0) return;
-    quizState.set = payload.set;
-    quizState.categoryId = null;
-    quizState.blockIndex = 0;
-    quizState.part = "main";
-    quizState.visible = true;
-    emitQuizState();
+    if (quizState.round === 1) {
+      quizState.set = payload.set;
+      quizState.categoryId = null;
+      quizState.blockIndex = 0;
+      quizState.part = "main";
+      quizState.visible = true;
+      emitQuizState();
+      return;
+    }
+    if (quizState.round === 3) {
+      quizState.set = payload.set;
+      quizState.questionIndex = 0;
+      quizState.visible = true;
+      emitQuizState();
+    }
   });
 
   socket.on("quiz:selectCategory", (payload) => {
@@ -299,16 +317,6 @@ io.on("connection", (socket) => {
     emitQuizState();
   });
 
-  socket.on("quiz:revealClue", () => {
-    quiz.revealClue(quizState);
-    emitQuizState();
-  });
-
-  socket.on("quiz:hideClues", () => {
-    quiz.hideAllClues(quizState);
-    emitQuizState();
-  });
-
   socket.on("quiz:setVisible", (payload) => {
     if (!payload || typeof payload.visible !== "boolean") return;
     quizState.visible = payload.visible;
@@ -317,17 +325,65 @@ io.on("connection", (socket) => {
 
   socket.on("quiz:round5Answer", (payload) => {
     if (!payload || typeof payload.correct !== "boolean") return;
-    quiz.markRound5Answer(quizState, payload.correct);
+    if (quizState.round !== 5) return;
+    if (round5AnswerPending) return;
+
+    var questionList = quiz.ROUNDS[5].question;
+    var currentQuestion = questionList[quizState.questionIndex];
+    if (!currentQuestion) return;
+
+    if (payload.correct) {
+      round5AnswerPending = true;
+      var answeredStep = currentQuestion.step;
+      var previousTotal = quizState.earnedAmount;
+
+      io.emit("quiz:round5CorrectReveal", {
+        correctIndex: currentQuestion.correctIndex,
+        step: answeredStep,
+      });
+
+      setTimeout(function () {
+        quiz.markRound5Answer(quizState, true);
+        emitQuizState();
+        var gained = quizState.earnedAmount - previousTotal;
+        if (gained > 0) {
+          io.emit("quiz:moneyGain", {
+            gained: gained,
+            total: quizState.earnedAmount,
+            currency: quiz.ROUNDS[5].currency,
+            step: answeredStep,
+          });
+        }
+        round5AnswerPending = false;
+      }, ROUND5_CORRECT_REVEAL_MS);
+      return;
+    }
+
+    quiz.markRound5Answer(quizState, false);
     emitQuizState();
+    io.emit("quiz:moneyRoundEnd", {
+      total: quizState.earnedAmount,
+      currency: quiz.ROUNDS[5].currency,
+      result: "wrong",
+    });
   });
 
   socket.on("quiz:round5Reset", () => {
     if (quizState.round !== 5) return;
+    round5AnswerPending = false;
     quizState.questionIndex = 0;
     quizState.earnedAmount = 0;
     quizState.round5Complete = false;
     quizState.round5LastResult = null;
+    quizState.round5LifelineUsed = false;
+    quizState.round5HiddenOptions = [];
     quizState.visible = true;
+    emitQuizState();
+  });
+
+  socket.on("quiz:round5Lifeline", () => {
+    if (quizState.round !== 5) return;
+    if (!quiz.applyRound5Lifeline(quizState)) return;
     emitQuizState();
   });
 });

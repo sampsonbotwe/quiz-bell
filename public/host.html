@@ -13,7 +13,6 @@
           <p class="kicker">Host control</p>
           <h1>Quiz Host</h1>
         </div>
-        <div class="host-progress" data-progress>Round 1</div>
       </div>
 
       <div class="host-round-bar">
@@ -21,8 +20,8 @@
         <button type="button" class="host-nav-btn host-display-toggle" data-toggle-display>Hide display</button>
       </div>
 
-      <section class="host-panel round1-only hidden" data-set-panel>
-        <p class="host-label">Set</p>
+      <section class="host-panel hidden" data-set-panel>
+        <p class="host-label" data-set-panel-label>Set</p>
         <div class="pill-row" data-set-tabs></div>
       </section>
 
@@ -33,22 +32,7 @@
 
       <section class="host-panel round4-only hidden" data-riddle-panel>
         <p class="host-label">Clues</p>
-        <div class="pill-row">
-          <button type="button" class="host-action" data-reveal-clue>Reveal next clue</button>
-          <button type="button" class="host-secondary" data-hide-clues>Hide clues</button>
-        </div>
         <ul class="clue-list" data-clue-list></ul>
-      </section>
-
-      <section class="host-panel round5-only hidden" data-money-panel>
-        <p class="host-label">Money ladder</p>
-        <ul class="money-ladder" data-money-ladder></ul>
-        <p class="money-earned" data-money-earned>Total earned: 0 GHS</p>
-        <div class="pill-row round5-actions hidden" data-round5-actions>
-          <button type="button" class="host-correct" data-mark-correct>Correct</button>
-          <button type="button" class="host-wrong" data-mark-wrong>Wrong</button>
-        </div>
-        <button type="button" class="host-secondary hidden" data-round5-reset>Restart money round</button>
       </section>
 
       <section class="host-panel question-panel hidden" data-question-panel>
@@ -62,15 +46,19 @@
         <div class="question-card">
           <p class="question-text" data-question-text></p>
           <ul class="option-list hidden" data-option-list></ul>
+          <button type="button" class="host-lifeline round5-lifeline hidden" data-round5-lifeline>
+            50/50 — Drop two answers
+          </button>
+          <div class="pill-row round5-actions hidden" data-round5-actions>
+            <button type="button" class="host-correct" data-mark-correct>Correct</button>
+            <button type="button" class="host-wrong" data-mark-wrong>Wrong</button>
+          </div>
+          <button type="button" class="host-secondary round5-reset hidden" data-round5-reset>Restart money round</button>
           <div class="answer-box">
             <span class="host-label">Answer</span>
             <p class="answer-text" data-answer-text></p>
           </div>
         </div>
-      </section>
-
-      <section class="host-panel round3-note hidden" data-round3-note>
-        <p class="lede">Use <strong>Timer Control</strong> for the 60-second countdown. Advance questions below as the team answers.</p>
       </section>
 
       <div class="host-nav">
@@ -79,8 +67,24 @@
         <button type="button" class="host-nav-btn host-nav-primary" data-next>Next →</button>
       </div>
     </main>
+
+    <div class="host-confirm hidden" data-round5-wrong-dialog aria-hidden="true">
+      <div class="host-confirm-backdrop" data-round5-wrong-cancel></div>
+      <div class="host-confirm-panel" role="dialog" aria-modal="true" aria-labelledby="round5-wrong-confirm-title">
+        <p class="host-confirm-kicker">Money Round</p>
+        <h2 class="host-confirm-title" id="round5-wrong-confirm-title">Mark as wrong?</h2>
+        <p class="host-confirm-text">
+          This will end the money round and close the game on the display. The team will see their total winnings celebration.
+        </p>
+        <div class="host-confirm-actions">
+          <button type="button" class="host-secondary" data-round5-wrong-cancel>Go back</button>
+          <button type="button" class="host-wrong" data-round5-wrong-confirm>Yes, end round</button>
+        </div>
+      </div>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/dev-reload.js"></script>
+    <script src="/js/money-animate.js"></script>
     <script src="/js/host.js"></script>
   </body>
 </html>

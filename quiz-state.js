@@ -18,10 +18,28 @@ function loadRounds() {
 
 const ROUNDS = loadRounds();
 
+const QUIZ_STATE_FILE = path.join(__dirname, ".quiz-state.json");
+const PERSISTED_QUIZ_FIELDS = [
+  "round",
+  "set",
+  "categoryId",
+  "blockIndex",
+  "part",
+  "questionIndex",
+  "riddleIndex",
+  "cluesRevealed",
+  "earnedAmount",
+  "round5Complete",
+  "round5LastResult",
+  "round5LifelineUsed",
+  "round5HiddenOptions",
+  "visible",
+];
+
 function createQuizState() {
   return {
     round: 1,
-    set: "A",
+    set: null,
     categoryId: null,
     blockIndex: 0,
     part: "main",
@@ -31,8 +49,39 @@ function createQuizState() {
     earnedAmount: 0,
     round5Complete: false,
     round5LastResult: null,
+    round5LifelineUsed: false,
+    round5HiddenOptions: [],
     visible: true,
   };
+}
+
+function loadPersistedQuizState() {
+  try {
+    if (!fs.existsSync(QUIZ_STATE_FILE)) return null;
+    var raw = JSON.parse(fs.readFileSync(QUIZ_STATE_FILE, "utf8"));
+    var state = createQuizState();
+    for (var i = 0; i < PERSISTED_QUIZ_FIELDS.length; i++) {
+      var key = PERSISTED_QUIZ_FIELDS[i];
+      if (raw[key] !== undefined) state[key] = raw[key];
+    }
+    return state;
+  } catch (err) {
+    console.warn("Could not load quiz state:", err.message);
+    return null;
+  }
+}
+
+function saveQuizState(state) {
+  try {
+    var payload = {};
+    for (var i = 0; i < PERSISTED_QUIZ_FIELDS.length; i++) {
+      var key = PERSISTED_QUIZ_FIELDS[i];
+      payload[key] = state[key];
+    }
+    fs.writeFileSync(QUIZ_STATE_FILE, JSON.stringify(payload, null, 2));
+  } catch (err) {
+    console.warn("Could not save quiz state:", err.message);
+  }
 }
 
 function getRound1Categories(state) {
@@ -97,8 +146,15 @@ function getBlockPartContent(block, part) {
   return null;
 }
 
-function getRound3QuestionList() {
-  return ROUNDS[3].question;
+function getRound3SetData(state) {
+  if (!state.set) return null;
+  var round = ROUNDS[3];
+  return round.sets ? round.sets[state.set] : null;
+}
+
+function getRound3QuestionList(state) {
+  var setData = getRound3SetData(state);
+  return setData ? setData.questions : [];
 }
 
 function getRound5QuestionList() {
@@ -111,6 +167,14 @@ function getRound4Riddles() {
 
 function getRound5Ladder() {
   return ROUNDS[5].ladder;
+}
+
+function formatCurrency(amount, currency) {
+  var value = Number(amount) || 0;
+  if (currency === "GHS") {
+    return "GHS " + value.toFixed(2);
+  }
+  return value + " " + (currency || "");
 }
 
 function resolveCurrentItem(state) {
@@ -150,14 +214,17 @@ function resolveCurrentItem(state) {
   }
 
   if (state.round === 3) {
-    var questionList = getRound3QuestionList();
+    var setData = getRound3SetData(state);
+    if (!setData) return null;
+    var questionList = setData.questions;
     if (!questionList.length) return null;
     var qIdx = Math.max(0, Math.min(state.questionIndex, questionList.length - 1));
     var q = questionList[qIdx];
     return {
       type: "rapid",
       round: 3,
-      label: "Rapid Fire",
+      label: setData.label,
+      setLabel: setData.label,
       question: q.question,
       answer: q.answer,
       index: qIdx,
@@ -170,7 +237,7 @@ function resolveCurrentItem(state) {
     if (!riddles.length) return null;
     var rIdx = Math.max(0, Math.min(state.riddleIndex, riddles.length - 1));
     var riddle = riddles[rIdx];
-    var clues = riddle.clues.slice(0, state.cluesRevealed);
+    var clues = riddle.clues;
     return {
       type: "riddle",
       round: 4,
@@ -203,7 +270,7 @@ function resolveCurrentItem(state) {
     return {
       type: "money",
       round: 5,
-      label: "Money Round — " + mq.amount + " " + ROUNDS[5].currency,
+      label: "Money Round — " + formatCurrency(mq.amount, ROUNDS[5].currency),
       question: mq.question,
       options: mq.options,
       correctIndex: mq.correctIndex,
@@ -222,6 +289,10 @@ function resolveCurrentItem(state) {
 
 function publicDisplayPayload(state) {
   if (!state.visible) {
+    return { visible: false };
+  }
+
+  if (state.round === 1 && !state.set) {
     return { visible: false };
   }
 
@@ -246,6 +317,14 @@ function publicDisplayPayload(state) {
         categories: categories,
       };
     }
+  }
+
+  if (state.round === 3 && !state.set) {
+    return { visible: false };
+  }
+
+  if (state.round === 4) {
+    return { visible: false };
   }
 
   var item = resolveCurrentItem(state);
@@ -282,6 +361,7 @@ function publicDisplayPayload(state) {
 
   if (item.type === "rapid") {
     payload.question = item.question;
+    payload.setLabel = item.setLabel;
   }
 
   if (item.type === "riddle") {
@@ -292,19 +372,28 @@ function publicDisplayPayload(state) {
 
   if (item.type === "money" && !item.gameOver) {
     payload.question = item.question;
-    payload.options = item.options;
     payload.amount = item.amount;
     payload.step = item.step;
     payload.earnedAmount = item.earnedAmount;
     payload.ladder = getRound5Ladder();
     payload.currency = ROUNDS[5].currency;
+    payload.totalPool = ROUNDS[5].totalPool || 1000;
+    payload.displayShowsOptions = ROUNDS[5].displayShowsOptions === true;
+    payload.lifelineUsed = state.round5LifelineUsed;
+    payload.lifelineAvailable = !state.round5LifelineUsed;
+    if (payload.displayShowsOptions) {
+      payload.options = item.options;
+      payload.hiddenOptions = state.round5HiddenOptions || [];
+    }
   }
 
   if (item.type === "money" && item.gameOver) {
     payload.gameOver = true;
-    payload.earnedAmount = item.earnedAmount;
+    payload.earnedAmount = state.earnedAmount;
+    payload.round5LastResult = state.round5LastResult;
     payload.ladder = getRound5Ladder();
     payload.currency = ROUNDS[5].currency;
+    payload.totalPool = ROUNDS[5].totalPool || 1000;
   }
 
   return payload;
@@ -323,10 +412,15 @@ function publicHostPayload(state) {
 
   if (state.round === 1) {
     payload.set = state.set;
-    payload.setLabel = roundMeta.sets[state.set].label;
-    payload.categories = getRound1Categories(state).map(function (cat) {
-      return { id: cat.id, name: cat.name };
+    payload.setLabel = state.set ? roundMeta.sets[state.set].label : null;
+    payload.sets = Object.keys(roundMeta.sets).map(function (setId) {
+      return { id: setId, label: roundMeta.sets[setId].label };
     });
+    payload.categories = state.set
+      ? getRound1Categories(state).map(function (cat) {
+          return { id: cat.id, name: cat.name };
+        })
+      : [];
     payload.categoryId = state.categoryId;
   }
 
@@ -338,19 +432,27 @@ function publicHostPayload(state) {
   }
 
   if (state.round === 3) {
+    payload.set = state.set;
+    payload.setLabel = getRound3SetData(state)
+      ? getRound3SetData(state).label
+      : null;
+    payload.sets = Object.keys(roundMeta.sets).map(function (setId) {
+      return { id: setId, label: roundMeta.sets[setId].label };
+    });
     payload.timeLimitSeconds = roundMeta.timeLimitSeconds;
     payload.questionIndex = state.questionIndex;
   }
 
   if (state.round === 4) {
     payload.riddleIndex = state.riddleIndex;
-    payload.cluesRevealed = state.cluesRevealed;
   }
 
   if (state.round === 5) {
     payload.earnedAmount = state.earnedAmount;
     payload.round5Complete = state.round5Complete;
     payload.round5LastResult = state.round5LastResult;
+    payload.round5LifelineUsed = state.round5LifelineUsed;
+    payload.round5HiddenOptions = state.round5HiddenOptions || [];
     payload.ladder = getRound5Ladder();
     payload.currency = roundMeta.currency;
     payload.questionIndex = state.questionIndex;
@@ -370,8 +472,11 @@ function resetRoundFields(state, round) {
   state.earnedAmount = 0;
   state.round5Complete = false;
   state.round5LastResult = null;
+  state.round5LifelineUsed = false;
+  state.round5HiddenOptions = [];
   state.visible = true;
-  if (round === 1) state.set = "A";
+  if (round === 1) state.set = null;
+  if (round === 3) state.set = null;
 }
 
 function selectCategory(state, categoryId) {
@@ -391,6 +496,7 @@ function navigatePrev(state) {
     return;
   }
   if (state.round === 3) {
+    if (!state.set) return;
     state.questionIndex = Math.max(0, state.questionIndex - 1);
     return;
   }
@@ -400,9 +506,6 @@ function navigatePrev(state) {
       state.cluesRevealed = 0;
     }
     return;
-  }
-  if (state.round === 5 && !state.round5Complete) {
-    state.questionIndex = Math.max(0, state.questionIndex - 1);
   }
 }
 
@@ -419,7 +522,8 @@ function navigateNext(state) {
     return;
   }
   if (state.round === 3) {
-    var questionList = getRound3QuestionList();
+    if (!state.set) return;
+    var questionList = getRound3QuestionList(state);
     state.questionIndex = Math.min(questionList.length - 1, state.questionIndex + 1);
     return;
   }
@@ -430,10 +534,6 @@ function navigateNext(state) {
       state.cluesRevealed = 0;
     }
     return;
-  }
-  if (state.round === 5 && !state.round5Complete) {
-    var moneyList = getRound5QuestionList();
-    state.questionIndex = Math.min(moneyList.length - 1, state.questionIndex + 1);
   }
 }
 
@@ -466,18 +566,6 @@ function nextSet(state) {
   state.part = "main";
 }
 
-function revealClue(state) {
-  if (state.round !== 4) return;
-  var riddles = getRound4Riddles();
-  var riddle = riddles[state.riddleIndex];
-  if (!riddle) return;
-  state.cluesRevealed = Math.min(riddle.clues.length, state.cluesRevealed + 1);
-}
-
-function hideAllClues(state) {
-  state.cluesRevealed = 0;
-}
-
 function markRound5Answer(state, correct) {
   if (state.round !== 5 || state.round5Complete) return;
 
@@ -488,7 +576,8 @@ function markRound5Answer(state, correct) {
   state.round5LastResult = correct ? "correct" : "wrong";
 
   if (correct) {
-    state.earnedAmount = current.amount;
+    state.earnedAmount += current.amount;
+    state.round5HiddenOptions = [];
     if (state.questionIndex >= questionList.length - 1) {
       state.round5Complete = true;
     } else {
@@ -498,6 +587,38 @@ function markRound5Answer(state, correct) {
   }
 
   state.round5Complete = true;
+}
+
+function applyRound5Lifeline(state) {
+  if (state.round !== 5 || state.round5Complete || state.round5LifelineUsed) {
+    return false;
+  }
+
+  var questionList = getRound5QuestionList();
+  var current = questionList[state.questionIndex];
+  if (!current || !current.options || current.options.length < 4) return false;
+
+  var correctIndex = current.correctIndex;
+  var wrongIndices = [];
+  for (var i = 0; i < current.options.length; i++) {
+    if (i !== correctIndex) wrongIndices.push(i);
+  }
+
+  for (var j = wrongIndices.length - 1; j > 0; j--) {
+    var k = Math.floor(Math.random() * (j + 1));
+    var temp = wrongIndices[j];
+    wrongIndices[j] = wrongIndices[k];
+    wrongIndices[k] = temp;
+  }
+
+  state.round5HiddenOptions = wrongIndices.slice(0, 2);
+  state.round5LifelineUsed = true;
+  return true;
+}
+
+function hasActiveQuestion(state) {
+  if (state.round === 5) return true;
+  return resolveCurrentItem(state) !== null;
 }
 
 function getRoundSummaries() {
@@ -510,6 +631,8 @@ module.exports = {
   ROUNDS: ROUNDS,
   SET_IDS: SET_IDS,
   createQuizState: createQuizState,
+  loadPersistedQuizState: loadPersistedQuizState,
+  saveQuizState: saveQuizState,
   publicDisplayPayload: publicDisplayPayload,
   publicHostPayload: publicHostPayload,
   resetRoundFields: resetRoundFields,
@@ -518,8 +641,8 @@ module.exports = {
   navigateNext: navigateNext,
   selectBlockPart: selectBlockPart,
   nextSet: nextSet,
-  revealClue: revealClue,
-  hideAllClues: hideAllClues,
   markRound5Answer: markRound5Answer,
+  applyRound5Lifeline: applyRound5Lifeline,
   getRoundSummaries: getRoundSummaries,
+  hasActiveQuestion: hasActiveQuestion,
 };

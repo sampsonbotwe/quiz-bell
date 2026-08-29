@@ -2,28 +2,29 @@ const socket = io();
 
 const roundTabs = document.querySelector("[data-round-tabs]");
 const setPanel = document.querySelector("[data-set-panel]");
+const setPanelLabel = document.querySelector("[data-set-panel-label]");
 const setTabs = document.querySelector("[data-set-tabs]");
 const categoryPanel = document.querySelector("[data-category-panel]");
 const categoryGrid = document.querySelector("[data-category-grid]");
 const riddlePanel = document.querySelector("[data-riddle-panel]");
 const clueList = document.querySelector("[data-clue-list]");
-const moneyPanel = document.querySelector("[data-money-panel]");
-const moneyLadder = document.querySelector("[data-money-ladder]");
-const moneyEarned = document.querySelector("[data-money-earned]");
 const round5Actions = document.querySelector("[data-round5-actions]");
+const round5Lifeline = document.querySelector("[data-round5-lifeline]");
 const round5Reset = document.querySelector("[data-round5-reset]");
 const questionPanel = document.querySelector("[data-question-panel]");
 const questionText = document.querySelector("[data-question-text]");
 const optionList = document.querySelector("[data-option-list]");
 const answerText = document.querySelector("[data-answer-text]");
-const round3Note = document.querySelector("[data-round3-note]");
-const progressEl = document.querySelector("[data-progress]");
+const answerBox = document.querySelector(".answer-box");
 const navProgressEl = document.querySelector("[data-nav-progress]");
 const prevBtn = document.querySelector("[data-prev]");
 const nextBtn = document.querySelector("[data-next]");
 const subNav = document.querySelector("[data-sub-nav]");
 const subTabs = document.querySelector("[data-sub-tabs]");
 const toggleDisplayBtn = document.querySelector("[data-toggle-display]");
+const hostNav = document.querySelector(".host-nav");
+const wrongConfirmDialog = document.querySelector("[data-round5-wrong-dialog]");
+const wrongConfirmBtn = document.querySelector("[data-round5-wrong-confirm]");
 
 var roundsMeta = [];
 var currentState = null;
@@ -63,14 +64,20 @@ function setActiveRoundTab(round) {
 
 function renderSetTabs(state) {
   setTabs.innerHTML = "";
-  ["A", "B", "C"].forEach(function (setId) {
+  var setOptions = state.sets || [
+    { id: "A", label: "Set A" },
+    { id: "B", label: "Set B" },
+    { id: "C", label: "Set C" },
+  ];
+
+  setOptions.forEach(function (set) {
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "pill-btn";
-    btn.textContent = "Set " + setId;
-    btn.classList.toggle("active", state.set === setId);
+    btn.textContent = set.label;
+    btn.classList.toggle("active", state.set === set.id);
     btn.addEventListener("click", function () {
-      socket.emit("quiz:setSet", { set: setId });
+      socket.emit("quiz:setSet", { set: set.id });
     });
     setTabs.appendChild(btn);
   });
@@ -99,38 +106,15 @@ function renderClueList(item) {
 
   item.allClues.forEach(function (clue, index) {
     var li = document.createElement("li");
-    var revealed = index < item.clues.length;
+    var points = Math.max(0, 20 - index * 5);
     li.innerHTML =
-      "<strong>Clue " +
-      (index + 1) +
-      (revealed ? " (on display)" : " (hidden)") +
-      ":</strong> " +
-      clue;
-    li.classList.toggle("clue-revealed", revealed);
-    li.classList.toggle("clue-hidden-host", !revealed);
+      '<span class="clue-text">' +
+      clue +
+      '</span><span class="clue-points">' +
+      points +
+      " pts</span>";
     clueList.appendChild(li);
   });
-}
-
-function renderMoneyLadder(state) {
-  moneyLadder.innerHTML = "";
-  if (!state.ladder) return;
-
-  state.ladder.forEach(function (step, index) {
-    var li = document.createElement("li");
-    var isCurrent =
-      !state.round5Complete && state.questionIndex === index;
-    var isPassed =
-      state.round5Complete ||
-      (state.earnedAmount >= step.amount && index < state.questionIndex);
-    li.textContent = step.amount + " " + state.currency;
-    li.classList.toggle("current", isCurrent);
-    li.classList.toggle("passed", isPassed && !isCurrent);
-    moneyLadder.appendChild(li);
-  });
-
-  moneyEarned.textContent =
-    "Total earned: " + state.earnedAmount + " " + state.currency;
 }
 
 function updateSubControls(item) {
@@ -152,8 +136,69 @@ function updateSubControls(item) {
   });
 }
 
+function openWrongConfirm() {
+  if (!wrongConfirmDialog) return;
+  wrongConfirmDialog.classList.remove("hidden");
+  wrongConfirmDialog.setAttribute("aria-hidden", "false");
+}
+
+function closeWrongConfirm() {
+  if (!wrongConfirmDialog) return;
+  wrongConfirmDialog.classList.add("hidden");
+  wrongConfirmDialog.setAttribute("aria-hidden", "true");
+}
+
+function isActiveMoneyQuestion(state) {
+  var item = state && state.item;
+  return (
+    state.round === 5 && item && item.type === "money" && !item.gameOver
+  );
+}
+
+function updateLifelineControl(state) {
+  if (!round5Lifeline) return;
+
+  var item = state.item;
+  var show =
+    state.round === 5 && item && item.type === "money" && !item.gameOver;
+
+  round5Lifeline.classList.toggle("hidden", !show);
+  if (!show) return;
+
+  if (state.round5LifelineUsed) {
+    round5Lifeline.disabled = true;
+    round5Lifeline.textContent = "50/50 used";
+    return;
+  }
+
+  round5Lifeline.disabled = false;
+  round5Lifeline.textContent = "50/50 — Drop two answers";
+}
+
 function updateNavControls(state) {
   var item = state.item;
+  var isMoneyRound = state.round === 5 && item && item.type === "money";
+
+  if (hostNav) hostNav.classList.remove("hidden");
+  if (prevBtn) prevBtn.classList.toggle("hidden", isMoneyRound);
+  if (nextBtn) nextBtn.classList.toggle("hidden", isMoneyRound);
+
+  if (isMoneyRound) {
+    subNav.classList.add("hidden");
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    if (item.gameOver) {
+      navProgressEl.textContent = "Complete";
+    } else {
+      navProgressEl.textContent =
+        "Question " + (item.index + 1) + " of " + item.total;
+    }
+    return;
+  }
+
+  if (prevBtn) prevBtn.classList.remove("hidden");
+  if (nextBtn) nextBtn.classList.remove("hidden");
+
   var canNavigate = Boolean(item && item.total && !item.gameOver);
 
   if (item && item.type === "block") {
@@ -170,8 +215,14 @@ function updateNavControls(state) {
   nextBtn.disabled = !canNavigate || item.index >= item.total - 1;
 
   if (!item || !item.total) {
-    if (state.round === 1 || state.round === 2) {
+    if (state.round === 1 && !state.set) {
+      navProgressEl.textContent = "Select a set";
+    } else if (state.round === 1 || state.round === 2) {
       navProgressEl.textContent = "Select a category";
+    } else if (state.round === 3) {
+      navProgressEl.textContent = "Select a team";
+    } else if (state.round === 5) {
+      navProgressEl.textContent = "Money Round";
     } else {
       navProgressEl.textContent = state.roundTitle;
     }
@@ -193,40 +244,32 @@ function updateNavControls(state) {
     return;
   }
 
+  if (item.type === "money") {
+    navProgressEl.textContent =
+      "Question " + (item.index + 1) + " of " + item.total;
+    return;
+  }
+
   navProgressEl.textContent =
     "Question " + (item.index + 1) + " of " + item.total;
-}
-
-function formatRoundHeader(state) {
-  if (
-    (state.round === 1 || state.round === 2) &&
-    state.categoryId &&
-    state.categories
-  ) {
-    for (var i = 0; i < state.categories.length; i++) {
-      if (state.categories[i].id === state.categoryId) {
-        return state.roundTitle + " - " + state.categories[i].name;
-      }
-    }
-  }
-  return state.roundTitle;
 }
 
 function renderQuestion(state) {
   var item = state.item;
   var round = state.round;
 
-  progressEl.textContent = formatRoundHeader(state);
-
-  setPanel.classList.toggle("hidden", round !== 1);
-  categoryPanel.classList.toggle("hidden", round !== 1 && round !== 2);
+  setPanel.classList.toggle("hidden", round !== 1 && round !== 3);
+  if (setPanelLabel) {
+    setPanelLabel.textContent = round === 3 ? "Team" : "Set";
+  }
+  categoryPanel.classList.toggle(
+    "hidden",
+    round === 2 ? false : round !== 1 || !state.set
+  );
   riddlePanel.classList.toggle("hidden", round !== 4);
-  moneyPanel.classList.toggle("hidden", round !== 5);
-  round3Note.classList.toggle("hidden", round !== 3);
 
-  if (round === 1) renderSetTabs(state);
-  if (round === 1 || round === 2) renderCategories(state);
-  if (round === 5) renderMoneyLadder(state);
+  if (round === 1 || round === 3) renderSetTabs(state);
+  if ((round === 1 && state.set) || round === 2) renderCategories(state);
 
   toggleDisplayBtn.textContent = state.visible ? "Hide display" : "Show display";
   toggleDisplayBtn.classList.toggle("host-toggle-active", !state.visible);
@@ -234,16 +277,24 @@ function renderQuestion(state) {
   if (!item) {
     questionPanel.classList.add("hidden");
     subNav.classList.add("hidden");
+    if (answerBox) answerBox.classList.remove("answer-box--riddle");
     updateNavControls(state);
     return;
   }
 
   questionPanel.classList.remove("hidden");
+  if (answerBox) {
+    answerBox.classList.toggle("answer-box--riddle", item.type === "riddle");
+  }
 
   if (item.type === "riddle") {
     questionText.textContent = "";
     questionText.classList.add("hidden");
     optionList.classList.add("hidden");
+    optionList.classList.remove("option-list--grid", "option-list--money");
+    round5Actions.classList.add("hidden");
+    round5Reset.classList.add("hidden");
+    if (round5Lifeline) round5Lifeline.classList.add("hidden");
     answerText.textContent = item.answer;
     renderClueList(item);
     updateNavControls(state);
@@ -258,9 +309,15 @@ function renderQuestion(state) {
         ? "All questions answered correctly!"
         : "Round ended.";
     optionList.classList.add("hidden");
-    answerText.textContent = "Final total: " + item.earnedAmount + " " + state.currency;
+    optionList.classList.remove("option-list--grid", "option-list--money");
+    answerText.textContent =
+      "Final total: " +
+      (window.MoneyAnimate
+        ? MoneyAnimate.formatMoney(item.earnedAmount, state.currency)
+        : item.earnedAmount + " " + state.currency);
     round5Actions.classList.add("hidden");
     round5Reset.classList.remove("hidden");
+    if (round5Lifeline) round5Lifeline.classList.add("hidden");
     updateNavControls(state);
     return;
   }
@@ -270,22 +327,34 @@ function renderQuestion(state) {
   if (item.type === "money") {
     questionText.textContent = item.question;
     optionList.innerHTML = "";
+    optionList.classList.add("option-list--grid", "option-list--money");
     optionList.classList.remove("hidden");
     item.options.forEach(function (opt, index) {
       var li = document.createElement("li");
       var letter = String.fromCharCode(65 + index);
-      li.textContent = letter + ". " + opt;
+      var hiddenOptions = state.round5HiddenOptions || [];
+      var isDropped = hiddenOptions.indexOf(index) >= 0;
+      if (isDropped) {
+        li.classList.add("option-dropped");
+        li.textContent = letter + ". " + opt + " (dropped)";
+      } else {
+        li.textContent = letter + ". " + opt;
+      }
       if (index === item.correctIndex) li.classList.add("correct-option");
       optionList.appendChild(li);
     });
     answerText.textContent = item.correctAnswer;
     round5Actions.classList.remove("hidden");
+    updateLifelineControl(state);
     updateNavControls(state);
     return;
   }
 
   optionList.classList.add("hidden");
+  optionList.classList.remove("option-list--grid", "option-list--money");
   round5Actions.classList.add("hidden");
+  round5Reset.classList.add("hidden");
+  if (round5Lifeline) round5Lifeline.classList.add("hidden");
   questionText.textContent = item.question;
   answerText.textContent = item.answer;
   updateNavControls(state);
@@ -293,6 +362,9 @@ function renderQuestion(state) {
 
 function render(state) {
   currentState = state;
+  if (!isActiveMoneyQuestion(state)) {
+    closeWrongConfirm();
+  }
   setActiveRoundTab(state.round);
   renderQuestion(state);
 }
@@ -355,25 +427,35 @@ subTabs.querySelectorAll("[data-part]").forEach(function (btn) {
   });
 });
 
-document.querySelector("[data-reveal-clue]").addEventListener("click", function () {
-  socket.emit("quiz:revealClue");
-});
-
-document.querySelector("[data-hide-clues]").addEventListener("click", function () {
-  socket.emit("quiz:hideClues");
-});
-
 document.querySelector("[data-mark-correct]").addEventListener("click", function () {
   socket.emit("quiz:round5Answer", { correct: true });
 });
 
 document.querySelector("[data-mark-wrong]").addEventListener("click", function () {
-  socket.emit("quiz:round5Answer", { correct: false });
+  if (!isActiveMoneyQuestion(currentState)) return;
+  openWrongConfirm();
+});
+
+if (wrongConfirmBtn) {
+  wrongConfirmBtn.addEventListener("click", function () {
+    closeWrongConfirm();
+    socket.emit("quiz:round5Answer", { correct: false });
+  });
+}
+
+document.querySelectorAll("[data-round5-wrong-cancel]").forEach(function (btn) {
+  btn.addEventListener("click", closeWrongConfirm);
 });
 
 document.querySelector("[data-round5-reset]").addEventListener("click", function () {
   socket.emit("quiz:round5Reset");
 });
+
+if (round5Lifeline) {
+  round5Lifeline.addEventListener("click", function () {
+    socket.emit("quiz:round5Lifeline");
+  });
+}
 
 toggleDisplayBtn.addEventListener("click", function () {
   if (!currentState) return;
@@ -381,3 +463,7 @@ toggleDisplayBtn.addEventListener("click", function () {
 });
 
 socket.on("quiz:host", render);
+
+socket.on("connect", function () {
+  socket.emit("quiz:hostReady");
+});

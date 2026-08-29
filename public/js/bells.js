@@ -150,6 +150,60 @@ window.playTeamBell = function playTeamBell(teamId) {
   playDunamis(now);
 };
 
+window.playMoneyTick = function playMoneyTick(progress) {
+  var p = Math.max(0, Math.min(1, Number(progress) || 0));
+  var now = context().currentTime + 0.01;
+  var out = dest();
+  var freq = 640 + p * 980;
+
+  tone({
+    start: now,
+    type: "triangle",
+    freq: freq,
+    glide: freq * 1.08,
+    glideTime: 0.04,
+    peak: 0.14 + p * 0.12,
+    attack: 0.002,
+    decay: 0.07,
+    out: out,
+  });
+
+  strike({
+    start: now,
+    freq: 1600 + p * 1200,
+    peak: 0.08 + p * 0.06,
+    duration: 0.022,
+    filter: "highpass",
+    q: 0.8,
+    out: out,
+  });
+};
+
+window.playMoneyLand = function playMoneyLand() {
+  var now = context().currentTime + 0.01;
+  var out = dest();
+
+  tone({
+    start: now,
+    type: "sine",
+    freq: 987.77,
+    peak: 0.28,
+    attack: 0.004,
+    decay: 0.42,
+    out: out,
+  });
+
+  tone({
+    start: now + 0.05,
+    type: "sine",
+    freq: 1318.51,
+    peak: 0.2,
+    attack: 0.004,
+    decay: 0.36,
+    out: out,
+  });
+};
+
 var buzzClip = null;
 
 function buzzAudio() {

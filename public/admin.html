@@ -16,12 +16,20 @@
         </div>
         <button class="reset" data-reset type="button">Reset bells</button>
       </div>
+
+      <section class="admin-money hidden" data-admin-money>
+        <p class="admin-money-label">Money Round total</p>
+        <p class="admin-money-total" data-admin-money-total>GHS 0.00</p>
+        <p class="admin-money-cap" data-admin-money-cap>of GHS 1000.00</p>
+      </section>
+
       <p class="empty" data-empty>No one has rung yet.</p>
       <section class="results" data-results></section>
     </main>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/dev-reload.js"></script>
     <script src="/js/bells.js"></script>
+    <script src="/js/money-animate.js"></script>
     <script src="/js/admin.js"></script>
   </body>
 </html>
