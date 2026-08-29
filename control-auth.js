@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 
 const SESSION_COOKIE = "quiz_control_session";
-const SESSION_TTL_MS = 2 * 60 * 60 * 1000;
+const SESSION_TTL_MS = 6 * 60 * 60 * 1000;
 const CONTROL_PASSWORD = process.env.CONTROL_PASSWORD || "911";
 
 const sessions = new Map();
