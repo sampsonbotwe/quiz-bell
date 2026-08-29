@@ -10,9 +10,9 @@ const PORT = Number(process.env.PORT) || 3000;
 const IS_DEV = process.env.NODE_ENV === "development";
 const DEV_SESSION = Date.now();
 const TEAMS = {
-  dunamis: { id: "dunamis", name: "Dunamis", color: "#1A7CFF" },
-  zoe: { id: "zoe", name: "Zoe", color: "#E02020" },
-  pneuma: { id: "pneuma", name: "Pneuma", color: "#E3A21C" },
+  dunamis: { id: "dunamis", name: "Dunamis", color: "#2563EB" },
+  zoe: { id: "zoe", name: "Zoe", color: "#E63946" },
+  pneuma: { id: "pneuma", name: "Pneuma", color: "#CA8A04" },
 };
 
 function createRound() {

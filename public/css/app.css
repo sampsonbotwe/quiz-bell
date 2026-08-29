@@ -3,9 +3,9 @@
   --muted: #9a917f;
   --panel: #14110d;
   --line: rgba(244, 239, 228, 0.12);
-  --dunamis: #1a7cff;
-  --zoe: #e02020;
-  --pneuma: #e3a21c;
+  --dunamis: #2563eb;
+  --zoe: #e63946;
+  --pneuma: #ca8a04;
   --answer: #72c044;
   --cat-0: #4f46e5;
   --cat-1: #7c3aed;
@@ -60,7 +60,7 @@ a {
   min-height: 100vh;
   padding: 32px 24px 48px;
   background:
-    radial-gradient(circle at top, rgba(227, 162, 28, 0.12), transparent 38%),
+    radial-gradient(circle at top, rgba(202, 138, 4, 0.12), transparent 38%),
     #070705;
 }
 
@@ -121,9 +121,9 @@ h1 {
   word-break: break-all;
 }
 
-.card.dunamis { border-color: rgba(26, 124, 255, 0.55); }
-.card.zoe { border-color: rgba(224, 32, 32, 0.55); }
-.card.pneuma { border-color: rgba(227, 162, 28, 0.55); }
+.card.dunamis { border-color: rgba(37, 99, 235, 0.55); }
+.card.zoe { border-color: rgba(230, 57, 70, 0.55); }
+.card.pneuma { border-color: rgba(202, 138, 4, 0.55); }
 
 .team-page {
   min-height: 100vh;
@@ -133,15 +133,15 @@ h1 {
 }
 
 .team-page.dunamis {
-  background: radial-gradient(circle at 50% 30%, #0b2a55, #070705 62%);
+  background: radial-gradient(circle at 50% 30%, #1a3a6e, #070705 62%);
 }
 
 .team-page.zoe {
-  background: radial-gradient(circle at 50% 30%, #3a1010, #070705 62%);
+  background: radial-gradient(circle at 50% 30%, #4a1820, #070705 62%);
 }
 
 .team-page.pneuma {
-  background: radial-gradient(circle at 50% 30%, #3a2c10, #070705 62%);
+  background: radial-gradient(circle at 50% 30%, #4a3608, #070705 62%);
 }
 
 .team-shell {
@@ -835,7 +835,7 @@ h1 {
   min-height: 100vh;
   padding: 32px 24px 48px;
   background:
-    radial-gradient(circle at top, rgba(227, 162, 28, 0.12), transparent 38%),
+    radial-gradient(circle at top, rgba(202, 138, 4, 0.12), transparent 38%),
     #070705;
 }
 
@@ -972,7 +972,7 @@ h1 {
   min-height: 100vh;
   padding: 32px 24px 48px;
   background:
-    radial-gradient(circle at top, rgba(26, 124, 255, 0.14), transparent 38%),
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.14), transparent 38%),
     #070705;
 }
 
@@ -1107,7 +1107,7 @@ h1 {
 
 .category-btn.active {
   border-color: var(--pneuma);
-  background: rgba(227, 162, 28, 0.18);
+  background: rgba(202, 138, 4, 0.18);
 }
 
 .question-card {
@@ -1221,8 +1221,8 @@ h1 {
 }
 
 .money-ladder li.current {
-  background: rgba(227, 162, 28, 0.22);
-  border: 1px solid rgba(227, 162, 28, 0.55);
+  background: rgba(202, 138, 4, 0.22);
+  border: 1px solid rgba(202, 138, 4, 0.55);
 }
 
 .money-ladder li.passed {
@@ -1367,7 +1367,7 @@ h1 {
   padding: 24px;
   border-radius: 22px;
   background: var(--panel);
-  border: 1px solid rgba(224, 32, 32, 0.35);
+  border: 1px solid rgba(230, 57, 70, 0.35);
   box-shadow: var(--shadow);
 }
 
@@ -1432,7 +1432,7 @@ h1 {
 }
 
 .host-page button.host-pressed {
-  box-shadow: 0 0 0 2px rgba(227, 162, 28, 0.45);
+  box-shadow: 0 0 0 2px rgba(202, 138, 4, 0.45);
 }
 
 .host-page .round-tab:active,
@@ -1445,8 +1445,8 @@ h1 {
 .host-page .pill-btn.host-pressed,
 .host-page .category-btn:active,
 .host-page .category-btn.host-pressed {
-  background: rgba(227, 162, 28, 0.42);
-  border-color: rgba(227, 162, 28, 0.75);
+  background: rgba(202, 138, 4, 0.42);
+  border-color: rgba(202, 138, 4, 0.75);
   color: #ffffff;
 }
 
@@ -1468,7 +1468,7 @@ h1 {
 
 .host-page .category-btn.active:active,
 .host-page .category-btn.active.host-pressed {
-  background: rgba(227, 162, 28, 0.42);
+  background: rgba(202, 138, 4, 0.42);
   border-color: var(--pneuma);
   color: #ffffff;
 }
@@ -1502,13 +1502,13 @@ h1 {
   background: var(--pneuma);
   color: #070705;
   border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(227, 162, 28, 0.35);
+  box-shadow: 0 0 0 3px rgba(202, 138, 4, 0.35);
 }
 
 .round-tab.active,
 .pill-btn.active,
 .category-btn.active {
-  box-shadow: 0 0 0 3px rgba(227, 162, 28, 0.35);
+  box-shadow: 0 0 0 3px rgba(202, 138, 4, 0.35);
 }
 
 .question-lower-third {
@@ -1548,7 +1548,7 @@ h1 {
   text-transform: uppercase;
   font-size: clamp(12px, 1.4vw, 16px);
   font-weight: 700;
-  color: #e3a21c;
+  color: #ca8a04;
   margin-bottom: 10px;
 }
 
@@ -2684,8 +2684,8 @@ h1 {
 }
 
 .scores-card__btn:hover {
-  border-color: rgba(227, 162, 28, 0.45);
-  background: rgba(227, 162, 28, 0.12);
+  border-color: rgba(202, 138, 4, 0.45);
+  background: rgba(202, 138, 4, 0.12);
 }
 
 @media (min-width: 720px) {
