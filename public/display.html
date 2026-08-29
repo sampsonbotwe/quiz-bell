@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Display</title>
-    <link rel="stylesheet" href="/css/app.css?v=36" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Cinzel:wght@600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/app.css?v=39" />
   </head>
   <body class="display">
     <div class="display-timer hidden" data-display-timer aria-hidden="true">
@@ -47,8 +53,23 @@
       <p class="display-money-earned-total" data-earned>GHS 0.00</p>
     </div>
 
-    <aside class="display-money-ladder hidden" data-ladder-panel>
+    <aside class="display-money-ladder display-money-ladder--gameshow hidden" data-ladder-panel>
+      <div class="money-ladder-lamp" aria-hidden="true"></div>
+      <header class="money-ladder-header">
+        <div class="money-ladder-header-main">
+          <p class="money-ladder-kicker">THE LADDER</p>
+          <p class="money-ladder-question" data-ladder-question>Question 1 / 15</p>
+        </div>
+        <div class="money-ladder-playing">
+          <p class="money-ladder-playing-label">Playing for</p>
+          <p class="money-ladder-playing-amount" data-ladder-playing-for>GHS 10.00</p>
+        </div>
+      </header>
       <ul class="money-ladder-list" data-ladder></ul>
+      <footer class="money-ladder-footer">
+        <p class="money-ladder-guaranteed-label">Guaranteed</p>
+        <p class="money-ladder-guaranteed-amount" data-ladder-guaranteed>GHS 0.00</p>
+      </footer>
     </aside>
 
     <aside class="display-panel">
@@ -59,6 +80,6 @@
     <script src="/js/dev-reload.js"></script>
     <script src="/js/bells.js"></script>
     <script src="/js/money-animate.js?v=3"></script>
-    <script src="/js/display.js?v=34"></script>
+    <script src="/js/display.js?v=36"></script>
   </body>
 </html>

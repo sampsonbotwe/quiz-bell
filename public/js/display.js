@@ -14,6 +14,9 @@ const cluesEl = document.querySelector("[data-clues]");
 const optionsEl = document.querySelector("[data-options]");
 const ladderPanel = document.querySelector("[data-ladder-panel]");
 const ladderEl = document.querySelector("[data-ladder]");
+const ladderQuestionEl = document.querySelector("[data-ladder-question]");
+const ladderPlayingForEl = document.querySelector("[data-ladder-playing-for]");
+const ladderGuaranteedEl = document.querySelector("[data-ladder-guaranteed]");
 const earnedPanel = document.querySelector("[data-money-earned-panel]");
 const earnedEl = document.querySelector("[data-earned]");
 const celebrationEl = document.querySelector("[data-money-celebration]");
@@ -226,6 +229,7 @@ function renderLadder(payload, animateTotal) {
 
   document.body.classList.add("display-money-active");
 
+  var milestones = [5, 10, 15];
   var cumulative = 0;
   var rungs = payload.ladder.map(function (step) {
     cumulative += step.amount;
@@ -243,13 +247,38 @@ function renderLadder(payload, animateTotal) {
       : amount + " " + payload.currency;
   }
 
-  function isRungSecured(rung) {
-    var earned = Number(payload.earnedAmount) || 0;
-    return earned > 0 && rung.total <= earned;
+  function findRung(step) {
+    for (var i = 0; i < rungs.length; i++) {
+      if (rungs[i].step === step) return rungs[i];
+    }
+    return null;
   }
 
-  function rungDisplayAmount(rung) {
-    return rung.total;
+  var activeStep = payload.step || 1;
+  var questionsPassed = payload.gameOver
+    ? Math.max(0, activeStep - 1)
+    : Math.max(0, activeStep - 1);
+  var currentRung = findRung(activeStep);
+  var lastSafe = null;
+  milestones.forEach(function (m) {
+    if (m <= questionsPassed) lastSafe = m;
+  });
+
+  if (ladderQuestionEl) {
+    ladderQuestionEl.textContent =
+      "Question " + activeStep + " / " + (payload.total || rungs.length);
+  }
+  if (ladderPlayingForEl) {
+    ladderPlayingForEl.textContent = currentRung
+      ? formatLadderAmount(currentRung.total)
+      : formatLadderAmount(0);
+  }
+  if (ladderGuaranteedEl) {
+    var safeRung = lastSafe ? findRung(lastSafe) : null;
+    ladderGuaranteedEl.textContent = safeRung
+      ? formatLadderAmount(safeRung.total)
+      : formatLadderAmount(0);
+    ladderGuaranteedEl.classList.toggle("money-ladder-guaranteed-amount--active", !!lastSafe);
   }
 
   rungs
@@ -260,28 +289,52 @@ function renderLadder(payload, animateTotal) {
       li.className = "money-ladder-row";
       li.dataset.step = String(rung.step);
 
-      var isSecured = isRungSecured(rung);
-      var isMilestone = rung.step % 5 === 0;
+      var isCurrent = !payload.gameOver && rung.step === activeStep;
+      var isBanked = rung.step < activeStep;
+      var isMilestone = milestones.indexOf(rung.step) >= 0;
 
-      li.classList.toggle("money-ladder-row--current", isSecured);
-      li.classList.toggle("money-ladder-row--passed", isSecured);
+      li.classList.toggle("money-ladder-row--current", isCurrent);
+      li.classList.toggle("money-ladder-row--banked", isBanked);
       li.classList.toggle("money-ladder-row--milestone", isMilestone);
+
+      var frame = document.createElement("div");
+      frame.className = "money-ladder-row-frame";
+
+      var inner = document.createElement("div");
+      inner.className = "money-ladder-row-inner";
 
       var stepNum = document.createElement("span");
       stepNum.className = "money-ladder-step";
       stepNum.textContent = rung.step;
 
+      var tag = document.createElement("span");
+      tag.className = "money-ladder-tag";
+      if (isMilestone && !isCurrent) {
+        tag.textContent = "safe";
+      }
+
+      var amount = document.createElement("span");
+      amount.className = "money-ladder-amount";
+      amount.textContent = formatLadderAmount(rung.total);
+
       var diamond = document.createElement("span");
       diamond.className = "money-ladder-diamond";
       diamond.setAttribute("aria-hidden", "true");
 
-      var amount = document.createElement("span");
-      amount.className = "money-ladder-amount";
-      amount.textContent = formatLadderAmount(rungDisplayAmount(rung));
+      inner.appendChild(stepNum);
+      inner.appendChild(tag);
+      inner.appendChild(amount);
+      inner.appendChild(diamond);
 
-      li.appendChild(stepNum);
-      li.appendChild(diamond);
-      li.appendChild(amount);
+      if (isCurrent) {
+        var sheen = document.createElement("span");
+        sheen.className = "money-ladder-sheen";
+        sheen.setAttribute("aria-hidden", "true");
+        inner.appendChild(sheen);
+      }
+
+      frame.appendChild(inner);
+      li.appendChild(frame);
       ladderEl.appendChild(li);
     });
 
