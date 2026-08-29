@@ -267,6 +267,7 @@ function publicDisplayPayload(state) {
     payload.question = item.question;
     payload.categoryId = state.categoryId;
     payload.categoryName = item.categoryName;
+    payload.part = item.part;
     var blockCategories =
       state.round === 1
         ? getRound1Categories(state)

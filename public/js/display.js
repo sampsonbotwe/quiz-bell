@@ -7,6 +7,7 @@ const categoryGridEl = document.querySelector("[data-category-grid]");
 const chosenEl = document.querySelector("[data-category-chosen]");
 const chosenNameEl = document.querySelector("[data-chosen-name]");
 const questionPanel = document.querySelector("[data-question-panel]");
+const questionCard = document.querySelector(".question-lower-third");
 const roundLabel = document.querySelector("[data-round-label]");
 const questionEl = document.querySelector("[data-question]");
 const cluesEl = document.querySelector("[data-clues]");
@@ -200,15 +201,43 @@ function renderLadder(payload) {
   ladderPanel.classList.remove("hidden");
 }
 
+function setQuestionTheme(colorIndex) {
+  questionCard.classList.remove(
+    "question-lower-third--0",
+    "question-lower-third--1",
+    "question-lower-third--2",
+    "question-lower-third--3"
+  );
+  roundLabel.classList.remove(
+    "question-round--0",
+    "question-round--1",
+    "question-round--2",
+    "question-round--3"
+  );
+  if (colorIndex == null) return;
+  var idx = colorIndex % 4;
+  questionCard.classList.add("question-lower-third--" + idx);
+  roundLabel.classList.add("question-round--" + idx);
+}
+
 function formatRoundLabel(payload) {
   if (payload.categoryName) {
-    return payload.roundTitle + " - " + payload.categoryName;
+    var label = payload.roundTitle + " - " + payload.categoryName;
+    if (payload.part === "sub1" || payload.part === "sub2") {
+      label += " (Bonus)";
+    }
+    return label;
   }
   return payload.roundTitle;
 }
 
 function renderQuestionContent(payload, animateOpen) {
   hideQuestionContent();
+  if (payload.type === "block" && payload.categoryColorIndex != null) {
+    setQuestionTheme(payload.categoryColorIndex);
+  } else {
+    setQuestionTheme(null);
+  }
   roundLabel.textContent = formatRoundLabel(payload);
 
   if (payload.type === "riddle") {
