@@ -554,9 +554,14 @@ h1 {
   .question-lower-third--0::after,
   .question-lower-third--1::after,
   .question-lower-third--2::after,
-  .question-lower-third--3::after {
+  .question-lower-third--3::after,
+  .display-money-earned::after {
     animation: none;
     opacity: 0;
+  }
+
+  .display-money-earned-total {
+    animation: none;
   }
 }
 
@@ -1773,12 +1778,15 @@ h1 {
 
 .money-ladder-row--passed .money-ladder-step,
 .money-ladder-row--passed .money-ladder-amount {
-  color: #e8c56a;
-  opacity: 0.72;
+  color: #fff0c2;
+  opacity: 1;
 }
 
-.money-ladder-row--passed .money-ladder-diamond {
-  opacity: 0.35;
+.money-ladder-row--passed .money-ladder-diamond,
+.money-ladder-row--current .money-ladder-diamond {
+  background: linear-gradient(135deg, #ffffff, #ffe08a);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  opacity: 1;
 }
 
 .money-ladder-row--current {
@@ -1811,14 +1819,54 @@ h1 {
 
 .display-money-earned {
   position: fixed;
-  top: clamp(16px, 2.5vh, 28px);
-  left: clamp(16px, 2vw, 28px);
+  top: clamp(12px, 1.8vh, 20px);
+  left: clamp(12px, 1.6vw, 20px);
   z-index: 3;
-  padding: clamp(12px, 1.8vh, 18px) clamp(16px, 2vw, 24px);
-  background: linear-gradient(180deg, rgba(0, 20, 48, 0.94), rgba(0, 10, 28, 0.98));
-  border: 2px solid rgba(212, 160, 23, 0.35);
-  border-radius: 10px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  padding: clamp(8px, 1.2vh, 12px) clamp(12px, 1.5vw, 16px);
+  background: linear-gradient(
+    165deg,
+    rgba(42, 28, 4, 0.96) 0%,
+    rgba(18, 10, 0, 0.98) 55%,
+    rgba(8, 4, 0, 0.99) 100%
+  );
+  border: 1.5px solid rgba(212, 160, 23, 0.55);
+  border-radius: 8px;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 236, 179, 0.18);
+  overflow: hidden;
+}
+
+.display-money-earned::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  padding: 3px;
+  background: linear-gradient(
+    125deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(255, 220, 120, 0.35) 46%,
+    rgba(255, 248, 210, 0.95) 50%,
+    rgba(255, 220, 120, 0.35) 54%,
+    transparent 62%,
+    transparent 100%
+  );
+  background-size: 320% 320%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  mix-blend-mode: screen;
+  animation: cat-edge-shine 10s ease infinite;
+  pointer-events: none;
 }
 
 .display-money-earned.hidden {
@@ -1826,26 +1874,52 @@ h1 {
 }
 
 .display-money-earned-label {
+  position: relative;
+  z-index: 1;
   margin: 0;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-size: clamp(10px, 1.1vw, 12px);
+  font-size: clamp(8px, 0.95vw, 10px);
   font-weight: 700;
-  color: rgba(255, 236, 179, 0.62);
+  color: rgba(255, 236, 179, 0.72);
 }
 
 .display-money-earned-total {
-  margin: 6px 0 0;
-  color: #e8c56a;
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin: 4px 0 0;
+  padding: 0;
   font-weight: 800;
-  font-size: clamp(28px, 3.2vw, 44px);
+  font-size: clamp(20px, 2.4vw, 32px);
   line-height: 1;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
-  text-shadow:
-    0 1px 0 rgba(255, 236, 179, 0.55),
-    0 -1px 0 rgba(58, 34, 0, 0.65),
-    0 2px 8px rgba(0, 0, 0, 0.45);
+  text-shadow: none;
+  filter: none;
+  background: linear-gradient(
+    118deg,
+    #4a2f08 0%,
+    #8b5a08 8%,
+    #c9921a 16%,
+    #ffd54a 26%,
+    #fffef5 36%,
+    #ffe082 44%,
+    #ffb300 52%,
+    #fff8e1 60%,
+    #ffc107 68%,
+    #ffecb3 76%,
+    #daa520 86%,
+    #a9710a 94%,
+    #5c3a0a 100%
+  );
+  background-size: 240% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: money-celebration-gold-shine 3.2s linear infinite;
 }
 
 .money-total-pop {

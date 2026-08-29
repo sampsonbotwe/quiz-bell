@@ -4,7 +4,7 @@
   "winnerOnly": true,
   "currency": "GHS",
   "totalPool": 1000,
-  "displayShowsOptions": false,
+  "displayShowsOptions": true,
   "ladder": [
     {
       "step": 1,

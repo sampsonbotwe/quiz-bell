@@ -378,7 +378,7 @@ function publicDisplayPayload(state) {
     payload.ladder = getRound5Ladder();
     payload.currency = ROUNDS[5].currency;
     payload.totalPool = ROUNDS[5].totalPool || 1000;
-    payload.displayShowsOptions = ROUNDS[5].displayShowsOptions === true;
+    payload.displayShowsOptions = ROUNDS[5].displayShowsOptions !== false;
     payload.lifelineUsed = state.round5LifelineUsed;
     payload.lifelineAvailable = !state.round5LifelineUsed;
     if (payload.displayShowsOptions) {

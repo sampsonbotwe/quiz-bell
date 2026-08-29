@@ -327,22 +327,27 @@ function renderQuestion(state) {
   if (item.type === "money") {
     questionText.textContent = item.question;
     optionList.innerHTML = "";
-    optionList.classList.add("option-list--grid", "option-list--money");
-    optionList.classList.remove("hidden");
-    item.options.forEach(function (opt, index) {
-      var li = document.createElement("li");
-      var letter = String.fromCharCode(65 + index);
-      var hiddenOptions = state.round5HiddenOptions || [];
-      var isDropped = hiddenOptions.indexOf(index) >= 0;
-      if (isDropped) {
-        li.classList.add("option-dropped");
-        li.textContent = letter + ". " + opt + " (dropped)";
-      } else {
-        li.textContent = letter + ". " + opt;
-      }
-      if (index === item.correctIndex) li.classList.add("correct-option");
-      optionList.appendChild(li);
-    });
+    if (item.options && item.options.length) {
+      optionList.classList.add("option-list--grid", "option-list--money");
+      optionList.classList.remove("hidden");
+      item.options.forEach(function (opt, index) {
+        var li = document.createElement("li");
+        var letter = String.fromCharCode(65 + index);
+        var hiddenOptions = state.round5HiddenOptions || [];
+        var isDropped = hiddenOptions.indexOf(index) >= 0;
+        if (isDropped) {
+          li.classList.add("option-dropped");
+          li.textContent = letter + ". " + opt + " (dropped)";
+        } else {
+          li.textContent = letter + ". " + opt;
+        }
+        if (index === item.correctIndex) li.classList.add("correct-option");
+        optionList.appendChild(li);
+      });
+    } else {
+      optionList.classList.add("hidden");
+      optionList.classList.remove("option-list--grid", "option-list--money");
+    }
     answerText.textContent = item.correctAnswer;
     round5Actions.classList.remove("hidden");
     updateLifelineControl(state);

@@ -236,6 +236,22 @@ function renderLadder(payload, animateTotal) {
     };
   });
 
+  function formatLadderAmount(amount) {
+    if (!amount) return "—";
+    return window.MoneyAnimate
+      ? MoneyAnimate.formatMoney(amount, payload.currency)
+      : amount + " " + payload.currency;
+  }
+
+  function isRungSecured(rung) {
+    var earned = Number(payload.earnedAmount) || 0;
+    return earned > 0 && rung.total <= earned;
+  }
+
+  function rungDisplayAmount(rung) {
+    return rung.total;
+  }
+
   rungs
     .slice()
     .reverse()
@@ -244,12 +260,11 @@ function renderLadder(payload, animateTotal) {
       li.className = "money-ladder-row";
       li.dataset.step = String(rung.step);
 
-      var isCurrent = !payload.gameOver && payload.step === rung.step;
-      var isPassed = rung.step < payload.step;
+      var isSecured = isRungSecured(rung);
       var isMilestone = rung.step % 5 === 0;
 
-      li.classList.toggle("money-ladder-row--current", isCurrent);
-      li.classList.toggle("money-ladder-row--passed", isPassed);
+      li.classList.toggle("money-ladder-row--current", isSecured);
+      li.classList.toggle("money-ladder-row--passed", isSecured);
       li.classList.toggle("money-ladder-row--milestone", isMilestone);
 
       var stepNum = document.createElement("span");
@@ -262,9 +277,7 @@ function renderLadder(payload, animateTotal) {
 
       var amount = document.createElement("span");
       amount.className = "money-ladder-amount";
-      amount.textContent = window.MoneyAnimate
-        ? MoneyAnimate.formatMoney(rung.total, payload.currency)
-        : rung.total + " " + payload.currency;
+      amount.textContent = formatLadderAmount(rungDisplayAmount(rung));
 
       li.appendChild(stepNum);
       li.appendChild(diamond);
