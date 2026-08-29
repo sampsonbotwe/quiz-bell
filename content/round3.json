@@ -1,347 +1,667 @@
 {
   "round": 3,
-  "title": "Round 3 — 60s Rapid Fire",
+  "title": "Round 3 — The 60-Second, 10-Question Blitz",
   "timeLimitSeconds": 60,
   "categories": [
     {
-      "id": "quick-recall",
-      "name": "Quick Recall",
+      "id": "daniel",
+      "name": "Daniel",
       "blocks": [
         {
-          "main": "Who was the strongest man in the Bible?",
+          "main": "Which king of Judah was besieged by Nebuchadnezzar at the very start of the book?",
           "subs": [],
           "answers": {
-            "main": "Samson",
+            "main": "Jehoiakim",
             "subs": []
           }
         },
         {
-          "main": "What is the shortest verse in the Bible?",
+          "main": "What was Meshach's original Hebrew name?",
           "subs": [],
           "answers": {
-            "main": "Jesus wept",
+            "main": "Mishael",
             "subs": []
           }
         },
         {
-          "main": "How many books are in the Bible?",
+          "main": "What was Abednego's original Hebrew name?",
           "subs": [],
           "answers": {
-            "main": "66",
+            "main": "Azariah",
             "subs": []
           }
         },
         {
-          "main": "Who was thrown into a lions' den?",
+          "main": "What was Shadrach's original Hebrew name?",
           "subs": [],
           "answers": {
-            "main": "Daniel",
+            "main": "Hananiah",
             "subs": []
           }
         },
         {
-          "main": "What did Jesus feed five thousand people with?",
+          "main": "What title did the Babylonian official hold who oversaw Daniel's diet and training?",
           "subs": [],
           "answers": {
-            "main": "Five loaves and two fish",
+            "main": "Melzar",
             "subs": []
           }
         },
         {
-          "main": "Who built the ark?",
+          "main": "What sacred items did Nebuchadnezzar carry off from the temple in Jerusalem?",
           "subs": [],
           "answers": {
-            "main": "Noah",
+            "main": "Vessels (gold and silver bowls or pans)",
             "subs": []
           }
         },
         {
-          "main": "What is the first commandment?",
+          "main": "What did Nebuchadnezzar threaten to turn his wise men's houses into if they failed him?",
           "subs": [],
           "answers": {
-            "main": "You shall have no other gods before Me",
+            "main": "Dunghill (heaps of rubble/stones)",
             "subs": []
           }
         },
         {
-          "main": "Who was sold into slavery by his brothers?",
+          "main": "Who was the captain of the king's guard ordered to execute the wise men?",
           "subs": [],
           "answers": {
-            "main": "Joseph",
+            "main": "Arioch",
             "subs": []
           }
         },
         {
-          "main": "What river was Jesus baptized in?",
+          "main": "What material, mixed with iron, formed the feet of the statue in Nebuchadnezzar's dream?",
           "subs": [],
           "answers": {
-            "main": "Jordan",
+            "main": "Clay",
             "subs": []
           }
         },
         {
-          "main": "Who wrote most of the Psalms?",
+          "main": "What metal formed the chest and arms of the statue?",
           "subs": [],
           "answers": {
-            "main": "David",
+            "main": "Silver",
+            "subs": []
+          }
+        },
+        {
+          "main": "What object crushed the entire statue and grew into a great mountain?",
+          "subs": [],
+          "answers": {
+            "main": "Stone",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did Daniel and his three friends do together before God revealed the dream's meaning?",
+          "subs": [],
+          "answers": {
+            "main": "Prayed",
+            "subs": []
+          }
+        },
+        {
+          "main": "How tall, in cubits, was the golden image Nebuchadnezzar built in chapter 3?",
+          "subs": [],
+          "answers": {
+            "main": "Sixty",
+            "subs": []
+          }
+        },
+        {
+          "main": "What happened to the soldiers who threw Shadrach, Meshach, and Abednego into the furnace?",
+          "subs": [],
+          "answers": {
+            "main": "Died",
+            "subs": []
+          }
+        },
+        {
+          "main": "Whom did the fourth figure in the fiery furnace resemble, according to Nebuchadnezzar?",
+          "subs": [],
+          "answers": {
+            "main": "Son of God",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did Daniel interpret, that saved his life and the lives of all the officials?",
+          "subs": [],
+          "answers": {
+            "main": "Dream",
+            "subs": []
+          }
+        },
+        {
+          "main": "What returned to Nebuchadnezzar at the end of his madness?",
+          "subs": [],
+          "answers": {
+            "main": "Sanity",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did Nebuchadnezzar do immediately after his reason was restored, directed toward heaven?",
+          "subs": [],
+          "answers": {
+            "main": "Blessed/Praised the Lord",
+            "subs": []
+          }
+        },
+        {
+          "main": "What was the mysterious object that wrote on Belshazzar's wall made of?",
+          "subs": [],
+          "answers": {
+            "main": "Fingers (hand)",
+            "subs": []
+          }
+        },
+        {
+          "main": "Who succeeded Belshazzar as ruler of Babylon that very night?",
+          "subs": [],
+          "answers": {
+            "main": "Darius",
             "subs": []
           }
         }
       ]
     },
     {
-      "id": "people-and-places",
-      "name": "People & Places",
+      "id": "esther",
+      "name": "Esther",
       "blocks": [
         {
-          "main": "Where was Jesus born?",
+          "main": "What was the name of the Persian king in Esther's story, husband to Vashti and later Esther?",
           "subs": [],
           "answers": {
-            "main": "Bethlehem",
+            "main": "Ahasuerus",
             "subs": []
           }
         },
         {
-          "main": "Who was the Roman governor at Jesus' trial?",
+          "main": "Over how many provinces did this king reign, from India to Ethiopia?",
           "subs": [],
           "answers": {
-            "main": "Pontius Pilate",
+            "main": "127",
             "subs": []
           }
         },
         {
-          "main": "What city did Joshua march around seven times?",
+          "main": "How many days did the king's first feast, for his nobles and princes, last?",
           "subs": [],
           "answers": {
-            "main": "Jericho",
+            "main": "180",
             "subs": []
           }
         },
         {
-          "main": "Who was the mother of John the Baptist?",
+          "main": "Name one of the colors of the hangings in the palace garden during the king's feast.",
           "subs": [],
           "answers": {
-            "main": "Elizabeth",
+            "main": "White/blue/green/purple",
             "subs": []
           }
         },
         {
-          "main": "Where did Paul have his vision of a man from Macedonia?",
+          "main": "Which of the king's wise men advised deposing Queen Vashti?",
           "subs": [],
           "answers": {
-            "main": "Troas",
+            "main": "Memucan",
             "subs": []
           }
         },
         {
-          "main": "Who was the high priest when Jesus was arrested?",
+          "main": "What was the name of Esther's father, mentioned briefly in chapter 2?",
           "subs": [],
           "answers": {
-            "main": "Caiaphas",
+            "main": "Abihail",
             "subs": []
           }
         },
         {
-          "main": "What mountain did Moses receive the law on?",
+          "main": "How many months of beauty treatments did candidates undergo before appearing before the king?",
           "subs": [],
           "answers": {
-            "main": "Sinai",
+            "main": "Twelve",
             "subs": []
           }
         },
         {
-          "main": "Who was the first martyr in the New Testament?",
+          "main": "In which month of the Persian calendar was Esther finally brought before the king?",
           "subs": [],
           "answers": {
-            "main": "Stephen",
+            "main": "Tebeth",
             "subs": []
           }
         },
         {
-          "main": "What island was Paul shipwrecked on?",
+          "main": "Name one of the two chamberlains whose assassination plot Mordecai uncovered.",
           "subs": [],
           "answers": {
-            "main": "Malta",
+            "main": "Bigthan (or Teresh)",
             "subs": []
           }
         },
         {
-          "main": "Who hid the spies in Jericho?",
+          "main": "In which month was the destruction of the Jews originally scheduled to take place?",
           "subs": [],
           "answers": {
-            "main": "Rahab",
+            "main": "Adar",
+            "subs": []
+          }
+        },
+        {
+          "main": "What was the name of Esther's servant who relayed messages between her and Mordecai?",
+          "subs": [],
+          "answers": {
+            "main": "Hathach",
+            "subs": []
+          }
+        },
+        {
+          "main": "Where did Mordecai sit, unable to enter because he wore sackcloth?",
+          "subs": [],
+          "answers": {
+            "main": "Gate",
+            "subs": []
+          }
+        },
+        {
+          "main": "In which court of the palace did Esther stand when she approached the king uninvited?",
+          "subs": [],
+          "answers": {
+            "main": "Inner",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did the king offer Esther, up to half of, during their first banquet conversation?",
+          "subs": [],
+          "answers": {
+            "main": "Kingdom",
+            "subs": []
+          }
+        },
+        {
+          "main": "What drink is specifically mentioned as being served at Esther's banquets?",
+          "subs": [],
+          "answers": {
+            "main": "Wine",
+            "subs": []
+          }
+        },
+        {
+          "main": "What emotion filled Haman when he saw Mordecai refuse to bow at the gate?",
+          "subs": [],
+          "answers": {
+            "main": "Indignation/rage",
+            "subs": []
+          }
+        },
+        {
+          "main": "Besides his wife Zeresh, whom else did Haman call together to boast about his status?",
+          "subs": [],
+          "answers": {
+            "main": "Friends",
+            "subs": []
+          }
+        },
+        {
+          "main": "What, besides his riches, did Haman boast about regarding his family?",
+          "subs": [],
+          "answers": {
+            "main": "Sons",
+            "subs": []
+          }
+        },
+        {
+          "main": "What single-word rule did the king's decree, after deposing Vashti, establish for every household?",
+          "subs": [],
+          "answers": {
+            "main": "Rule (master)",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did Esther request the people of Israel to do for her in her quest to see the king?",
+          "subs": [],
+          "answers": {
+            "main": "Fast",
             "subs": []
           }
         }
       ]
     },
     {
-      "id": "stories-and-miracles",
-      "name": "Stories & Miracles",
+      "id": "exodus",
+      "name": "Exodus",
       "blocks": [
         {
-          "main": "Who walked on water?",
+          "main": "What was the name of the second Hebrew midwife, alongside Shiphrah?",
           "subs": [],
           "answers": {
-            "main": "Peter (and Jesus)",
+            "main": "Puah",
             "subs": []
           }
         },
         {
-          "main": "What did Jesus raise Lazarus from?",
+          "main": "How many persons total, descended from Jacob, originally came down to Egypt?",
           "subs": [],
           "answers": {
-            "main": "Death (after four days)",
+            "main": "Seventy",
             "subs": []
           }
         },
         {
-          "main": "Who was healed of leprosy by Elisha?",
+          "main": "What did Pharaoh command be done with Hebrew daughters, in contrast to sons?",
           "subs": [],
           "answers": {
-            "main": "Naaman",
+            "main": "Live (not to be killed)",
             "subs": []
           }
         },
         {
-          "main": "What did Moses' rod turn into before Pharaoh?",
+          "main": "What sealant, along with slime, did Moses' mother use to waterproof his basket?",
           "subs": [],
           "answers": {
-            "main": "A serpent",
+            "main": "Pitch",
             "subs": []
           }
         },
         {
-          "main": "Who was healed when she touched Jesus' garment?",
+          "main": "What did the name \"Moses\" mean, according to Pharaoh's daughter's explanation?",
           "subs": [],
           "answers": {
-            "main": "The woman with the issue of blood",
+            "main": "Drawn",
             "subs": []
           }
         },
         {
-          "main": "What did Jesus do at the wedding in Cana?",
+          "main": "What act had Moses committed the day before, which the quarreling Hebrew referenced when confronting him?",
           "subs": [],
           "answers": {
-            "main": "Turned water into wine",
+            "main": "Killed/Murder",
             "subs": []
           }
         },
         {
-          "main": "Who was healed at the Pool of Bethesda?",
+          "main": "How many daughters did the priest of Midian have, who came to draw water at the well?",
           "subs": [],
           "answers": {
-            "main": "A man who had been invalid 38 years",
+            "main": "Seven",
             "subs": []
           }
         },
         {
-          "main": "What happened when Paul and Silas sang in prison?",
+          "main": "What was the name of Moses' father-in-law, priest of Midian, also called Reuel?",
           "subs": [],
           "answers": {
-            "main": "An earthquake opened the doors",
+            "main": "Jethro",
             "subs": []
           }
         },
         {
-          "main": "Who was swallowed by a great fish?",
+          "main": "What was the name of Moses' firstborn son, born in Midian?",
           "subs": [],
           "answers": {
-            "main": "Jonah",
+            "main": "Gershom",
             "subs": []
           }
         },
         {
-          "main": "What did Jesus do on the cross for the thief?",
+          "main": "What did the name of Moses' son mean, reflecting his father's status as a foreigner?",
           "subs": [],
           "answers": {
-            "main": "Promised him paradise",
+            "main": "Stranger",
+            "subs": []
+          }
+        },
+        {
+          "main": "What part of the wilderness did Moses lead his flock to before reaching Horeb?",
+          "subs": [],
+          "answers": {
+            "main": "Backside",
+            "subs": []
+          }
+        },
+        {
+          "main": "Name one of the nations God said inhabited the promised land, as listed at the burning bush.",
+          "subs": [],
+          "answers": {
+            "main": "Canaanites",
+            "subs": []
+          }
+        },
+        {
+          "main": "What food, paired with milk, described the abundance of the promised land?",
+          "subs": [],
+          "answers": {
+            "main": "Honey",
+            "subs": []
+          }
+        },
+        {
+          "main": "What sacred name did God give Himself to Moses, to be used forever as His memorial?",
+          "subs": [],
+          "answers": {
+            "main": "Jehovah",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did God promise the Israelites would take, or \"spoil,\" from the Egyptians as they left?",
+          "subs": [],
+          "answers": {
+            "main": "Jewelry/clothing",
+            "subs": []
+          }
+        },
+        {
+          "main": "What animal did Moses set his wife and sons on as he journeyed back toward Egypt?",
+          "subs": [],
+          "answers": {
+            "main": "Ass (donkey)",
+            "subs": []
+          }
+        },
+        {
+          "main": "What instruction did God give to Moses to give to Pharaoh?",
+          "subs": [],
+          "answers": {
+            "main": "Let my people go",
+            "subs": []
+          }
+        },
+        {
+          "main": "What object did Zipporah use to circumcise her son at the inn?",
+          "subs": [],
+          "answers": {
+            "main": "Stone (sharp flint)",
+            "subs": []
+          }
+        },
+        {
+          "main": "What was going to happen to Moses had Zipporah not circumcised her son?",
+          "subs": [],
+          "answers": {
+            "main": "Death",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did the Israelites do upon seeing Aaron's signs and hearing Moses' words in chapter 4?",
+          "subs": [],
+          "answers": {
+            "main": "Worshipped",
             "subs": []
           }
         }
       ]
     },
     {
-      "id": "scripture-and-truth",
-      "name": "Scripture & Truth",
+      "id": "first-samuel",
+      "name": "1 Samuel",
       "blocks": [
         {
-          "main": "What is the greatest commandment according to Jesus?",
+          "main": "In which hill-country town did Elkanah, Samuel's father, reside?",
           "subs": [],
           "answers": {
-            "main": "Love the Lord your God",
+            "main": "Ramathaim",
             "subs": []
           }
         },
         {
-          "main": "Who said, 'Here am I, send me'?",
+          "main": "What special portion did Elkanah give Hannah at the yearly sacrifice, despite her being childless?",
           "subs": [],
           "answers": {
-            "main": "Isaiah",
+            "main": "Double",
             "subs": []
           }
         },
         {
-          "main": "What book says, 'The Lord is my shepherd'?",
+          "main": "What object did Hannah vow would never touch her future son's head?",
           "subs": [],
           "answers": {
-            "main": "Psalms",
+            "main": "Razor",
             "subs": []
           }
         },
         {
-          "main": "Who wrote, 'Faith is the substance of things hoped for'?",
+          "main": "Where was Eli sitting when he first observed Hannah praying silently?",
           "subs": [],
           "answers": {
-            "main": "Paul (Hebrews)",
+            "main": "Post",
             "subs": []
           }
         },
         {
-          "main": "What fruit did Eve eat?",
+          "main": "What insulting term did Hannah ask Eli not to associate her with while defending herself?",
           "subs": [],
           "answers": {
-            "main": "Forbidden fruit from the tree of knowledge",
+            "main": "Belial",
             "subs": []
           }
         },
         {
-          "main": "Who said, 'My Lord and my God'?",
+          "main": "Besides a bullock and wine, what other food did Hannah bring when presenting young Samuel at Shiloh?",
           "subs": [],
           "answers": {
-            "main": "Thomas",
+            "main": "Flour",
             "subs": []
           }
         },
         {
-          "main": "What is the last book of the Bible?",
+          "main": "In Hannah's song of praise, what part of her body did she say was \"exalted in the LORD\"?",
           "subs": [],
           "answers": {
-            "main": "Revelation",
+            "main": "Horn",
             "subs": []
           }
         },
         {
-          "main": "Who said, 'Speak, Lord, for your servant is listening'?",
+          "main": "What special garment did Hannah make each year and bring to Samuel at Shiloh?",
           "subs": [],
           "answers": {
-            "main": "Samuel",
+            "main": "Coat",
             "subs": []
           }
         },
         {
-          "main": "What did Jesus say is the second greatest commandment?",
+          "main": "How many additional children did God bless Hannah with after she dedicated Samuel to His service?",
           "subs": [],
           "answers": {
-            "main": "Love your neighbor as yourself",
+            "main": "Five",
             "subs": []
           }
         },
         {
-          "main": "Who asked, 'How can a man be born when he is old'?",
+          "main": "What condition affected Eli's eyesight as he aged, mentioned at the start of chapter 3?",
           "subs": [],
           "answers": {
-            "main": "Nicodemus",
+            "main": "Dim (half blind)",
+            "subs": []
+          }
+        },
+        {
+          "main": "Where exactly was Samuel sleeping when the LORD first called out to him at night?",
+          "subs": [],
+          "answers": {
+            "main": "Temple",
+            "subs": []
+          }
+        },
+        {
+          "main": "Whom did Eli finally realize was calling out to young Samuel?",
+          "subs": [],
+          "answers": {
+            "main": "The LORD",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did Eli demand Samuel not hide from him the next morning?",
+          "subs": [],
+          "answers": {
+            "main": "Vision",
+            "subs": []
+          }
+        },
+        {
+          "main": "What title did all Israel, from Dan to Beersheba, eventually recognize Samuel by?",
+          "subs": [],
+          "answers": {
+            "main": "Prophet",
+            "subs": []
+          }
+        },
+        {
+          "main": "About how many Israelite soldiers died in the first battle against the Philistines, before the ark was brought out?",
+          "subs": [],
+          "answers": {
+            "main": "4,000",
+            "subs": []
+          }
+        },
+        {
+          "main": "Who did the Philistines fear had appeared when they heard Israel's mighty shout as the ark entered the camp?",
+          "subs": [],
+          "answers": {
+            "main": "A god",
+            "subs": []
+          }
+        },
+        {
+          "main": "How many footmen died in Israel's second, far more disastrous battle against the Philistines?",
+          "subs": [],
+          "answers": {
+            "main": "30,000",
+            "subs": []
+          }
+        },
+        {
+          "main": "How old was Eli when he died, according to the text?",
+          "subs": [],
+          "answers": {
+            "main": "98",
+            "subs": []
+          }
+        },
+        {
+          "main": "How many years had Eli judged Israel before his death?",
+          "subs": [],
+          "answers": {
+            "main": "Forty",
+            "subs": []
+          }
+        },
+        {
+          "main": "What word describes Dagon's demise after his second fall before the ark?",
+          "subs": [],
+          "answers": {
+            "main": "Broken (damaged/destroyed)",
             "subs": []
           }
         }

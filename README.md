@@ -33,10 +33,10 @@ Question content lives in `content/round1.json` through `content/round5.json`.
 | Round | Format |
 | --- | --- |
 | 1 | Sets A/B/C — pick a category, 3 blocks × (main + 2 subs) |
-| 2 | Books of the Bible — 4 categories, same block structure as Round 1 |
-| 3 | 60s rapid fire — 4 categories × 10 questions, use Timer Control |
-| 4 | Riddles — 5 riddles; first three clues are very difficult, fourth clue is clearer |
-| 5 | Money round (winner only) — multiple choice + GHS ladder |
+| 2 | Pick a book — 4 books, 5 questions each (main + 2 subs) |
+| 3 | 60s blitz — 4 books (Daniel, Esther, Exodus, 1 Samuel), 20 questions each; use Timer Control |
+| 4 | Riddles — 6 riddles; first three clues are very difficult, fourth clue is clearer |
+| 5 | Who Wants to Be a Champion? — winner only, 15 multiple choice + GHS ladder |
 
 ## Quiz Host
 

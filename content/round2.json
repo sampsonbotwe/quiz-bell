@@ -1,194 +1,306 @@
 {
   "round": 2,
-  "title": "Round 2 — Books of the Bible",
+  "title": "Round 2 — Pick a Book",
   "categories": [
     {
-      "id": "the-pentateuch",
-      "name": "The Pentateuch",
+      "id": "daniel",
+      "name": "Daniel",
       "blocks": [
         {
-          "main": "In which book is the creation of the world recorded?",
+          "main": "What Babylonian name was given to Daniel by the chief of the eunuchs?",
           "subs": [
-            "In which book does God establish the covenant with Abraham?",
-            "In which book is the story of Joseph and his coat of many colors?"
+            "What simple food, along with water, did Daniel request instead of the king's rich food and wine?",
+            "Who was the chief of the eunuchs in charge of Daniel and his friends?"
           ],
           "answers": {
-            "main": "Genesis",
+            "main": "Belteshazzar",
             "subs": [
-              "Genesis",
-              "Genesis"
+              "Pulse/vegetables/plants",
+              "Ashpenaz"
             ]
           }
         },
         {
-          "main": "In which book does Moses lead Israel through the Red Sea?",
+          "main": "What metal formed the head of the great image in Nebuchadnezzar's dream?",
           "subs": [
-            "In which book are detailed laws about leprosy and cleanliness given?",
-            "In which book does God give the Ten Commandments?"
+            "What metal, mixed with clay, formed the feet of the image?",
+            "What did Nebuchadnezzar do before Daniel after hearing the dream's interpretation, showing reverence?"
           ],
           "answers": {
-            "main": "Exodus",
+            "main": "Gold",
             "subs": [
-              "Leviticus",
-              "Exodus"
+              "Iron",
+              "Worshipped"
             ]
           }
         },
         {
-          "main": "In which book do the Israelites count and organize tribes for the journey?",
+          "main": "How many times hotter did Nebuchadnezzar order the furnace heated for Shadrach, Meshach, and Abednego?",
           "subs": [
-            "In which book does Moses repeat the law before entering Canaan?",
-            "In which book is the bronze serpent lifted in the wilderness?"
+            "On what plain did Nebuchadnezzar set up his golden image?",
+            "How many men did the king see walking unbound inside the fiery furnace?"
           ],
           "answers": {
-            "main": "Numbers",
+            "main": "Seven",
             "subs": [
-              "Deuteronomy",
-              "Numbers"
+              "Plain of Dura",
+              "Four"
+            ]
+          }
+        },
+        {
+          "main": "What kind of creature did Nebuchadnezzar's mind become like for seven years, per Daniel's interpretation?",
+          "subs": [
+            "What metal, besides iron, bound the stump of the tree in Nebuchadnezzar's dream?",
+            "What grew on Nebuchadnezzar's body like a bird's claws during his period of madness?"
+          ],
+          "answers": {
+            "main": "Beast",
+            "subs": [
+              "Brass",
+              "Nails"
+            ]
+          }
+        },
+        {
+          "main": "What mysteriously appeared on the wall during Belshazzar's feast?",
+          "subs": [
+            "What rank, meaning roughly \"third in command,\" did Belshazzar offer Daniel for the interpretation?",
+            "Which people took over Belshazzar's kingdom that very night?"
+          ],
+          "answers": {
+            "main": "Writing (MENE, MENE, TEKEL, UPHARSIN)",
+            "subs": [
+              "Third",
+              "Medes"
             ]
           }
         }
       ]
     },
     {
-      "id": "kings-and-prophets",
-      "name": "Kings & Prophets",
+      "id": "esther",
+      "name": "Esther",
       "blocks": [
         {
-          "main": "In which book does Saul become the first king of Israel?",
+          "main": "In which capital city did King Ahasuerus hold his great feast for all his officials?",
           "subs": [
-            "In which book does Solomon ask God for wisdom?",
-            "In which book does Elijah call fire from heaven?"
+            "How many days did the king's feast for all the people of Shushan last?",
+            "What did Queen Vashti refuse to do when the king summoned her before his guests?"
           ],
           "answers": {
-            "main": "1 Samuel",
+            "main": "Shushan",
             "subs": [
-              "1 Kings",
-              "1 Kings"
+              "Seven",
+              "Refused to appear"
             ]
           }
         },
         {
-          "main": "In which book is the fall of Jerusalem to Babylon recorded?",
+          "main": "What was Esther's other, original Hebrew name?",
           "subs": [
-            "In which book does Isaiah prophesy about a virgin bearing a son?",
-            "In which book does Jonah preach to Nineveh?"
+            "Who was the keeper of the women whose favor Esther won during her preparation?",
+            "What did Mordecai uncover involving two of the king's chamberlains, which he reported through Esther?"
           ],
           "answers": {
-            "main": "2 Kings",
+            "main": "Hadassah",
             "subs": [
-              "Isaiah",
-              "Jonah"
+              "Hegai",
+              "Assassination plot"
             ]
           }
         },
         {
-          "main": "In which book does Esther become queen?",
+          "main": "What method did Haman use to choose the date for destroying the Jews?",
           "subs": [
-            "In which book does Nehemiah rebuild the walls of Jerusalem?",
-            "In which book does Daniel interpret the writing on the wall?"
+            "What was Haman's ethnic title, as given in the text?",
+            "How many talents of silver did Haman offer the king to carry out his plan?"
           ],
           "answers": {
-            "main": "Esther",
+            "main": "Pur",
             "subs": [
-              "Nehemiah",
-              "Daniel"
+              "Agagite",
+              "10,000"
+            ]
+          }
+        },
+        {
+          "main": "What did Mordecai wear as a sign of mourning after learning of the decree against the Jews?",
+          "subs": [
+            "What object did the king extend to allow someone to approach his throne unsummoned?",
+            "What did Esther ask the Jews of Shushan to do for three days before she approached the king?"
+          ],
+          "answers": {
+            "main": "Sackcloth",
+            "subs": [
+              "Scepter",
+              "Fast"
+            ]
+          }
+        },
+        {
+          "main": "What did Esther prepare and invite the king and Haman to, twice, before revealing her true request?",
+          "subs": [
+            "How many cubits tall was the gallows Haman had built for Mordecai?",
+            "What was the name of Haman's wife, who advised him to build the gallows?"
+          ],
+          "answers": {
+            "main": "Banquet",
+            "subs": [
+              "Fifty",
+              "Zeresh"
             ]
           }
         }
       ]
     },
     {
-      "id": "the-gospels",
-      "name": "The Gospels",
+      "id": "exodus",
+      "name": "Exodus",
       "blocks": [
         {
-          "main": "In which Gospel is Jesus' genealogy traced back to Abraham?",
+          "main": "Name one of the two Hebrew midwives who refused to kill the newborn baby boys.",
           "subs": [
-            "In which Gospel is Jesus called the Word who became flesh?",
-            "In which Gospel are the Beatitudes recorded in the Sermon on the Mount?"
+            "Name one of the two store cities the Israelites were forced to build for Pharaoh.",
+            "What building material, along with mortar, did the Egyptians force the Israelites to work with?"
           ],
           "answers": {
-            "main": "Matthew",
+            "main": "Shiphrah (or Puah)",
             "subs": [
-              "John",
-              "Matthew"
+              "Pithom (or Raamses)",
+              "Brick"
             ]
           }
         },
         {
-          "main": "In which Gospel does Jesus calm the storm on the Sea of Galilee?",
+          "main": "What material was the basket made of that Moses' mother placed him in on the river?",
           "subs": [
-            "In which Gospel is the parable of the Good Samaritan found?",
-            "In which Gospel does Jesus feed five thousand with five loaves?"
+            "What relation to Pharaoh was the woman who found and adopted baby Moses?",
+            "In which land did Moses settle and marry Zipporah after fleeing Egypt?"
           ],
           "answers": {
-            "main": "Mark",
+            "main": "Bulrushes",
             "subs": [
-              "Luke",
-              "John"
+              "Daughter",
+              "Midian"
             ]
           }
         },
         {
-          "main": "In which Gospel is Jesus' birth announced to shepherds?",
+          "main": "What was burning but not being consumed when God first appeared to Moses?",
           "subs": [
-            "In which Gospel does Thomas doubt until he sees Jesus' wounds?",
-            "In which Gospel is the Great Commission given on a mountain in Galilee?"
+            "What did God tell Moses to remove from his feet, since he stood on holy ground?",
+            "On which mountain did Moses encounter the burning bush?"
           ],
           "answers": {
-            "main": "Luke",
+            "main": "Bush",
             "subs": [
-              "John",
-              "Matthew"
+              "Shoes",
+              "Horeb"
+            ]
+          }
+        },
+        {
+          "main": "What did Moses' rod turn into as the first sign God gave him?",
+          "subs": [
+            "What skin condition briefly affected Moses' hand as the second sign?",
+            "Whom did God appoint to speak for Moses, since Moses said he was slow of speech?"
+          ],
+          "answers": {
+            "main": "Serpent",
+            "subs": [
+              "Leprosy",
+              "Aaron"
+            ]
+          }
+        },
+        {
+          "main": "What building material did Pharaoh stop supplying the Israelites, forcing them to gather it themselves?",
+          "subs": [
+            "What were the Israelite officers beaten for failing to meet, once straw was withheld?",
+            "What did Pharaoh call the Israelites when Moses and Aaron asked for time to worship?"
+          ],
+          "answers": {
+            "main": "Straw",
+            "subs": [
+              "Bricks",
+              "Idle"
             ]
           }
         }
       ]
     },
     {
-      "id": "letters-and-revelation",
-      "name": "Letters & Revelation",
+      "id": "first-samuel",
+      "name": "1 Samuel",
       "blocks": [
         {
-          "main": "In which letter does Paul explain salvation by faith, not works of the law?",
+          "main": "What was the name of Elkanah's barren wife who prayed fervently for a son?",
           "subs": [
-            "In which letter is the 'love chapter' (1 Corinthians 13) found?",
-            "In which letter does Paul list the fruit of the Spirit?"
+            "What was the name of Elkanah's other wife, who provoked Hannah over her childlessness?",
+            "What did Eli initially mistake Hannah's silently moving lips for?"
           ],
           "answers": {
-            "main": "Romans",
+            "main": "Hannah",
             "subs": [
-              "1 Corinthians",
-              "Galatians"
+              "Peninnah",
+              "Drunk"
             ]
           }
         },
         {
-          "main": "In which letter is faith without works called dead?",
+          "main": "What did Hannah offer after dedicating Samuel to the Lord, exalting God's power and might?",
           "subs": [
-            "In which letter does Paul describe the armor of God?",
-            "In which letter is Jesus called the high priest after the order of Melchizedek?"
+            "What tool did Eli's sons use to forcibly seize the best portions of sacrificial meat?",
+            "What garment did the boy Samuel wear while ministering before the Lord?"
           ],
           "answers": {
-            "main": "James",
+            "main": "Song",
             "subs": [
-              "Ephesians",
-              "Hebrews"
+              "Fleshhook",
+              "Ephod"
             ]
           }
         },
         {
-          "main": "In which book are the seven churches of Asia addressed?",
+          "main": "How many times in total did the Lord call out to young Samuel in the night?",
           "subs": [
-            "In which book is the new heaven and new earth described?",
-            "In which letter does Jude warn about false teachers?"
+            "What single word did Eli instruct Samuel to say in reply to the Lord's voice?",
+            "What object in the temple was described as \"not yet gone out,\" indicating it was still night?"
           ],
           "answers": {
-            "main": "Revelation",
+            "main": "Four",
             "subs": [
-              "Revelation",
-              "Jude"
+              "Speak",
+              "Lamp"
+            ]
+          }
+        },
+        {
+          "main": "At what location did Israel camp before their fateful battle with the Philistines?",
+          "subs": [
+            "What sacred object did the Israelites bring from Shiloh, hoping it would grant them victory?",
+            "What name did Phinehas' wife give her newborn son upon hearing of Israel's defeat?"
+          ],
+          "answers": {
+            "main": "Ebenezer",
+            "subs": [
+              "Ark",
+              "Ichabod"
+            ]
+          }
+        },
+        {
+          "main": "In which Philistine city did the statue of the god Dagon topple before the captured ark?",
+          "subs": [
+            "What affliction did the Lord strike the Philistines with after they captured the ark?",
+            "To which second Philistine city was the ark sent after Ashdod, also suffering destruction?"
+          ],
+          "answers": {
+            "main": "Ashdod",
+            "subs": [
+              "Emerods",
+              "Gath"
             ]
           }
         }

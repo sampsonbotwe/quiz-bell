@@ -1,6 +1,6 @@
 {
   "round": 5,
-  "title": "Round 5 — Money Round",
+  "title": "Round 5 — Who Wants to Be a Champion?",
   "winnerOnly": true,
   "currency": "GHS",
   "totalPool": 1000,
@@ -72,211 +72,211 @@
       "id": 1,
       "step": 1,
       "amount": 10,
-      "question": "Who was the first woman God created?",
+      "question": "What do Christians call the day Jesus rose from the dead?",
       "options": [
-        "Eve",
-        "Sarah",
-        "Ruth",
-        "Mary"
+        "Good Friday",
+        "Palm Sunday",
+        "Easter",
+        "Pentecost"
       ],
-      "correctIndex": 0,
-      "correctAnswer": "Eve"
+      "correctIndex": 2,
+      "correctAnswer": "Easter"
     },
     {
       "id": 2,
       "step": 2,
       "amount": 15,
-      "question": "Which sea did Moses part for Israel to cross?",
+      "question": "Which of these is one of the Ten Commandments?",
       "options": [
-        "Red Sea",
-        "Dead Sea",
-        "Mediterranean Sea",
-        "Sea of Galilee"
+        "Thou shalt not steal",
+        "Thou shalt not sleep late",
+        "Thou shalt not travel",
+        "Thou shalt not sing"
       ],
       "correctIndex": 0,
-      "correctAnswer": "Red Sea"
+      "correctAnswer": "Thou shalt not steal"
     },
     {
       "id": 3,
       "step": 3,
       "amount": 25,
-      "question": "Who denied Jesus three times before the rooster crowed?",
+      "question": "What is the last book of the Bible?",
       "options": [
-        "Judas",
-        "Peter",
-        "Thomas",
-        "John"
+        "Jude",
+        "Revelation",
+        "Acts",
+        "Hebrews"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Peter"
+      "correctAnswer": "Revelation"
     },
     {
       "id": 4,
       "step": 4,
       "amount": 35,
-      "question": "What is the first book of the New Testament?",
+      "question": "What is the prayer Jesus taught His disciples commonly called?",
       "options": [
-        "Mark",
-        "Luke",
-        "Matthew",
-        "Acts"
+        "The Beatitudes",
+        "The Lord's Prayer",
+        "The Great Commission",
+        "The Sermon on the Mount"
       ],
-      "correctIndex": 2,
-      "correctAnswer": "Matthew"
+      "correctIndex": 1,
+      "correctAnswer": "The Lord's Prayer"
     },
     {
       "id": 5,
       "step": 5,
       "amount": 40,
-      "question": "Who interpreted the writing on the wall for Belshazzar?",
+      "question": "Which Christian holiday celebrates the birth of Jesus?",
       "options": [
-        "Daniel",
-        "Joseph",
-        "Ezra",
-        "Jeremiah"
+        "Easter",
+        "Christmas",
+        "Thanksgiving",
+        "Advent"
       ],
-      "correctIndex": 0,
-      "correctAnswer": "Daniel"
+      "correctIndex": 1,
+      "correctAnswer": "Christmas"
     },
     {
       "id": 6,
       "step": 6,
       "amount": 50,
-      "question": "On what day of creation did God create human beings?",
+      "question": "Which short Old Testament book tells the story of a Moabite woman's loyalty to her mother-in-law?",
       "options": [
-        "Day 5",
-        "Day 6",
-        "Day 7",
-        "Day 3"
+        "Esther",
+        "Ruth",
+        "Judges",
+        "Joshua"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Day 6"
+      "correctAnswer": "Ruth"
     },
     {
       "id": 7,
       "step": 7,
       "amount": 60,
-      "question": "Who was the father of John the Baptist?",
+      "question": "What event does the Christian festival of Pentecost celebrate?",
       "options": [
-        "Joseph",
-        "Zechariah",
-        "Simeon",
-        "Nicodemus"
+        "The resurrection of Jesus",
+        "The coming of the Holy Spirit",
+        "The birth of Jesus",
+        "The Last Supper"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Zechariah"
+      "correctAnswer": "The coming of the Holy Spirit"
     },
     {
       "id": 8,
       "step": 8,
       "amount": 65,
-      "question": "Which apostle doubted Jesus' resurrection until he saw the wounds?",
+      "question": "Which reformer is credited with sparking the Protestant Reformation by nailing 95 Theses to a church door?",
       "options": [
-        "Andrew",
-        "Philip",
-        "Thomas",
-        "Bartholomew"
+        "John Calvin",
+        "Martin Luther",
+        "John Wesley",
+        "Huldrych Zwingli"
       ],
-      "correctIndex": 2,
-      "correctAnswer": "Thomas"
+      "correctIndex": 1,
+      "correctAnswer": "Martin Luther"
     },
     {
       "id": 9,
       "step": 9,
       "amount": 75,
-      "question": "Who was the queen who saved the Jewish people from Haman?",
+      "question": "What is the name of the Christian creed that begins, \"I believe in God, the Father Almighty\"?",
       "options": [
-        "Jezebel",
-        "Esther",
-        "Deborah",
-        "Bathsheba"
+        "Nicene Creed",
+        "Apostles' Creed",
+        "Athanasian Creed",
+        "Westminster Confession"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Esther"
+      "correctAnswer": "Apostles' Creed"
     },
     {
       "id": 10,
       "step": 10,
       "amount": 85,
-      "question": "How many books are in the Old Testament?",
+      "question": "In which ancient language was the New Testament originally written?",
       "options": [
-        "27",
-        "39",
-        "66",
-        "73"
+        "Latin",
+        "Hebrew",
+        "Greek",
+        "Aramaic"
       ],
-      "correctIndex": 1,
-      "correctAnswer": "39"
+      "correctIndex": 2,
+      "correctAnswer": "Greek"
     },
     {
       "id": 11,
       "step": 11,
       "amount": 90,
-      "question": "Who was the tax collector Jesus called from a tree?",
+      "question": "Which African country is home to one of the oldest Christian traditions in the world, the Ethiopian Orthodox Church?",
       "options": [
-        "Matthew",
-        "Zacchaeus",
-        "Levi",
-        "Simon"
+        "Kenya",
+        "Ethiopia",
+        "Nigeria",
+        "Ghana"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Zacchaeus"
+      "correctAnswer": "Ethiopia"
     },
     {
       "id": 12,
       "step": 12,
       "amount": 100,
-      "question": "Which prophet was taken up to heaven in a whirlwind?",
+      "question": "How many years did Jacob work for Laban in total to marry both Leah and Rachel?",
       "options": [
-        "Elisha",
-        "Elijah",
-        "Enoch",
-        "Isaiah"
+        "7",
+        "10",
+        "14",
+        "20"
       ],
-      "correctIndex": 1,
-      "correctAnswer": "Elijah"
+      "correctIndex": 2,
+      "correctAnswer": "14"
     },
     {
       "id": 13,
       "step": 13,
       "amount": 110,
-      "question": "What did Jesus say to the storm on the Sea of Galilee?",
+      "question": "What was the name of Joseph's Egyptian wife, given to him by Pharaoh?",
       "options": [
-        "Be gone",
-        "Peace, be still",
-        "Calm yourselves",
-        "Why are you afraid?"
+        "Asenath",
+        "Zipporah",
+        "Rahab",
+        "Tamar"
       ],
-      "correctIndex": 1,
-      "correctAnswer": "Peace, be still"
+      "correctIndex": 0,
+      "correctAnswer": "Asenath"
     },
     {
       "id": 14,
       "step": 14,
       "amount": 115,
-      "question": "Who wrote the book of Acts?",
+      "question": "Who is the General Overseer of Calvary Charismatic Church Global?",
       "options": [
-        "Paul",
-        "Peter",
-        "Luke",
-        "John"
+        "Pastor Sammy Aduamah",
+        "Lady Getrude Aduamah",
+        "Pastor Joshua Obeng",
+        "Pastor Ransford Obeng"
       ],
-      "correctIndex": 2,
-      "correctAnswer": "Luke"
+      "correctIndex": 3,
+      "correctAnswer": "Pastor Ransford Obeng"
     },
     {
       "id": 15,
       "step": 15,
       "amount": 125,
-      "question": "What is the last word of the Bible in most English translations?",
+      "question": "What year was CCC established?",
       "options": [
-        "Amen",
-        "Come",
-        "Forever",
-        "Light"
+        "1990",
+        "1945",
+        "1985",
+        "1920"
       ],
-      "correctIndex": 0,
-      "correctAnswer": "Amen"
+      "correctIndex": 2,
+      "correctAnswer": "1985"
     }
   ]
 }
