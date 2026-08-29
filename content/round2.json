@@ -7,36 +7,45 @@
       "name": "The Pentateuch",
       "blocks": [
         {
-          "main": "In which book of the Bible do we read about God creating the heavens and the earth in six days?",
+          "main": "In which book is the creation of the world recorded?",
           "subs": [
-            "In which book does Moses receive the Ten Commandments on Mount Sinai?",
-            "In which book is the story of Noah building the ark and the great flood recorded?"
+            "In which book does God establish the covenant with Abraham?",
+            "In which book is the story of Joseph and his coat of many colors?"
           ],
           "answers": {
             "main": "Genesis",
-            "subs": ["Exodus", "Genesis"]
+            "subs": [
+              "Genesis",
+              "Genesis"
+            ]
           }
         },
         {
-          "main": "In which book does God part the Red Sea so Israel can escape from Egypt?",
+          "main": "In which book does Moses lead Israel through the Red Sea?",
           "subs": [
-            "In which book are the laws of sacrifice, priesthood, and ritual purity laid out in detail?",
-            "In which book does Moses deliver his farewell speeches before Israel enters the Promised Land?"
+            "In which book are detailed laws about leprosy and cleanliness given?",
+            "In which book does God give the Ten Commandments?"
           ],
           "answers": {
             "main": "Exodus",
-            "subs": ["Leviticus", "Deuteronomy"]
+            "subs": [
+              "Leviticus",
+              "Exodus"
+            ]
           }
         },
         {
-          "main": "In which book does Jacob wrestle with a man at night and receive the name Israel?",
+          "main": "In which book do the Israelites count and organize tribes for the journey?",
           "subs": [
-            "In which book do the Israelites wander in the wilderness for forty years after leaving Egypt?",
-            "In which book does Joseph interpret Pharaoh's dreams of seven fat cows and seven lean cows?"
+            "In which book does Moses repeat the law before entering Canaan?",
+            "In which book is the bronze serpent lifted in the wilderness?"
           ],
           "answers": {
-            "main": "Genesis",
-            "subs": ["Numbers", "Genesis"]
+            "main": "Numbers",
+            "subs": [
+              "Deuteronomy",
+              "Numbers"
+            ]
           }
         }
       ]
@@ -46,36 +55,45 @@
       "name": "Kings & Prophets",
       "blocks": [
         {
-          "main": "In which book is David anointed king and later defeats the giant Goliath?",
+          "main": "In which book does Saul become the first king of Israel?",
           "subs": [
-            "In which book does Solomon build the Temple in Jerusalem?",
-            "In which book does Queen Esther save the Jewish people from Haman's plot?"
+            "In which book does Solomon ask God for wisdom?",
+            "In which book does Elijah call fire from heaven?"
           ],
           "answers": {
             "main": "1 Samuel",
-            "subs": ["1 Kings", "Esther"]
+            "subs": [
+              "1 Kings",
+              "1 Kings"
+            ]
           }
         },
         {
-          "main": "In which book does the prophet Elijah challenge the prophets of Baal on Mount Carmel?",
+          "main": "In which book is the fall of Jerusalem to Babylon recorded?",
           "subs": [
-            "In which book does Elisha receive a double portion of Elijah's spirit?",
-            "In which book does Isaiah prophesy that a virgin will conceive and bear a son called Immanuel?"
+            "In which book does Isaiah prophesy about a virgin bearing a son?",
+            "In which book does Jonah preach to Nineveh?"
           ],
           "answers": {
-            "main": "1 Kings",
-            "subs": ["2 Kings", "Isaiah"]
+            "main": "2 Kings",
+            "subs": [
+              "Isaiah",
+              "Jonah"
+            ]
           }
         },
         {
-          "main": "In which book is Daniel thrown into the lions' den but comes out unharmed?",
+          "main": "In which book does Esther become queen?",
           "subs": [
-            "In which book does Jonah spend three days in the belly of a great fish?",
-            "In which book does the prophet Micah foretell that Bethlehem will produce a ruler over Israel?"
+            "In which book does Nehemiah rebuild the walls of Jerusalem?",
+            "In which book does Daniel interpret the writing on the wall?"
           ],
           "answers": {
-            "main": "Daniel",
-            "subs": ["Jonah", "Micah"]
+            "main": "Esther",
+            "subs": [
+              "Nehemiah",
+              "Daniel"
+            ]
           }
         }
       ]
@@ -85,36 +103,45 @@
       "name": "The Gospels",
       "blocks": [
         {
-          "main": "In which Gospel do we read the detailed account of Jesus' birth, including the visit of the Magi?",
+          "main": "In which Gospel is Jesus' genealogy traced back to Abraham?",
           "subs": [
-            "In which Gospel is Jesus described as the Word who became flesh and dwelt among us?",
-            "In which Gospel — the shortest of the four — does Jesus calm a storm on the Sea of Galilee?"
+            "In which Gospel is Jesus called the Word who became flesh?",
+            "In which Gospel are the Beatitudes recorded in the Sermon on the Mount?"
           ],
           "answers": {
             "main": "Matthew",
-            "subs": ["John", "Mark"]
+            "subs": [
+              "John",
+              "Matthew"
+            ]
           }
         },
         {
-          "main": "In which Gospel does Jesus tell the parable of the Good Samaritan?",
+          "main": "In which Gospel does Jesus calm the storm on the Sea of Galilee?",
           "subs": [
-            "In which Gospel alone do we find the parable of the Prodigal Son?",
-            "In which Gospel does Jesus raise Lazarus from the dead after he had been in the tomb four days?"
+            "In which Gospel is the parable of the Good Samaritan found?",
+            "In which Gospel does Jesus feed five thousand with five loaves?"
+          ],
+          "answers": {
+            "main": "Mark",
+            "subs": [
+              "Luke",
+              "John"
+            ]
+          }
+        },
+        {
+          "main": "In which Gospel is Jesus' birth announced to shepherds?",
+          "subs": [
+            "In which Gospel does Thomas doubt until he sees Jesus' wounds?",
+            "In which Gospel is the Great Commission given on a mountain in Galilee?"
           ],
           "answers": {
             "main": "Luke",
-            "subs": ["Luke", "John"]
-          }
-        },
-        {
-          "main": "In which Gospel is the Sermon on the Mount recorded in full?",
-          "subs": [
-            "In which Gospel does Jesus appear to two disciples on the road to Emmaus after His resurrection?",
-            "In which Gospel does Peter walk on water toward Jesus during a storm?"
-          ],
-          "answers": {
-            "main": "Matthew",
-            "subs": ["Luke", "Matthew"]
+            "subs": [
+              "John",
+              "Matthew"
+            ]
           }
         }
       ]
@@ -124,36 +151,45 @@
       "name": "Letters & Revelation",
       "blocks": [
         {
-          "main": "In which book does Paul describe love as patient and kind in his famous \"love chapter\"?",
+          "main": "In which letter does Paul explain salvation by faith, not works of the law?",
           "subs": [
-            "In which book does Paul list the fruit of the Spirit?",
-            "In which book is the teaching that faith without works is dead found?"
+            "In which letter is the 'love chapter' (1 Corinthians 13) found?",
+            "In which letter does Paul list the fruit of the Spirit?"
           ],
           "answers": {
-            "main": "1 Corinthians",
-            "subs": ["Galatians", "James"]
+            "main": "Romans",
+            "subs": [
+              "1 Corinthians",
+              "Galatians"
+            ]
           }
         },
         {
-          "main": "In which book is Paul's dramatic conversion on the road to Damascus recorded?",
+          "main": "In which letter is faith without works called dead?",
           "subs": [
-            "In which book does Paul urge believers to put on the full armor of God?",
-            "In which book does Peter warn that the devil prowls around like a roaring lion?"
+            "In which letter does Paul describe the armor of God?",
+            "In which letter is Jesus called the high priest after the order of Melchizedek?"
           ],
           "answers": {
-            "main": "Acts",
-            "subs": ["Ephesians", "1 Peter"]
+            "main": "James",
+            "subs": [
+              "Ephesians",
+              "Hebrews"
+            ]
           }
         },
         {
-          "main": "In which book does John describe a new heaven, a new earth, and the holy city Jerusalem coming down?",
+          "main": "In which book are the seven churches of Asia addressed?",
           "subs": [
-            "In which book is faith defined as the substance of things hoped for, the evidence of things not seen?",
-            "In which short book does Jude warn against false teachers who have secretly slipped in among believers?"
+            "In which book is the new heaven and new earth described?",
+            "In which letter does Jude warn about false teachers?"
           ],
           "answers": {
             "main": "Revelation",
-            "subs": ["Hebrews", "Jude"]
+            "subs": [
+              "Revelation",
+              "Jude"
+            ]
           }
         }
       ]

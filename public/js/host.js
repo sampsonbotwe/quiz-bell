@@ -19,11 +19,14 @@ const answerBox = document.querySelector(".answer-box");
 const navProgressEl = document.querySelector("[data-nav-progress]");
 const prevBtn = document.querySelector("[data-prev]");
 const nextBtn = document.querySelector("[data-next]");
+const markBlockDoneBtn = document.querySelector("[data-mark-block-done]");
+const blockStatusEl = document.querySelector("[data-block-status]");
+const questionCardEl = document.querySelector("[data-question-card]");
+const resetRoundBtn = document.querySelector("[data-reset-round]");
 const subNav = document.querySelector("[data-sub-nav]");
 const subTabs = document.querySelector("[data-sub-tabs]");
 const toggleDisplayBtn = document.querySelector("[data-toggle-display]");
 const hostNav = document.querySelector(".host-nav");
-const roundResultsPanel = document.querySelector("[data-round-results-panel]");
 const showRoundResultsBtn = document.querySelector("[data-show-round-results]");
 const continueRoundBtn = document.querySelector("[data-continue-round]");
 const wrongConfirmDialog = document.querySelector("[data-round5-wrong-dialog]");
@@ -34,15 +37,13 @@ var currentState = null;
 var currentScoresState = null;
 
 function updateRoundResultsControls(state) {
-  if (!roundResultsPanel || !showRoundResultsBtn || !continueRoundBtn) return;
+  if (!showRoundResultsBtn || !continueRoundBtn) return;
 
   var round = state.round;
-  var atEnd = Boolean(state.atRoundEnd);
   var overlay = Boolean(currentScoresState && currentScoresState.resultsOverlay);
-  var showResultsBtn = round >= 1 && round <= 4 && atEnd && !overlay;
-  var showContinueBtn = overlay && round < 5;
+  var showResultsBtn = round >= 1 && round <= 4 && !overlay;
+  var showContinueBtn = overlay && round >= 1 && round <= 4;
 
-  roundResultsPanel.classList.toggle("hidden", !showResultsBtn && !showContinueBtn);
   showRoundResultsBtn.classList.toggle("hidden", !showResultsBtn);
   continueRoundBtn.classList.toggle("hidden", !showContinueBtn);
 
@@ -107,7 +108,13 @@ function renderSetTabs(state) {
 
 function renderCategories(state) {
   categoryGrid.innerHTML = "";
-  if (!state.categories) return;
+  if (!state.categories || !state.categories.length) {
+    var empty = document.createElement("p");
+    empty.className = "host-empty-categories";
+    empty.textContent = "All categories in this round are complete.";
+    categoryGrid.appendChild(empty);
+    return;
+  }
 
   state.categories.forEach(function (cat) {
     var btn = document.createElement("button");
@@ -197,18 +204,61 @@ function updateLifelineControl(state) {
   round5Lifeline.textContent = "50/50 — Drop two answers";
 }
 
+function renderBlockStatus(item) {
+  if (!blockStatusEl) return;
+  if (!item || item.type !== "block") {
+    blockStatusEl.classList.add("hidden");
+    blockStatusEl.innerHTML = "";
+    return;
+  }
+
+  blockStatusEl.classList.remove("hidden");
+  blockStatusEl.innerHTML = "";
+  var answered = item.answeredBlockIndices || [];
+  var compact = item.mainTotal > 6;
+  if (compact) {
+    blockStatusEl.classList.add("host-block-status--compact");
+  } else {
+    blockStatusEl.classList.remove("host-block-status--compact");
+  }
+
+  for (var i = 0; i < item.mainTotal; i++) {
+    var pill = document.createElement("span");
+    pill.className = "host-block-status__pill";
+    pill.textContent = "Q" + (i + 1);
+    if (answered.indexOf(i) >= 0) {
+      pill.classList.add("host-block-status__pill--done");
+    }
+    if (i === item.mainIndex) {
+      pill.classList.add("host-block-status__pill--current");
+    }
+    blockStatusEl.appendChild(pill);
+  }
+}
+
+function updateQuestionCardState(item) {
+  if (!questionCardEl) return;
+  var isDone = Boolean(item && item.type === "block" && item.isAnswered);
+  questionCardEl.classList.toggle("question-card--answered", isDone);
+}
+
 function updateNavControls(state) {
   var item = state.item;
   var isMoneyRound = state.round === 5 && item && item.type === "money";
+  var isBlockRound =
+    item && item.type === "block" && (state.round === 1 || state.round === 2 || state.round === 3);
+  var emergencyNav = document.querySelector(".host-nav-emergency");
 
   if (hostNav) hostNav.classList.remove("hidden");
-  if (prevBtn) prevBtn.classList.toggle("hidden", isMoneyRound);
-  if (nextBtn) nextBtn.classList.toggle("hidden", isMoneyRound);
+  if (emergencyNav) {
+    emergencyNav.classList.toggle("hidden", !isBlockRound);
+  }
 
   if (isMoneyRound) {
     subNav.classList.add("hidden");
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
+    if (markBlockDoneBtn) markBlockDoneBtn.classList.add("hidden");
+    if (prevBtn) prevBtn.disabled = true;
+    if (nextBtn) nextBtn.disabled = true;
     if (item.gameOver) {
       navProgressEl.textContent = "Complete";
     } else {
@@ -224,39 +274,57 @@ function updateNavControls(state) {
   var canNavigate = Boolean(item && item.total && !item.gameOver);
 
   if (item && item.type === "block") {
-    prevBtn.disabled = item.mainIndex === 0;
-    nextBtn.disabled = item.mainIndex >= item.mainTotal - 1;
-    navProgressEl.textContent =
-      "Question " + (item.mainIndex + 1) + " of " + item.mainTotal;
+    if (prevBtn) prevBtn.disabled = item.mainIndex === 0;
+    if (nextBtn) nextBtn.disabled = item.mainIndex >= item.mainTotal - 1;
+    if (markBlockDoneBtn) {
+      markBlockDoneBtn.classList.toggle("hidden", item.isAnswered);
+    }
+    navProgressEl.textContent = item.isAnswered
+      ? "Question " +
+        (item.mainIndex + 1) +
+        " of " +
+        item.mainTotal +
+        " · Done"
+      : "Question " +
+        (item.mainIndex + 1) +
+        " of " +
+        item.mainTotal +
+        " · " +
+        item.blocksRemaining +
+        " left in category";
     updateSubControls(item);
     return;
   }
 
+  if (markBlockDoneBtn) {
+    markBlockDoneBtn.classList.add("hidden");
+  }
+
   subNav.classList.add("hidden");
-  prevBtn.disabled = !canNavigate || item.index === 0;
-  nextBtn.disabled = !canNavigate || item.index >= item.total - 1;
+  if (prevBtn) prevBtn.disabled = !canNavigate || !item || item.index === 0;
+  if (nextBtn) {
+    nextBtn.disabled = !canNavigate || !item || item.index >= item.total - 1;
+  }
 
   if (!item || !item.total) {
     if (state.round === 1 && !state.set) {
       navProgressEl.textContent = "Select a set";
-    } else if (state.round === 1 || state.round === 2) {
+    } else if (state.round === 1 || state.round === 2 || state.round === 3) {
       navProgressEl.textContent = "Select a category";
-    } else if (state.round === 3) {
-      navProgressEl.textContent = "Select a team";
     } else if (state.round === 5) {
       navProgressEl.textContent = "Money Round";
     } else {
       navProgressEl.textContent = state.roundTitle;
     }
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
+    if (prevBtn) prevBtn.disabled = true;
+    if (nextBtn) nextBtn.disabled = true;
     return;
   }
 
   if (item.gameOver) {
     navProgressEl.textContent = "Complete";
-    prevBtn.disabled = item.index === 0;
-    nextBtn.disabled = true;
+    if (prevBtn) prevBtn.disabled = item.index === 0;
+    if (nextBtn) nextBtn.disabled = true;
     return;
   }
 
@@ -280,18 +348,18 @@ function renderQuestion(state) {
   var item = state.item;
   var round = state.round;
 
-  setPanel.classList.toggle("hidden", round !== 1 && round !== 3);
-  if (setPanelLabel) {
-    setPanelLabel.textContent = round === 3 ? "Team" : "Set";
-  }
-  categoryPanel.classList.toggle(
-    "hidden",
-    round === 2 ? false : round !== 1 || !state.set
-  );
+  setPanel.classList.toggle("hidden", round !== 1);
+  var showCategoryPanel =
+    (round === 2) ||
+    (round === 3 && !state.categoryId) ||
+    (round === 1 && state.set);
+  categoryPanel.classList.toggle("hidden", !showCategoryPanel);
   riddlePanel.classList.toggle("hidden", round !== 4);
 
-  if (round === 1 || round === 3) renderSetTabs(state);
-  if ((round === 1 && state.set) || round === 2) renderCategories(state);
+  if (round === 1) renderSetTabs(state);
+  if ((round === 1 && state.set) || round === 2 || (round === 3 && !state.categoryId)) {
+    renderCategories(state);
+  }
 
   toggleDisplayBtn.textContent = state.visible ? "Hide display" : "Show display";
   toggleDisplayBtn.classList.toggle("host-toggle-active", !state.visible);
@@ -299,12 +367,16 @@ function renderQuestion(state) {
   if (!item) {
     questionPanel.classList.add("hidden");
     subNav.classList.add("hidden");
+    renderBlockStatus(null);
+    updateQuestionCardState(null);
     if (answerBox) answerBox.classList.remove("answer-box--riddle");
     updateNavControls(state);
     return;
   }
 
   questionPanel.classList.remove("hidden");
+  renderBlockStatus(item.type === "block" ? item : null);
+  updateQuestionCardState(item.type === "block" ? item : null);
   if (answerBox) {
     answerBox.classList.toggle("answer-box--riddle", item.type === "riddle");
   }
@@ -449,6 +521,12 @@ document.querySelector("[data-next]").addEventListener("click", function () {
   socket.emit("quiz:next");
 });
 
+if (markBlockDoneBtn) {
+  markBlockDoneBtn.addEventListener("click", function () {
+    socket.emit("quiz:markBlockAnswered");
+  });
+}
+
 subTabs.querySelectorAll("[data-part]").forEach(function (btn) {
   btn.addEventListener("click", function () {
     socket.emit("quiz:setPart", { part: btn.dataset.part });
@@ -490,6 +568,19 @@ toggleDisplayBtn.addEventListener("click", function () {
   if (!currentState) return;
   socket.emit("quiz:setVisible", { visible: !currentState.visible });
 });
+
+if (resetRoundBtn) {
+  resetRoundBtn.addEventListener("click", function () {
+    if (
+      !window.confirm(
+        "Reset this round? Categories, questions, and progress for this round will start over."
+      )
+    ) {
+      return;
+    }
+    socket.emit("quiz:resetRound");
+  });
+}
 
 if (showRoundResultsBtn) {
   showRoundResultsBtn.addEventListener("click", function () {

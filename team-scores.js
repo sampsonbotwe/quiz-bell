@@ -3,7 +3,7 @@ const path = require("path");
 
 const SCORES_FILE = path.join(__dirname, ".team-scores.json");
 const TEAM_IDS = ["dunamis", "pneuma", "zoe"];
-const ALLOWED_DELTAS = [-5, 5, 10, 20];
+const ALLOWED_DELTAS = [-5, 5, 10, 15, 20];
 
 function defaultScores() {
   return {

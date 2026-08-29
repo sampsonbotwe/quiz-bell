@@ -4,10 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Quiz Host</title>
-    <link rel="stylesheet" href="/css/app.css?v=63" />
+    <link rel="stylesheet" href="/css/app.css?v=82" />
   </head>
   <body class="host-page">
-    <button type="button" class="control-logout" data-control-logout>Sign out</button>
+    <div class="control-top-bar">
+      <button type="button" class="host-nav-btn host-display-toggle control-top-btn" data-toggle-display>Hide display</button>
+      <button type="button" class="host-secondary control-top-btn control-top-btn--reset" data-reset-round>Reset round</button>
+      <button type="button" class="control-logout" data-control-logout>Sign out</button>
+    </div>
     <main class="wrap host-wrap">
       <div class="host-header">
         <div>
@@ -18,7 +22,14 @@
 
       <div class="host-round-bar">
         <nav class="round-tabs" data-round-tabs></nav>
-        <button type="button" class="host-nav-btn host-display-toggle" data-toggle-display>Hide display</button>
+        <div class="host-round-bar-actions" data-round-results-panel>
+          <button type="button" class="host-nav-btn host-nav-primary hidden" data-show-round-results>
+            Show total scores
+          </button>
+          <button type="button" class="host-nav-btn host-nav-primary hidden" data-continue-round>
+            Continue to next round
+          </button>
+        </div>
       </div>
 
       <section class="host-panel hidden" data-set-panel>
@@ -44,7 +55,8 @@
             <button type="button" class="pill-btn" data-part="sub2">Sub 2</button>
           </div>
         </div>
-        <div class="question-card">
+        <div class="host-block-status hidden" data-block-status aria-label="Question status"></div>
+        <div class="question-card" data-question-card>
           <p class="question-text" data-question-text></p>
           <ul class="option-list hidden" data-option-list></ul>
           <button type="button" class="host-lifeline round5-lifeline hidden" data-round5-lifeline>
@@ -63,19 +75,16 @@
       </section>
 
       <div class="host-nav">
-        <button type="button" class="host-nav-btn" data-prev>← Previous</button>
-        <p class="host-nav-progress" data-nav-progress>Select a category</p>
-        <button type="button" class="host-nav-btn host-nav-primary" data-next>Next →</button>
+        <div class="host-nav-emergency">
+          <button type="button" class="host-nav-btn host-nav-btn--small" data-prev aria-label="Previous question">←</button>
+          <button type="button" class="host-nav-btn host-nav-btn--small" data-next aria-label="Next question">→</button>
+        </div>
+        <div class="host-nav-main">
+          <p class="host-nav-progress" data-nav-progress>Select a category</p>
+          <button type="button" class="host-nav-btn host-nav-primary hidden" data-mark-block-done>Question done</button>
+        </div>
       </div>
 
-      <section class="host-round-results hidden" data-round-results-panel>
-        <button type="button" class="host-nav-btn host-nav-primary" data-show-round-results>
-          Show total scores
-        </button>
-        <button type="button" class="host-nav-btn host-nav-primary hidden" data-continue-round>
-          Continue to next round
-        </button>
-      </section>
     </main>
 
     <div class="host-confirm hidden" data-round5-wrong-dialog aria-hidden="true">
@@ -95,7 +104,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/dev-reload.js"></script>
     <script src="/js/money-animate.js"></script>
-    <script src="/js/host.js?v=4"></script>
+    <script src="/js/host.js?v=7"></script>
     <script src="/js/control-auth.js?v=1"></script>
   </body>
 </html>

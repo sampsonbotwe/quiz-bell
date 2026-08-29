@@ -72,211 +72,211 @@
       "id": 1,
       "step": 1,
       "amount": 10,
-      "question": "Who built the ark to survive the great flood?",
+      "question": "Who was the first woman God created?",
       "options": [
-        "Noah",
-        "Moses",
-        "Abraham",
-        "Joshua"
+        "Eve",
+        "Sarah",
+        "Ruth",
+        "Mary"
       ],
       "correctIndex": 0,
-      "correctAnswer": "Noah"
+      "correctAnswer": "Eve"
     },
     {
       "id": 2,
       "step": 2,
       "amount": 15,
-      "question": "In which city was Jesus born?",
+      "question": "Which sea did Moses part for Israel to cross?",
       "options": [
-        "Nazareth",
-        "Jerusalem",
-        "Bethlehem",
-        "Capernaum"
+        "Red Sea",
+        "Dead Sea",
+        "Mediterranean Sea",
+        "Sea of Galilee"
       ],
-      "correctIndex": 2,
-      "correctAnswer": "Bethlehem"
+      "correctIndex": 0,
+      "correctAnswer": "Red Sea"
     },
     {
       "id": 3,
       "step": 3,
       "amount": 25,
-      "question": "How many disciples did Jesus choose as His apostles?",
+      "question": "Who denied Jesus three times before the rooster crowed?",
       "options": [
-        "7",
-        "10",
-        "12",
-        "40"
+        "Judas",
+        "Peter",
+        "Thomas",
+        "John"
       ],
-      "correctIndex": 2,
-      "correctAnswer": "12"
+      "correctIndex": 1,
+      "correctAnswer": "Peter"
     },
     {
       "id": 4,
       "step": 4,
       "amount": 35,
-      "question": "Who was thrown into a lions' den but came out unharmed?",
+      "question": "What is the first book of the New Testament?",
+      "options": [
+        "Mark",
+        "Luke",
+        "Matthew",
+        "Acts"
+      ],
+      "correctIndex": 2,
+      "correctAnswer": "Matthew"
+    },
+    {
+      "id": 5,
+      "step": 5,
+      "amount": 40,
+      "question": "Who interpreted the writing on the wall for Belshazzar?",
       "options": [
         "Daniel",
-        "David",
         "Joseph",
+        "Ezra",
         "Jeremiah"
       ],
       "correctIndex": 0,
       "correctAnswer": "Daniel"
     },
     {
-      "id": 5,
-      "step": 5,
-      "amount": 40,
-      "question": "What did God provide for the Israelites to eat in the wilderness?",
-      "options": [
-        "Quail only",
-        "Manna",
-        "Bread from Egypt",
-        "Figs and dates"
-      ],
-      "correctIndex": 1,
-      "correctAnswer": "Manna"
-    },
-    {
       "id": 6,
       "step": 6,
       "amount": 50,
-      "question": "Who interpreted Pharaoh's dreams of seven fat cows and seven lean cows?",
+      "question": "On what day of creation did God create human beings?",
       "options": [
-        "Daniel",
-        "Joseph",
-        "Moses",
-        "Samuel"
+        "Day 5",
+        "Day 6",
+        "Day 7",
+        "Day 3"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Joseph"
+      "correctAnswer": "Day 6"
     },
     {
       "id": 7,
       "step": 7,
       "amount": 60,
-      "question": "Which king had a dream of a great statue, interpreted by Daniel?",
+      "question": "Who was the father of John the Baptist?",
       "options": [
-        "Darius",
-        "Cyrus",
-        "Nebuchadnezzar",
-        "Herod"
+        "Joseph",
+        "Zechariah",
+        "Simeon",
+        "Nicodemus"
       ],
-      "correctIndex": 2,
-      "correctAnswer": "Nebuchadnezzar"
+      "correctIndex": 1,
+      "correctAnswer": "Zechariah"
     },
     {
       "id": 8,
       "step": 8,
       "amount": 65,
-      "question": "On which day of creation did God make the sun, moon, and stars?",
+      "question": "Which apostle doubted Jesus' resurrection until he saw the wounds?",
       "options": [
-        "Day 1",
-        "Day 3",
-        "Day 4",
-        "Day 6"
+        "Andrew",
+        "Philip",
+        "Thomas",
+        "Bartholomew"
       ],
       "correctIndex": 2,
-      "correctAnswer": "Day 4"
+      "correctAnswer": "Thomas"
     },
     {
       "id": 9,
       "step": 9,
       "amount": 75,
-      "question": "Who was the Roman governor who authorized Jesus' crucifixion?",
+      "question": "Who was the queen who saved the Jewish people from Haman?",
       "options": [
-        "Herod Antipas",
-        "Pontius Pilate",
-        "Caesar Augustus",
-        "Felix"
+        "Jezebel",
+        "Esther",
+        "Deborah",
+        "Bathsheba"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Pontius Pilate"
+      "correctAnswer": "Esther"
     },
     {
       "id": 10,
       "step": 10,
       "amount": 85,
-      "question": "Which two Old Testament figures were taken up to heaven without dying?",
+      "question": "How many books are in the Old Testament?",
       "options": [
-        "Moses and Elijah",
-        "Enoch and Elijah",
-        "Abraham and Enoch",
-        "Elijah and Elisha"
+        "27",
+        "39",
+        "66",
+        "73"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Enoch and Elijah"
+      "correctAnswer": "39"
     },
     {
       "id": 11,
       "step": 11,
       "amount": 90,
-      "question": "Who led the Israelites out of Egypt?",
+      "question": "Who was the tax collector Jesus called from a tree?",
       "options": [
-        "Joshua",
-        "Moses",
-        "Aaron",
-        "Caleb"
+        "Matthew",
+        "Zacchaeus",
+        "Levi",
+        "Simon"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Moses"
+      "correctAnswer": "Zacchaeus"
     },
     {
       "id": 12,
       "step": 12,
       "amount": 100,
-      "question": "What is the last book of the New Testament?",
+      "question": "Which prophet was taken up to heaven in a whirlwind?",
       "options": [
-        "Jude",
-        "Revelation",
-        "Hebrews",
-        "Acts"
+        "Elisha",
+        "Elijah",
+        "Enoch",
+        "Isaiah"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Revelation"
+      "correctAnswer": "Elijah"
     },
     {
       "id": 13,
       "step": 13,
       "amount": 110,
-      "question": "Who was the mother of Samuel?",
+      "question": "What did Jesus say to the storm on the Sea of Galilee?",
       "options": [
-        "Ruth",
-        "Hannah",
-        "Elizabeth",
-        "Sarah"
+        "Be gone",
+        "Peace, be still",
+        "Calm yourselves",
+        "Why are you afraid?"
       ],
       "correctIndex": 1,
-      "correctAnswer": "Hannah"
+      "correctAnswer": "Peace, be still"
     },
     {
       "id": 14,
       "step": 14,
       "amount": 115,
-      "question": "In which river did John the Baptist baptize?",
+      "question": "Who wrote the book of Acts?",
       "options": [
-        "Nile",
-        "Jordan",
-        "Euphrates",
-        "Tigris"
+        "Paul",
+        "Peter",
+        "Luke",
+        "John"
       ],
-      "correctIndex": 1,
-      "correctAnswer": "Jordan"
+      "correctIndex": 2,
+      "correctAnswer": "Luke"
     },
     {
       "id": 15,
       "step": 15,
       "amount": 125,
-      "question": "How many days was Jesus in the tomb before He rose?",
+      "question": "What is the last word of the Bible in most English translations?",
       "options": [
-        "One",
-        "Two",
-        "Three",
-        "Seven"
+        "Amen",
+        "Come",
+        "Forever",
+        "Light"
       ],
-      "correctIndex": 2,
-      "correctAnswer": "Three"
+      "correctIndex": 0,
+      "correctAnswer": "Amen"
     }
   ]
 }

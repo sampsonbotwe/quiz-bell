@@ -2,171 +2,350 @@
   "round": 3,
   "title": "Round 3 — 60s Rapid Fire",
   "timeLimitSeconds": 60,
-  "sets": {
-    "A": {
-      "label": "Dunamis",
-      "questions": [
+  "categories": [
+    {
+      "id": "quick-recall",
+      "name": "Quick Recall",
+      "blocks": [
         {
-          "id": 1,
-          "question": "Who built the ark?",
-          "answer": "Noah"
+          "main": "Who was the strongest man in the Bible?",
+          "subs": [],
+          "answers": {
+            "main": "Samson",
+            "subs": []
+          }
         },
         {
-          "id": 2,
-          "question": "How many days and nights did Jesus fast in the wilderness?",
-          "answer": "40"
+          "main": "What is the shortest verse in the Bible?",
+          "subs": [],
+          "answers": {
+            "main": "Jesus wept",
+            "subs": []
+          }
         },
         {
-          "id": 3,
-          "question": "What is the first book of the Bible?",
-          "answer": "Genesis"
+          "main": "How many books are in the Bible?",
+          "subs": [],
+          "answers": {
+            "main": "66",
+            "subs": []
+          }
         },
         {
-          "id": 4,
-          "question": "Who was swallowed by a great fish?",
-          "answer": "Jonah"
+          "main": "Who was thrown into a lions' den?",
+          "subs": [],
+          "answers": {
+            "main": "Daniel",
+            "subs": []
+          }
         },
         {
-          "id": 5,
-          "question": "What did David use to defeat Goliath?",
-          "answer": "A sling and a stone"
+          "main": "What did Jesus feed five thousand people with?",
+          "subs": [],
+          "answers": {
+            "main": "Five loaves and two fish",
+            "subs": []
+          }
         },
         {
-          "id": 6,
-          "question": "How many disciples did Jesus choose?",
-          "answer": "12"
+          "main": "Who built the ark?",
+          "subs": [],
+          "answers": {
+            "main": "Noah",
+            "subs": []
+          }
         },
         {
-          "id": 7,
-          "question": "What sea did Moses part?",
-          "answer": "The Red Sea"
+          "main": "What is the first commandment?",
+          "subs": [],
+          "answers": {
+            "main": "You shall have no other gods before Me",
+            "subs": []
+          }
         },
         {
-          "id": 8,
-          "question": "Who was the first man created?",
-          "answer": "Adam"
+          "main": "Who was sold into slavery by his brothers?",
+          "subs": [],
+          "answers": {
+            "main": "Joseph",
+            "subs": []
+          }
         },
         {
-          "id": 9,
-          "question": "What city was Jesus born in?",
-          "answer": "Bethlehem"
+          "main": "What river was Jesus baptized in?",
+          "subs": [],
+          "answers": {
+            "main": "Jordan",
+            "subs": []
+          }
         },
         {
-          "id": 10,
-          "question": "Who betrayed Jesus with a kiss?",
-          "answer": "Judas Iscariot"
+          "main": "Who wrote most of the Psalms?",
+          "subs": [],
+          "answers": {
+            "main": "David",
+            "subs": []
+          }
         }
       ]
     },
-    "B": {
-      "label": "Zoe",
-      "questions": [
+    {
+      "id": "people-and-places",
+      "name": "People & Places",
+      "blocks": [
         {
-          "id": 11,
-          "question": "What did God provide for Israel to eat in the wilderness?",
-          "answer": "Manna"
+          "main": "Where was Jesus born?",
+          "subs": [],
+          "answers": {
+            "main": "Bethlehem",
+            "subs": []
+          }
         },
         {
-          "id": 12,
-          "question": "Who was thrown into a lions' den?",
-          "answer": "Daniel"
+          "main": "Who was the Roman governor at Jesus' trial?",
+          "subs": [],
+          "answers": {
+            "main": "Pontius Pilate",
+            "subs": []
+          }
         },
         {
-          "id": 13,
-          "question": "What is the last book of the Bible?",
-          "answer": "Revelation"
+          "main": "What city did Joshua march around seven times?",
+          "subs": [],
+          "answers": {
+            "main": "Jericho",
+            "subs": []
+          }
         },
         {
-          "id": 14,
-          "question": "Who denied Jesus three times?",
-          "answer": "Peter"
+          "main": "Who was the mother of John the Baptist?",
+          "subs": [],
+          "answers": {
+            "main": "Elizabeth",
+            "subs": []
+          }
         },
         {
-          "id": 15,
-          "question": "From which tree did Adam and Eve eat the forbidden fruit?",
-          "answer": "The tree of the knowledge of good and evil"
+          "main": "Where did Paul have his vision of a man from Macedonia?",
+          "subs": [],
+          "answers": {
+            "main": "Troas",
+            "subs": []
+          }
         },
         {
-          "id": 16,
-          "question": "Who was the strongest judge of Israel?",
-          "answer": "Samson"
+          "main": "Who was the high priest when Jesus was arrested?",
+          "subs": [],
+          "answers": {
+            "main": "Caiaphas",
+            "subs": []
+          }
         },
         {
-          "id": 17,
-          "question": "What did Jesus turn water into at Cana?",
-          "answer": "Wine"
+          "main": "What mountain did Moses receive the law on?",
+          "subs": [],
+          "answers": {
+            "main": "Sinai",
+            "subs": []
+          }
         },
         {
-          "id": 18,
-          "question": "Who led the Israelites into the Promised Land?",
-          "answer": "Joshua"
+          "main": "Who was the first martyr in the New Testament?",
+          "subs": [],
+          "answers": {
+            "main": "Stephen",
+            "subs": []
+          }
         },
         {
-          "id": 19,
-          "question": "What sign did God give Noah after the flood?",
-          "answer": "Rainbow"
+          "main": "What island was Paul shipwrecked on?",
+          "subs": [],
+          "answers": {
+            "main": "Malta",
+            "subs": []
+          }
         },
         {
-          "id": 20,
-          "question": "Who was the mother of Jesus?",
-          "answer": "Mary"
+          "main": "Who hid the spies in Jericho?",
+          "subs": [],
+          "answers": {
+            "main": "Rahab",
+            "subs": []
+          }
         }
       ]
     },
-    "C": {
-      "label": "Pneuma",
-      "questions": [
+    {
+      "id": "stories-and-miracles",
+      "name": "Stories & Miracles",
+      "blocks": [
         {
-          "id": 21,
-          "question": "What did Esau sell his birthright for?",
-          "answer": "Red stew (or a bowl of stew)"
+          "main": "Who walked on water?",
+          "subs": [],
+          "answers": {
+            "main": "Peter (and Jesus)",
+            "subs": []
+          }
         },
         {
-          "id": 22,
-          "question": "Who interpreted Pharaoh's dreams?",
-          "answer": "Joseph"
+          "main": "What did Jesus raise Lazarus from?",
+          "subs": [],
+          "answers": {
+            "main": "Death (after four days)",
+            "subs": []
+          }
         },
         {
-          "id": 23,
-          "question": "What is the shortest verse in the Bible?",
-          "answer": "Jesus wept (John 11:35)"
+          "main": "Who was healed of leprosy by Elisha?",
+          "subs": [],
+          "answers": {
+            "main": "Naaman",
+            "subs": []
+          }
         },
         {
-          "id": 24,
-          "question": "Who wrestled with an angel and was renamed Israel?",
-          "answer": "Jacob"
+          "main": "What did Moses' rod turn into before Pharaoh?",
+          "subs": [],
+          "answers": {
+            "main": "A serpent",
+            "subs": []
+          }
         },
         {
-          "id": 25,
-          "question": "What did God send to lead the Israelites by night in the wilderness?",
-          "answer": "A pillar of fire"
+          "main": "Who was healed when she touched Jesus' garment?",
+          "subs": [],
+          "answers": {
+            "main": "The woman with the issue of blood",
+            "subs": []
+          }
         },
         {
-          "id": 26,
-          "question": "Who was the first king of Israel?",
-          "answer": "Saul"
+          "main": "What did Jesus do at the wedding in Cana?",
+          "subs": [],
+          "answers": {
+            "main": "Turned water into wine",
+            "subs": []
+          }
         },
         {
-          "id": 27,
-          "question": "What river was John the Baptist baptizing in?",
-          "answer": "The Jordan River"
+          "main": "Who was healed at the Pool of Bethesda?",
+          "subs": [],
+          "answers": {
+            "main": "A man who had been invalid 38 years",
+            "subs": []
+          }
         },
         {
-          "id": 28,
-          "question": "Who was saved from the fiery furnace?",
-          "answer": "Shadrach, Meshach, and Abednego"
+          "main": "What happened when Paul and Silas sang in prison?",
+          "subs": [],
+          "answers": {
+            "main": "An earthquake opened the doors",
+            "subs": []
+          }
         },
         {
-          "id": 29,
-          "question": "How many books are in the Bible?",
-          "answer": "66"
+          "main": "Who was swallowed by a great fish?",
+          "subs": [],
+          "answers": {
+            "main": "Jonah",
+            "subs": []
+          }
         },
         {
-          "id": 30,
-          "question": "Who climbed a sycamore tree to see Jesus?",
-          "answer": "Zacchaeus"
+          "main": "What did Jesus do on the cross for the thief?",
+          "subs": [],
+          "answers": {
+            "main": "Promised him paradise",
+            "subs": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "scripture-and-truth",
+      "name": "Scripture & Truth",
+      "blocks": [
+        {
+          "main": "What is the greatest commandment according to Jesus?",
+          "subs": [],
+          "answers": {
+            "main": "Love the Lord your God",
+            "subs": []
+          }
+        },
+        {
+          "main": "Who said, 'Here am I, send me'?",
+          "subs": [],
+          "answers": {
+            "main": "Isaiah",
+            "subs": []
+          }
+        },
+        {
+          "main": "What book says, 'The Lord is my shepherd'?",
+          "subs": [],
+          "answers": {
+            "main": "Psalms",
+            "subs": []
+          }
+        },
+        {
+          "main": "Who wrote, 'Faith is the substance of things hoped for'?",
+          "subs": [],
+          "answers": {
+            "main": "Paul (Hebrews)",
+            "subs": []
+          }
+        },
+        {
+          "main": "What fruit did Eve eat?",
+          "subs": [],
+          "answers": {
+            "main": "Forbidden fruit from the tree of knowledge",
+            "subs": []
+          }
+        },
+        {
+          "main": "Who said, 'My Lord and my God'?",
+          "subs": [],
+          "answers": {
+            "main": "Thomas",
+            "subs": []
+          }
+        },
+        {
+          "main": "What is the last book of the Bible?",
+          "subs": [],
+          "answers": {
+            "main": "Revelation",
+            "subs": []
+          }
+        },
+        {
+          "main": "Who said, 'Speak, Lord, for your servant is listening'?",
+          "subs": [],
+          "answers": {
+            "main": "Samuel",
+            "subs": []
+          }
+        },
+        {
+          "main": "What did Jesus say is the second greatest commandment?",
+          "subs": [],
+          "answers": {
+            "main": "Love your neighbor as yourself",
+            "subs": []
+          }
+        },
+        {
+          "main": "Who asked, 'How can a man be born when he is old'?",
+          "subs": [],
+          "answers": {
+            "main": "Nicodemus",
+            "subs": []
+          }
         }
       ]
     }
-  }
+  ]
 }

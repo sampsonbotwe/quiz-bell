@@ -498,7 +498,7 @@ function renderCategoryPicker(payload) {
 
   if (!payload.categories || !payload.categories.length) {
     categoryGridEl.innerHTML =
-      '<p class="display-picker-empty">No categories loaded</p>';
+      '<p class="display-picker-empty">All categories complete</p>';
     lastCategoryId = null;
     return;
   }
@@ -747,7 +747,7 @@ function renderQuestionContent(payload, animateOpen) {
   }
 
   if (payload.type === "money" && payload.round === 5) {
-    if (payload.gameOver && payload.round5LastResult === "wrong") {
+    if (payload.gameOver) {
       return;
     }
     renderLadder(payload);
@@ -925,8 +925,7 @@ function renderQuiz(payload, options) {
   if (
     payload.round === 5 &&
     payload.type === "money" &&
-    payload.gameOver &&
-    payload.round5LastResult === "wrong"
+    payload.gameOver
   ) {
     if (showingMoneyCelebration) {
       updateMoneyCelebrationTotal(payload);
@@ -977,7 +976,7 @@ socket.on("quiz:round5CorrectReveal", function (data) {
 });
 
 socket.on("quiz:moneyRoundEnd", function (data) {
-  if (!data || data.result !== "wrong") return;
+  if (!data) return;
   if (!celebrationTotalEl) return;
   if (window.MoneyAnimate) {
     MoneyAnimate.setTotal(celebrationTotalEl, data.total, data.currency);

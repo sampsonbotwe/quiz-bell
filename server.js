@@ -267,6 +267,10 @@ if (IS_DEV) {
 }
 
 app.use(function (req, res, next) {
+  if (IS_DEV) {
+    next();
+    return;
+  }
   var base = path.basename(req.path);
   if (PROTECTED_PAGE_FILES.indexOf(base) >= 0) {
     res.redirect("/login?next=" + encodeURIComponent("/" + base.replace(".html", "")));
@@ -432,7 +436,6 @@ io.on("connection", (socket) => {
 
   socket.on("scores:showResults", controlOnly(socket, function () {
     if (quizState.round < 1 || quizState.round > 4) return;
-    if (!quiz.isAtRoundEnd(quizState)) return;
     setScoresResultsVisible(true);
   }));
 
@@ -513,20 +516,27 @@ io.on("connection", (socket) => {
       quizState.part = "main";
       quizState.visible = true;
       emitQuizState();
-      return;
-    }
-    if (quizState.round === 3) {
-      quizState.set = payload.set;
-      quizState.questionIndex = 0;
-      quizState.visible = true;
-      emitQuizState();
     }
   }));
 
   socket.on("quiz:selectCategory", controlOnly(socket, function (payload) {
     if (!payload || !payload.categoryId) return;
-    if (quizState.round !== 1 && quizState.round !== 2) return;
-    quiz.selectCategory(quizState, payload.categoryId);
+    if (quizState.round !== 1 && quizState.round !== 2 && quizState.round !== 3) return;
+    if (!quiz.selectCategory(quizState, payload.categoryId)) return;
+    emitQuizState();
+  }));
+
+  socket.on("quiz:markBlockAnswered", controlOnly(socket, function () {
+    if (quizState.round !== 1 && quizState.round !== 2 && quizState.round !== 3) return;
+    if (!quiz.markBlockAnswered(quizState)) return;
+    emitQuizState();
+  }));
+
+  socket.on("quiz:resetRound", controlOnly(socket, function () {
+    var round = quizState.round;
+    if (round < 1 || round > 5) return;
+    scoresResultsVisible = false;
+    quiz.resetRoundFields(quizState, round);
     emitQuizState();
   }));
 
@@ -586,6 +596,13 @@ io.on("connection", (socket) => {
             total: quizState.earnedAmount,
             currency: quiz.ROUNDS[5].currency,
             step: answeredStep,
+          });
+        }
+        if (quizState.round5Complete) {
+          io.emit("quiz:moneyRoundEnd", {
+            total: quizState.earnedAmount,
+            currency: quiz.ROUNDS[5].currency,
+            result: "correct",
           });
         }
         round5AnswerPending = false;

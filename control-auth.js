@@ -1,5 +1,7 @@
 const crypto = require("crypto");
 
+const IS_DEV = process.env.NODE_ENV === "development";
+
 const SESSION_COOKIE = "quiz_control_session";
 const SESSION_TTL_MS = 6 * 60 * 60 * 1000;
 const CONTROL_PASSWORD = process.env.CONTROL_PASSWORD || "911";
@@ -42,11 +44,17 @@ function isValidSession(token) {
   return true;
 }
 
+function isAuthBypassed() {
+  return IS_DEV;
+}
+
 function isAuthenticatedRequest(req) {
+  if (isAuthBypassed()) return true;
   return isValidSession(getTokenFromRequest(req));
 }
 
 function isAuthenticatedHandshake(handshake) {
+  if (isAuthBypassed()) return true;
   return isValidSession(getTokenFromHandshake(handshake));
 }
 
@@ -88,6 +96,9 @@ function clearSession(req, res) {
 }
 
 function sessionInfo(req) {
+  if (isAuthBypassed()) {
+    return { authenticated: true, devBypass: true };
+  }
   const token = getTokenFromRequest(req);
   if (!isValidSession(token)) {
     return { authenticated: false };
@@ -99,7 +110,7 @@ function sessionInfo(req) {
 }
 
 function requireControlAuth(req, res, next) {
-  if (isAuthenticatedRequest(req)) {
+  if (isAuthBypassed() || isAuthenticatedRequest(req)) {
     next();
     return;
   }

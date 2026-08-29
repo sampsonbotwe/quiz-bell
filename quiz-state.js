@@ -34,6 +34,7 @@ const PERSISTED_QUIZ_FIELDS = [
   "round5LifelineUsed",
   "round5HiddenOptions",
   "visible",
+  "answeredBlocks",
 ];
 
 function createQuizState() {
@@ -52,6 +53,7 @@ function createQuizState() {
     round5LifelineUsed: false,
     round5HiddenOptions: [],
     visible: true,
+    answeredBlocks: {},
   };
 }
 
@@ -94,20 +96,111 @@ function getRound2Categories() {
   return ROUNDS[2].categories;
 }
 
+function getRound3Categories() {
+  return ROUNDS[3].categories || [];
+}
+
+function isCategoryRound(round) {
+  return round === 1 || round === 2 || round === 3;
+}
+
+function getCategoriesForRound(state) {
+  if (state.round === 1) return getRound1Categories(state);
+  if (state.round === 2) return getRound2Categories();
+  if (state.round === 3) return getRound3Categories();
+  return [];
+}
+
 function getCategoryById(state) {
-  if (state.round === 1) {
-    var categories = getRound1Categories(state);
-    for (var i = 0; i < categories.length; i++) {
-      if (categories[i].id === state.categoryId) return categories[i];
-    }
-  }
-  if (state.round === 2) {
-    var cats = getRound2Categories();
-    for (var j = 0; j < cats.length; j++) {
-      if (cats[j].id === state.categoryId) return cats[j];
-    }
+  if (!isCategoryRound(state.round) || !state.categoryId) return null;
+  var categories = getCategoriesForRound(state);
+  for (var i = 0; i < categories.length; i++) {
+    if (categories[i].id === state.categoryId) return categories[i];
   }
   return null;
+}
+
+function findCategoryById(state, categoryId) {
+  var categories = getCategoriesForRound(state);
+  for (var i = 0; i < categories.length; i++) {
+    if (categories[i].id === categoryId) return categories[i];
+  }
+  return null;
+}
+
+function getCategoryTrackingKey(state, categoryId) {
+  if (state.round === 1 && state.set) {
+    return "1:" + state.set + ":" + categoryId;
+  }
+  if (state.round === 2) {
+    return "2:" + categoryId;
+  }
+  if (state.round === 3) {
+    return "3:" + categoryId;
+  }
+  return null;
+}
+
+function getAnsweredBlockIndices(state, categoryId) {
+  if (!state.answeredBlocks) return [];
+  var key = getCategoryTrackingKey(state, categoryId);
+  if (!key || !state.answeredBlocks[key]) return [];
+  return state.answeredBlocks[key].slice();
+}
+
+function isBlockAnswered(state, categoryId, blockIndex) {
+  return getAnsweredBlockIndices(state, categoryId).indexOf(blockIndex) >= 0;
+}
+
+function isCategoryExhausted(state, categoryId) {
+  var category = findCategoryById(state, categoryId);
+  if (!category || !category.blocks || !category.blocks.length) return true;
+  return getAnsweredBlockIndices(state, categoryId).length >= category.blocks.length;
+}
+
+function getNextUnansweredBlockIndex(state, categoryId) {
+  var category = findCategoryById(state, categoryId);
+  if (!category || !category.blocks || !category.blocks.length) return -1;
+  var answered = getAnsweredBlockIndices(state, categoryId);
+  for (var i = 0; i < category.blocks.length; i++) {
+    if (answered.indexOf(i) < 0) return i;
+  }
+  return -1;
+}
+
+function hasPrevUnansweredBlock(state, categoryId, blockIndex) {
+  for (var i = blockIndex - 1; i >= 0; i--) {
+    if (!isBlockAnswered(state, categoryId, i)) return true;
+  }
+  return false;
+}
+
+function hasNextUnansweredBlock(state, categoryId, blockIndex) {
+  var category = findCategoryById(state, categoryId);
+  if (!category || !category.blocks) return false;
+  for (var j = blockIndex + 1; j < category.blocks.length; j++) {
+    if (!isBlockAnswered(state, categoryId, j)) return true;
+  }
+  return false;
+}
+
+function getAvailableCategories(state) {
+  var categories = getCategoriesForRound(state);
+  var available = [];
+  for (var i = 0; i < categories.length; i++) {
+    if (!isCategoryExhausted(state, categories[i].id)) {
+      available.push({ id: categories[i].id, name: categories[i].name });
+    }
+  }
+  return available;
+}
+
+function clearAnsweredBlocksForRound(state, round) {
+  if (!state.answeredBlocks) return;
+  var prefix = round + ":";
+  Object.keys(state.answeredBlocks).forEach(function (key) {
+    if (key.indexOf(prefix) === 0) delete state.answeredBlocks[key];
+  });
 }
 
 function getCurrentBlock(state) {
@@ -146,17 +239,6 @@ function getBlockPartContent(block, part) {
   return null;
 }
 
-function getRound3SetData(state) {
-  if (!state.set) return null;
-  var round = ROUNDS[3];
-  return round.sets ? round.sets[state.set] : null;
-}
-
-function getRound3QuestionList(state) {
-  var setData = getRound3SetData(state);
-  return setData ? setData.questions : [];
-}
-
 function getRound5QuestionList() {
   return ROUNDS[5].question;
 }
@@ -178,7 +260,7 @@ function formatCurrency(amount, currency) {
 }
 
 function resolveCurrentItem(state) {
-  if (state.round === 1 || state.round === 2) {
+  if (isCategoryRound(state.round)) {
     if (!state.categoryId) return null;
     var category = getCategoryById(state);
     if (!category || !category.blocks.length) return null;
@@ -197,6 +279,7 @@ function resolveCurrentItem(state) {
     if (!content) return null;
 
     var subCount = block.subs ? block.subs.length : 0;
+    var answeredCount = getAnsweredBlockIndices(state, state.categoryId).length;
     return {
       type: "block",
       round: state.round,
@@ -210,25 +293,19 @@ function resolveCurrentItem(state) {
       subCount: subCount,
       index: blockIndex,
       total: category.blocks.length,
-    };
-  }
-
-  if (state.round === 3) {
-    var setData = getRound3SetData(state);
-    if (!setData) return null;
-    var questionList = setData.questions;
-    if (!questionList.length) return null;
-    var qIdx = Math.max(0, Math.min(state.questionIndex, questionList.length - 1));
-    var q = questionList[qIdx];
-    return {
-      type: "rapid",
-      round: 3,
-      label: setData.label,
-      setLabel: setData.label,
-      question: q.question,
-      answer: q.answer,
-      index: qIdx,
-      total: questionList.length,
+      hasPrevUnanswered: hasPrevUnansweredBlock(
+        state,
+        state.categoryId,
+        blockIndex
+      ),
+      hasNextUnanswered: hasNextUnansweredBlock(
+        state,
+        state.categoryId,
+        blockIndex
+      ),
+      blocksRemaining: category.blocks.length - answeredCount,
+      answeredBlockIndices: getAnsweredBlockIndices(state, state.categoryId),
+      isAnswered: isBlockAnswered(state, state.categoryId, blockIndex),
     };
   }
 
@@ -296,17 +373,8 @@ function publicDisplayPayload(state) {
     return { visible: false };
   }
 
-  if (state.round === 1 || state.round === 2) {
+  if (state.round === 1 || state.round === 2 || state.round === 3) {
     if (!state.categoryId) {
-      var categories =
-        state.round === 1
-          ? getRound1Categories(state).map(function (cat) {
-              return { id: cat.id, name: cat.name };
-            })
-          : getRound2Categories().map(function (cat) {
-              return { id: cat.id, name: cat.name };
-            });
-
       return {
         visible: true,
         type: "category-picker",
@@ -314,13 +382,9 @@ function publicDisplayPayload(state) {
         roundTitle: ROUNDS[state.round].title,
         setLabel:
           state.round === 1 ? ROUNDS[1].sets[state.set].label : null,
-        categories: categories,
+        categories: getAvailableCategories(state),
       };
     }
-  }
-
-  if (state.round === 3 && !state.set) {
-    return { visible: false };
   }
 
   if (state.round === 4) {
@@ -347,10 +411,7 @@ function publicDisplayPayload(state) {
     payload.categoryId = state.categoryId;
     payload.categoryName = item.categoryName;
     payload.part = item.part;
-    var blockCategories =
-      state.round === 1
-        ? getRound1Categories(state)
-        : getRound2Categories();
+    var blockCategories = getCategoriesForRound(state);
     for (var c = 0; c < blockCategories.length; c++) {
       if (blockCategories[c].id === state.categoryId) {
         payload.categoryColorIndex = c % 4;
@@ -416,31 +477,17 @@ function publicHostPayload(state) {
     payload.sets = Object.keys(roundMeta.sets).map(function (setId) {
       return { id: setId, label: roundMeta.sets[setId].label };
     });
-    payload.categories = state.set
-      ? getRound1Categories(state).map(function (cat) {
-          return { id: cat.id, name: cat.name };
-        })
-      : [];
+    payload.categories = state.set ? getAvailableCategories(state) : [];
     payload.categoryId = state.categoryId;
   }
 
-  if (state.round === 2) {
-    payload.categories = getRound2Categories().map(function (cat) {
-      return { id: cat.id, name: cat.name };
-    });
+  if (state.round === 2 || state.round === 3) {
+    payload.categories = getAvailableCategories(state);
     payload.categoryId = state.categoryId;
   }
 
   if (state.round === 3) {
-    payload.set = state.set;
-    payload.setLabel = getRound3SetData(state)
-      ? getRound3SetData(state).label
-      : null;
-    payload.sets = Object.keys(roundMeta.sets).map(function (setId) {
-      return { id: setId, label: roundMeta.sets[setId].label };
-    });
     payload.timeLimitSeconds = roundMeta.timeLimitSeconds;
-    payload.questionIndex = state.questionIndex;
   }
 
   if (state.round === 4) {
@@ -477,29 +524,69 @@ function resetRoundFields(state, round) {
   state.round5LifelineUsed = false;
   state.round5HiddenOptions = [];
   state.visible = round !== 5;
+  if (isCategoryRound(round)) {
+    clearAnsweredBlocksForRound(state, round);
+  }
   if (round === 1) state.set = null;
-  if (round === 3) state.set = null;
 }
 
 function selectCategory(state, categoryId) {
+  if (!isCategoryRound(state.round)) return false;
+  if (isCategoryExhausted(state, categoryId)) return false;
+  if (
+    state.round === 3 &&
+    getAnsweredBlockIndices(state, categoryId).length > 0
+  ) {
+    return false;
+  }
+  var nextIndex = getNextUnansweredBlockIndex(state, categoryId);
+  if (nextIndex < 0) return false;
   state.categoryId = categoryId;
-  state.blockIndex = 0;
+  state.blockIndex = nextIndex;
   state.part = "main";
   state.visible = true;
+  return true;
+}
+
+function markBlockAnswered(state) {
+  if (!isCategoryRound(state.round)) return false;
+  if (!state.categoryId) return false;
+  if (isBlockAnswered(state, state.categoryId, state.blockIndex)) return false;
+  var key = getCategoryTrackingKey(state, state.categoryId);
+  if (!key) return false;
+  if (!state.answeredBlocks) state.answeredBlocks = {};
+  if (!state.answeredBlocks[key]) state.answeredBlocks[key] = [];
+  var blockIndex = state.blockIndex;
+  var categoryId = state.categoryId;
+  if (state.answeredBlocks[key].indexOf(blockIndex) < 0) {
+    state.answeredBlocks[key].push(blockIndex);
+    state.answeredBlocks[key].sort(function (a, b) {
+      return a - b;
+    });
+  }
+
+  if (state.round === 3) {
+    var nextIndex = getNextUnansweredBlockIndex(state, categoryId);
+    if (nextIndex >= 0) {
+      state.blockIndex = nextIndex;
+      state.part = "main";
+      return true;
+    }
+  }
+
+  state.categoryId = null;
+  state.blockIndex = 0;
+  state.part = "main";
+  return true;
 }
 
 function navigatePrev(state) {
-  if (state.round === 1 || state.round === 2) {
+  if (isCategoryRound(state.round)) {
     if (!state.categoryId) return;
     var category = getCategoryById(state);
     if (!category || !category.blocks.length) return;
     state.blockIndex = Math.max(0, state.blockIndex - 1);
     state.part = "main";
-    return;
-  }
-  if (state.round === 3) {
-    if (!state.set) return;
-    state.questionIndex = Math.max(0, state.questionIndex - 1);
     return;
   }
   if (state.round === 4) {
@@ -512,7 +599,7 @@ function navigatePrev(state) {
 }
 
 function navigateNext(state) {
-  if (state.round === 1 || state.round === 2) {
+  if (isCategoryRound(state.round)) {
     if (!state.categoryId) return;
     var category = getCategoryById(state);
     if (!category || !category.blocks.length) return;
@@ -521,12 +608,6 @@ function navigateNext(state) {
       state.blockIndex + 1
     );
     state.part = "main";
-    return;
-  }
-  if (state.round === 3) {
-    if (!state.set) return;
-    var questionList = getRound3QuestionList(state);
-    state.questionIndex = Math.min(questionList.length - 1, state.questionIndex + 1);
     return;
   }
   if (state.round === 4) {
@@ -540,7 +621,7 @@ function navigateNext(state) {
 }
 
 function selectBlockPart(state, part) {
-  if (state.round !== 1 && state.round !== 2) return;
+  if (!isCategoryRound(state.round)) return;
   if (!state.categoryId) return;
   if (PARTS.indexOf(part) < 0) return;
   var block = getCurrentBlock(state);
@@ -655,6 +736,7 @@ module.exports = {
   nextSet: nextSet,
   markRound5Answer: markRound5Answer,
   applyRound5Lifeline: applyRound5Lifeline,
+  markBlockAnswered: markBlockAnswered,
   getRoundSummaries: getRoundSummaries,
   hasActiveQuestion: hasActiveQuestion,
   isAtRoundEnd: isAtRoundEnd,

@@ -5,122 +5,52 @@
   "riddles": [
     {
       "id": 1,
-      "answer": "Noah",
+      "answer": "Ruth",
       "clues": [
-        "I lived in a generation that had turned far from God.",
-        "I was told to build something very large out of gopher wood.",
-        "I gathered my family and pairs of every kind of animal.",
-        "After the waters receded, a dove brought me an olive leaf."
+        "My homeland lay beyond the Jordan, a place my mother-in-law begged me never to return to.",
+        "I gleaned at the edge of a field belonging to a kinsman whose name means 'my strength is in the LORD.'",
+        "At the city gate, a nearer redeemer declined his right, and another took up my cause with sandal and oath.",
+        "I pledged, 'Where you go I will go,' and became great-grandmother to Israel's greatest king."
       ]
     },
     {
       "id": 2,
-      "answer": "David",
+      "answer": "Lazarus",
       "clues": [
-        "I was the youngest in my family and kept my father's sheep.",
-        "A prophet anointed me king while I was still a boy.",
-        "I defeated a giant with a sling and a single stone.",
-        "I wrote many psalms and ruled Israel from Jerusalem."
+        "My sisters sent word that I was ill, yet the One they called Master deliberately stayed away two days.",
+        "By the time He arrived, I had already been sealed in a tomb carved from rock for four days.",
+        "Many mourners wept with my family in a village near Jerusalem, and some said He could have prevented this.",
+        "He called my name aloud, and I walked out still wrapped in grave clothes."
       ]
     },
     {
       "id": 3,
-      "answer": "Moses",
+      "answer": "Gideon",
       "clues": [
-        "I was hidden in a basket among the reeds as a baby.",
-        "I fled to Midian after taking a man's life in Egypt.",
-        "I spoke with God at a burning bush on a holy mountain.",
-        "I led Israel through the Red Sea and received the Ten Commandments."
+        "I was threshing wheat in a winepress to hide from Midianite raiders when an angel addressed me as a mighty warrior.",
+        "I asked for a sign involving dew on fleece alone, then dry fleece while the ground was wet.",
+        "My army was reduced from thousands to three hundred men carrying trumpets, jars, and torches.",
+        "At my command they broke the jars, blew trumpets, and routed an enemy camp without swords."
       ]
     },
     {
       "id": 4,
-      "answer": "Jonah",
+      "answer": "The Tabernacle",
       "clues": [
-        "I tried to run away from an assignment God gave me.",
-        "I boarded a ship heading in the opposite direction of where I was sent.",
-        "A great storm threatened the ship until I was thrown overboard.",
-        "I spent three days inside a great fish before preaching in Nineveh."
+        "My design was shown on a mountain to a leader who had fled Egypt decades earlier.",
+        "Skilled craftsmen built me with acacia wood overlaid in gold, blue, purple, and scarlet yarn.",
+        "Only one priest could enter my innermost room once a year, bearing blood for atonement.",
+        "I traveled through the wilderness before a permanent house was built in Jerusalem."
       ]
     },
     {
       "id": 5,
-      "answer": "Samson",
+      "answer": "Paul",
       "clues": [
-        "I was set apart from birth by a Nazirite vow.",
-        "My strength was a gift, but I often used it recklessly.",
-        "I tore a lion apart with my bare hands.",
-        "Delilah cut my hair, and my strength left me."
-      ]
-    },
-    {
-      "id": 6,
-      "answer": "Esther",
-      "clues": [
-        "I was an orphan raised by my cousin Mordecai.",
-        "I was chosen in a royal search across the kingdom.",
-        "I became queen of Persia without revealing my Jewish identity at first.",
-        "I risked my life to save my people from Haman's plot."
-      ]
-    },
-    {
-      "id": 7,
-      "answer": "Peter",
-      "clues": [
-        "I was a fisherman on the Sea of Galilee.",
-        "Jesus gave me a new name meaning \"rock.\"",
-        "I walked on water toward Jesus — until I began to sink.",
-        "I denied knowing Jesus three times before the rooster crowed."
-      ]
-    },
-    {
-      "id": 8,
-      "answer": "Daniel",
-      "clues": [
-        "I was taken to Babylon as a young exile from Judah.",
-        "I refused the king's rich food and ate only vegetables.",
-        "I interpreted dreams that baffled the wise men of the empire.",
-        "I was thrown into a lions' den but came out unharmed."
-      ]
-    },
-    {
-      "id": 9,
-      "answer": "Jericho",
-      "clues": [
-        "I was a fortified city standing in Israel's path.",
-        "Two spies were hidden in my walls before the attack.",
-        "Israel marched around me once a day for six days.",
-        "On the seventh day, my walls fell after seven trumpets and a great shout."
-      ]
-    },
-    {
-      "id": 10,
-      "answer": "Joseph (son of Jacob)",
-      "clues": [
-        "My brothers hated me because of my father's favor and my dreams.",
-        "They sold me to traders heading toward Egypt.",
-        "I rose from prison by interpreting the ruler's dreams.",
-        "I stored grain for seven years and saved Egypt and my family from famine."
-      ]
-    },
-    {
-      "id": 11,
-      "answer": "Elijah",
-      "clues": [
-        "I announced a drought that lasted for years.",
-        "I was fed by ravens beside a brook called Cherith.",
-        "I challenged hundreds of false prophets on Mount Carmel.",
-        "I was taken up to heaven in a whirlwind, leaving my cloak for Elisha."
-      ]
-    },
-    {
-      "id": 12,
-      "answer": "The Ark of the Covenant",
-      "clues": [
-        "I was built according to precise instructions given on a mountain.",
-        "I was overlaid with gold and carried by poles so no one touched me directly.",
-        "I held the stone tablets of God's law.",
-        "I was carried around Jericho before its walls fell."
+        "I was a citizen of a free city, trained under a famous rabbi, and zealous for the traditions of my fathers.",
+        "On a road to Damascus I was struck blind by a light brighter than the noonday sun.",
+        "A disciple named Ananias restored my sight and I was baptized after three days of fasting.",
+        "I wrote many letters to churches and was shipwrecked while being taken to Rome as a prisoner."
       ]
     }
   ]

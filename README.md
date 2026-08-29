@@ -34,8 +34,8 @@ Question content lives in `content/round1.json` through `content/round5.json`.
 | --- | --- |
 | 1 | Sets A/B/C — pick a category, 3 blocks × (main + 2 subs) |
 | 2 | Books of the Bible — 4 categories, same block structure as Round 1 |
-| 3 | 60s rapid fire — 3 teams × 10 questions, use Timer Control |
-| 4 | Riddles — reveal clues one at a time; display shows clues only |
+| 3 | 60s rapid fire — 4 categories × 10 questions, use Timer Control |
+| 4 | Riddles — 5 riddles; first three clues are very difficult, fourth clue is clearer |
 | 5 | Money round (winner only) — multiple choice + GHS ladder |
 
 ## Quiz Host
@@ -45,7 +45,7 @@ Open `/host` on the host laptop.
 - Switch **R1–R5** at any time
 - **Round 1:** pick Set A/B/C, choose a category, navigate main/sub questions
 - **Round 2:** pick a category, navigate questions
-- **Round 3:** pick **Dunamis / Zoe / Pneuma**, then use **Previous/Next** while the 60s timer runs on Timer Control
+- **Round 3:** pick a category — the team answers **all 10 questions** in that category before returning to the picker. Use **Question done** to mark each one and advance; run the 60s timer on Timer Control.
 - **Round 4:** reveal clues to the display; all clues + answer visible to host
 - **Round 5:** mark **Correct** or **Wrong** to advance the money ladder
 - **Hide display** toggles the question overlay off without changing position

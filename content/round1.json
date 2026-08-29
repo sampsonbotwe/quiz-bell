@@ -10,36 +10,45 @@
           "name": "Animal Kingdom",
           "blocks": [
             {
-              "main": "What animal refused to move because it saw an angel blocking the road with a sword?",
+              "main": "What animal spoke to Balaam on the road to Moab?",
               "subs": [
-                "What bird did Noah send out first from the ark, which never returned?",
-                "What bird did Noah later send out that returned with an olive leaf?"
+                "What creature did God send to destroy the vines of Judah in Joel's prophecy?",
+                "What animal did Saul go looking for when Samuel secretly anointed David?"
               ],
               "answers": {
-                "main": "Balaam's donkey",
-                "subs": ["Raven", "Dove"]
+                "main": "Donkey",
+                "subs": [
+                  "Locusts",
+                  "Donkeys"
+                ]
               }
             },
             {
-              "main": "What creature swallowed Jonah and kept him alive for three days?",
+              "main": "What bird did Elijah say would feed him by the Brook Cherith?",
               "subs": [
-                "What animal did God provide as a substitute sacrifice for Isaac on Mount Moriah?",
-                "What tiny insect made up the third plague sent on Egypt?"
+                "What animal carried Jesus into Jerusalem on Palm Sunday?",
+                "What did Samson use to kill a thousand Philistines?"
+              ],
+              "answers": {
+                "main": "Ravens",
+                "subs": [
+                  "Donkey",
+                  "The jawbone of a donkey"
+                ]
+              }
+            },
+            {
+              "main": "What great fish swallowed Jonah?",
+              "subs": [
+                "What animals did God use to deliver food to Elijah in the wilderness?",
+                "What animal's jawbone did Samson use as a weapon?"
               ],
               "answers": {
                 "main": "A great fish",
-                "subs": ["Ram", "Lice"]
-              }
-            },
-            {
-              "main": "What animal did Samson kill with his bare hands, later finding honey inside its carcass?",
-              "subs": [
-                "What animals mauled 42 youths who mocked the prophet Elisha for his bald head?",
-                "What creature tempted Eve in the Garden of Eden?"
-              ],
-              "answers": {
-                "main": "Lion",
-                "subs": ["Bears", "Serpent"]
+                "subs": [
+                  "Ravens",
+                  "Donkey's jawbone"
+                ]
               }
             }
           ]
@@ -49,36 +58,45 @@
           "name": "Let's Talk Food",
           "blocks": [
             {
-              "main": "What food did Esau trade his birthright for?",
+              "main": "What did Jesus use to feed five thousand men besides fish?",
               "subs": [
-                "What bread did God provide daily for Israel in the wilderness?",
-                "What did Adam and Eve eat from the forbidden tree, bringing about the fall of mankind?"
+                "What food did the Israelites crave in the wilderness instead of manna?",
+                "What fruit did Eve eat from the forbidden tree?"
               ],
               "answers": {
-                "main": "Red stew",
-                "subs": ["Manna", "Forbidden fruit"]
+                "main": "Five loaves of bread",
+                "subs": [
+                  "Meat / quail",
+                  "Forbidden fruit"
+                ]
               }
             },
             {
-              "main": "What food did John the Baptist eat in the wilderness, along with wild honey?",
+              "main": "What did Esau sell his birthright for?",
               "subs": [
-                "What did Jesus multiply, along with fish, to feed 5,000 people?",
-                "What did Jesus turn water into at the wedding at Cana?"
+                "What did Jesus turn water into at the wedding in Cana?",
+                "What food sustained Elijah for forty days on Horeb?"
               ],
               "answers": {
-                "main": "Locusts",
-                "subs": ["Loaves", "Wine"]
+                "main": "Red stew / lentil stew",
+                "subs": [
+                  "Wine",
+                  "A cake baked on hot stones"
+                ]
               }
             },
             {
-              "main": "What food did the Israelites complain about missing from Egypt, alongside cucumbers and melons?",
+              "main": "What did Daniel and his friends refuse to eat in Babylon?",
               "subs": [
-                "What did an angel provide to sustain Elijah for a 40-day journey to Mount Horeb?",
-                "What special meal did Jesus share with His disciples the night before His crucifixion?"
+                "What did Jesus eat with His disciples after His resurrection?",
+                "What did God rain from heaven for Israel each morning?"
               ],
               "answers": {
-                "main": "Fish, leeks, onions, and garlic",
-                "subs": ["Bread and water", "The Last Supper"]
+                "main": "The king's food and wine",
+                "subs": [
+                  "Fish",
+                  "Manna"
+                ]
               }
             }
           ]
@@ -88,36 +106,45 @@
           "name": "What's Your Dream Team",
           "blocks": [
             {
-              "main": "Who dreamed of a ladder reaching to heaven, with angels ascending and descending?",
+              "main": "In Pharaoh's dream, what lean animals ate the fat ones?",
               "subs": [
-                "Who interpreted Pharaoh's dreams of seven fat cows and seven lean cows?",
-                "Who was warned in a dream not to return to Herod after visiting the infant Jesus?"
+                "In Nebuchadnezzar's dream, what metal was the statue's head?",
+                "In Jacob's dream, what connected heaven and earth?"
               ],
               "answers": {
-                "main": "Jacob",
-                "subs": ["Joseph", "The Magi (Wise Men)"]
+                "main": "Cows",
+                "subs": [
+                  "Gold",
+                  "A ladder"
+                ]
               }
             },
             {
-              "main": "Which king had a disturbing dream of a giant statue, interpreted by Daniel?",
+              "main": "What did Joseph's sheaf of grain do in his dream?",
               "subs": [
-                "Who dreamed of seven years of plenty followed by seven years of famine?",
-                "Who was warned in a dream to flee to Egypt with his family to protect the infant Jesus?"
+                "In Daniel's vision, what animal had four wings and a human heart?",
+                "What appeared to Solomon in a dream at Gibeon?"
               ],
               "answers": {
-                "main": "Nebuchadnezzar",
-                "subs": ["Pharaoh", "Joseph (Jesus' earthly father)"]
+                "main": "Bowed down to his sheaf",
+                "subs": [
+                  "A leopard",
+                  "God offering him anything he asked"
+                ]
               }
             },
             {
-              "main": "Which judge overheard an enemy's dream about a barley loaf tumbling into camp, predicting his victory?",
+              "main": "What did the sun, moon, and eleven stars bow to in Joseph's dream?",
               "subs": [
-                "Whose wife had a troubling dream about Jesus on the day of His trial and warned her husband?",
-                "Who saw a vision of a sheet full of unclean animals, teaching him not to call anything unclean?"
+                "In Peter's vision, what came down from heaven in a sheet?",
+                "What did Pilate's wife dream about Jesus?"
               ],
               "answers": {
-                "main": "Gideon",
-                "subs": ["Pilate's wife", "Peter"]
+                "main": "Joseph",
+                "subs": [
+                  "Unclean animals",
+                  "Suffering because of Him"
+                ]
               }
             }
           ]
@@ -127,36 +154,45 @@
           "name": "Numbers Don't Lie",
           "blocks": [
             {
-              "main": "How many days did God take to create the world?",
+              "main": "How many days and nights did it rain during the flood?",
               "subs": [
-                "How many commandments did God give Moses on Mount Sinai?",
-                "How many years did Israel wander in the wilderness?"
+                "How many plagues did God send on Egypt?",
+                "How many sons did Jacob have?"
               ],
               "answers": {
-                "main": "6 days",
-                "subs": ["10", "40"]
+                "main": "40",
+                "subs": [
+                  "10",
+                  "12"
+                ]
               }
             },
             {
-              "main": "How many disciples did Jesus choose as His apostles?",
+              "main": "How many stones did David pick up to fight Goliath?",
               "subs": [
-                "How many years did Jacob work in total to marry both Leah and Rachel?",
-                "How many books are in the New Testament?"
+                "How many disciples did Jesus choose?",
+                "How many days was Lazarus dead before Jesus raised him?"
               ],
               "answers": {
-                "main": "12",
-                "subs": ["14 years", "27"]
+                "main": "Five",
+                "subs": [
+                  "12",
+                  "Four"
+                ]
               }
             },
             {
-              "main": "How many years did Solomon take to build the Temple?",
+              "main": "How many years did the Israelites wander in the wilderness?",
               "subs": [
-                "How many books are in the entire Bible, Old and New Testament combined?",
-                "How many years did Methuselah live, the oldest man recorded in the Bible?"
+                "How many books are in the New Testament?",
+                "How many people were saved on Noah's ark besides Noah?"
               ],
               "answers": {
-                "main": "7 years",
-                "subs": ["66", "969"]
+                "main": "40",
+                "subs": [
+                  "27",
+                  "Seven (Noah, wife, three sons, three daughters-in-law)"
+                ]
               }
             }
           ]
@@ -171,36 +207,45 @@
           "name": "Holy Places",
           "blocks": [
             {
-              "main": "Where did Moses encounter the burning bush?",
+              "main": "On what mountain did Moses receive the Ten Commandments?",
               "subs": [
-                "On what mountain did Moses receive the Ten Commandments?",
-                "Where did the Israelites cross on dry ground while fleeing Egypt?"
+                "Where was Jesus crucified?",
+                "Where did Jacob wrestle with God and receive the name Israel?"
               ],
               "answers": {
-                "main": "Mount Horeb (the mountain of God)",
-                "subs": ["Mount Sinai", "The Red Sea"]
+                "main": "Mount Sinai",
+                "subs": [
+                  "Golgotha / Calvary",
+                  "Peniel"
+                ]
               }
             },
             {
-              "main": "In which city was Jesus born?",
+              "main": "In what city was Jesus born?",
               "subs": [
-                "In which city was Jesus crucified?",
-                "On what hill was Solomon's Temple built in Jerusalem?"
+                "Where did Elijah challenge the prophets of Baal?",
+                "Where did Solomon build the Temple?"
               ],
               "answers": {
                 "main": "Bethlehem",
-                "subs": ["Jerusalem", "Mount Moriah (Temple Mount)"]
+                "subs": [
+                  "Mount Carmel",
+                  "Jerusalem"
+                ]
               }
             },
             {
-              "main": "Near which sea did Jesus call Peter, Andrew, James, and John to follow Him?",
+              "main": "Where was Paul when he wrote many of his letters while under house arrest?",
               "subs": [
-                "On what island was John exiled when he received the book of Revelation?",
-                "In which garden did Jesus pray before His arrest?"
+                "Where did Jesus walk on water?",
+                "Where did Moses see the burning bush?"
               ],
               "answers": {
-                "main": "Sea of Galilee",
-                "subs": ["Patmos", "Garden of Gethsemane"]
+                "main": "Rome",
+                "subs": [
+                  "Sea of Galilee",
+                  "Mount Horeb"
+                ]
               }
             }
           ]
@@ -210,36 +255,45 @@
           "name": "Famous Faces",
           "blocks": [
             {
-              "main": "Who was the first king of Israel?",
+              "main": "Who was the first man God created?",
               "subs": [
-                "Who was the youngest son of Jesse who slayed Goliath and became king?",
-                "Who was the queen who saved the Jewish people from Haman's plot?"
+                "Who was the mother of Jesus?",
+                "Who betrayed Jesus for thirty pieces of silver?"
               ],
               "answers": {
-                "main": "Saul",
-                "subs": ["David", "Esther"]
+                "main": "Adam",
+                "subs": [
+                  "Mary",
+                  "Judas Iscariot"
+                ]
               }
             },
             {
-              "main": "Who betrayed Jesus with a kiss in the Garden of Gethsemane?",
+              "main": "Who was swallowed by a great fish?",
               "subs": [
-                "Who denied knowing Jesus three times before the rooster crowed?",
-                "Who was chosen to replace Judas among the twelve apostles?"
+                "Who killed Goliath?",
+                "Who denied Jesus three times?"
               ],
               "answers": {
-                "main": "Judas Iscariot",
-                "subs": ["Peter", "Matthias"]
+                "main": "Jonah",
+                "subs": [
+                  "David",
+                  "Peter"
+                ]
               }
             },
             {
-              "main": "Who was thrown into a lions' den but was unharmed?",
+              "main": "Who was thrown into a lions' den?",
               "subs": [
-                "Who was thrown into a fiery furnace but walked out unharmed?",
-                "Who was the strong judge whose strength left him when his hair was cut?"
+                "Who led Israel out of Egypt?",
+                "Who was the first king of Israel?"
               ],
               "answers": {
                 "main": "Daniel",
-                "subs": ["Shadrach, Meshach, and Abednego", "Samson"]
+                "subs": [
+                  "Moses",
+                  "Saul"
+                ]
               }
             }
           ]
@@ -249,36 +303,45 @@
           "name": "Acts of Faith",
           "blocks": [
             {
-              "main": "Who was told to build an ark because of a coming worldwide flood?",
+              "main": "Who was willing to sacrifice Isaac on Mount Moriah?",
               "subs": [
-                "How many days and nights did the rain fall during the flood?",
-                "What sign did God place in the sky as a covenant after the flood?"
+                "Who refused to bow to Haman and was nearly killed for it?",
+                "Who walked on water toward Jesus?"
               ],
               "answers": {
-                "main": "Noah",
-                "subs": ["40 days and 40 nights", "Rainbow"]
+                "main": "Abraham",
+                "subs": [
+                  "Mordecai",
+                  "Peter"
+                ]
               }
             },
             {
-              "main": "Who looked back at Sodom and became a pillar of salt?",
+              "main": "Who was lowered through a roof to meet Jesus?",
               "subs": [
-                "Who hid the Israelite spies in Jericho and was spared when the city fell?",
-                "Who marched around Jericho for seven days before the walls fell?"
+                "Who touched Jesus' garment and was healed of bleeding?",
+                "Who climbed a sycamore tree to see Jesus?"
               ],
               "answers": {
-                "main": "Lot's wife",
-                "subs": ["Rahab", "Joshua (and the Israelites)"]
+                "main": "The paralyzed man (via friends)",
+                "subs": [
+                  "The woman with the issue of blood",
+                  "Zacchaeus"
+                ]
               }
             },
             {
-              "main": "Who walked on water toward Jesus during a storm?",
+              "main": "Who offered his only son as a burnt offering at God's command?",
               "subs": [
-                "Who reached out and touched the hem of Jesus' garment to be healed of bleeding?",
-                "Who climbed a sycamore tree to see Jesus in Jericho?"
+                "Who prayed and fire fell from heaven on Mount Carmel?",
+                "Who said, 'Though He slay me, yet will I trust Him'?"
               ],
               "answers": {
-                "main": "Peter",
-                "subs": ["The woman with the issue of blood", "Zacchaeus"]
+                "main": "Abraham",
+                "subs": [
+                  "Elijah",
+                  "Job"
+                ]
               }
             }
           ]
@@ -288,36 +351,45 @@
           "name": "Two By Two",
           "blocks": [
             {
-              "main": "Which two men in the Old Testament were taken up to heaven without dying?",
+              "main": "Name the two sons of Adam and Eve mentioned first in Genesis.",
               "subs": [
-                "Which two disciples walked with the risen Jesus on the road to Emmaus?",
-                "Which two sons of Aaron died when they offered unauthorized fire before the Lord?"
+                "Name the two cities destroyed with fire and brimstone.",
+                "Name the two tablets Moses brought down from Sinai."
               ],
               "answers": {
-                "main": "Enoch and Elijah",
-                "subs": ["Cleopas and another disciple", "Nadab and Abihu"]
+                "main": "Cain and Abel",
+                "subs": [
+                  "Sodom and Gomorrah",
+                  "The Ten Commandments (on two stone tablets)"
+                ]
               }
             },
             {
-              "main": "Joshua secretly sent two spies into which city before Israel attacked it?",
+              "main": "Name the two animals Noah sent out from the ark as messengers.",
               "subs": [
-                "Which two spies from the original twelve gave a good report about the Promised Land?",
-                "Which two tribes received land east of the Jordan River?"
+                "Name the two disciples on the road to Emmaus.",
+                "Name the two brothers Jesus called 'Sons of Thunder.'"
               ],
               "answers": {
-                "main": "Jericho",
-                "subs": ["Joshua and Caleb", "Reuben and Gad"]
+                "main": "Raven and dove",
+                "subs": [
+                  "Cleopas and another disciple",
+                  "James and John"
+                ]
               }
             },
             {
-              "main": "Which two stone tablets did Moses carry down from Mount Sinai?",
+              "main": "Name the two spies Joshua sent into Jericho.",
               "subs": [
-                "Which two witnesses prophesy for 1,260 days in the book of Revelation?",
-                "Which two brothers were called 'Sons of Thunder' by Jesus?"
+                "Name the two Old Testament figures taken up to heaven without dying.",
+                "Name the two sons of Zebedee."
               ],
               "answers": {
-                "main": "The two tablets of the Ten Commandments",
-                "subs": ["Two olive trees / two lampstands (symbolic witnesses)", "James and John"]
+                "main": "Two spies (hidden by Rahab)",
+                "subs": [
+                  "Enoch and Elijah",
+                  "James and John"
+                ]
               }
             }
           ]
@@ -332,36 +404,45 @@
           "name": "Royal Affairs",
           "blocks": [
             {
-              "main": "Which queen visited King Solomon to test his wisdom with hard questions?",
+              "main": "Who was the queen who saved the Jews from Haman's plot?",
               "subs": [
-                "Which king saw a handwriting on the wall during a feast?",
-                "Which king threw Daniel into the lions' den?"
+                "Who was the king who saw a hand writing on the wall?",
+                "Who was the queen who visited Solomon to test his wisdom?"
               ],
               "answers": {
-                "main": "The Queen of Sheba",
-                "subs": ["Belshazzar", "Darius (the Mede)"]
+                "main": "Esther",
+                "subs": [
+                  "Belshazzar",
+                  "The Queen of Sheba"
+                ]
               }
             },
             {
-              "main": "Which king ordered all Hebrew baby boys to be thrown into the Nile?",
+              "main": "Who was the king who built the first Temple in Jerusalem?",
               "subs": [
-                "Which king had John the Baptist beheaded?",
-                "Which king tried to kill baby Jesus by ordering the massacre in Bethlehem?"
+                "Who was the king when Daniel was thrown into the lions' den?",
+                "Who was the king who saw a hand writing on the wall?"
               ],
               "answers": {
-                "main": "Pharaoh",
-                "subs": ["Herod Antipas", "Herod the Great"]
+                "main": "Solomon",
+                "subs": [
+                  "Darius",
+                  "Belshazzar"
+                ]
               }
             },
             {
-              "main": "Which king of Judah found the Book of the Law in the Temple and led a great revival?",
+              "main": "Who was the first king anointed by Samuel?",
               "subs": [
-                "Which king built a golden calf for Israel to worship at Mount Sinai?",
-                "Which king was made mad and lived like an animal until he acknowledged God?"
+                "Who was the king famous for his wisdom and wrote Proverbs?",
+                "Who was the Roman king when Jesus was born?"
               ],
               "answers": {
-                "main": "Josiah",
-                "subs": ["Aaron (under pressure from the people)", "Nebuchadnezzar"]
+                "main": "Saul",
+                "subs": [
+                  "Solomon",
+                  "Caesar Augustus"
+                ]
               }
             }
           ]
@@ -373,34 +454,43 @@
             {
               "main": "What did God send to destroy Sodom and Gomorrah?",
               "subs": [
-                "What did Elijah call down from heaven on Mount Carmel to consume his sacrifice?",
-                "What pillar guided Israel by day through the wilderness?"
+                "What did Elijah call down from heaven on Mount Carmel?",
+                "What struck the ground when God answered Job from the whirlwind?"
               ],
               "answers": {
-                "main": "Fire and brimstone (sulfur) from heaven",
-                "subs": ["Fire", "Pillar of cloud (by day — pillar of fire by night)"]
+                "main": "Fire and brimstone",
+                "subs": [
+                  "Fire",
+                  "Lightning"
+                ]
               }
             },
             {
-              "main": "What did Jesus calm on the Sea of Galilee?",
+              "main": "What calmed when Jesus said, 'Peace, be still'?",
               "subs": [
-                "What consumed Elijah's sacrifice on Mount Carmel after the prophets of Baal failed?",
-                "What fell from heaven and consumed the soldiers sent to arrest Elijah?"
+                "What burned but was not consumed when Moses approached?",
+                "What fell on the day of Pentecost?"
               ],
               "answers": {
-                "main": "A storm (wind and waves)",
-                "subs": ["Fire from the Lord", "Fire"]
+                "main": "The storm / wind and waves",
+                "subs": [
+                  "The burning bush",
+                  "Tongues of fire"
+                ]
               }
             },
             {
-              "main": "Through what did Shadrach, Meshach, and Abednego walk without being burned?",
+              "main": "What consumed Elijah's sacrifice on Mount Carmel?",
               "subs": [
-                "What appeared as tongues on the disciples at Pentecost?",
-                "What did Moses see burning but not consumed on Mount Horeb?"
+                "What did Shadrach, Meshach, and Abednego walk in without being burned?",
+                "What did God use to lead Israel by night in the wilderness?"
               ],
               "answers": {
-                "main": "The fiery furnace",
-                "subs": ["Tongues of fire", "A burning bush"]
+                "main": "Fire from heaven",
+                "subs": [
+                  "The fiery furnace",
+                  "A pillar of fire"
+                ]
               }
             }
           ]
@@ -410,36 +500,45 @@
           "name": "Prophets Speak",
           "blocks": [
             {
-              "main": "Which prophet was swallowed by a great fish after running from God's call?",
+              "main": "Which prophet was taken up to heaven in a whirlwind?",
               "subs": [
-                "Which prophet confronted King David about his sin with Bathsheba?",
-                "Which prophet was taken up to heaven in a whirlwind?"
+                "Which prophet was swallowed by a great fish?",
+                "Which prophet married Gomer as a sign to Israel?"
               ],
               "answers": {
-                "main": "Jonah",
-                "subs": ["Nathan", "Elijah"]
+                "main": "Elijah",
+                "subs": [
+                  "Jonah",
+                  "Hosea"
+                ]
               }
             },
             {
-              "main": "Which prophet interpreted the writing on the wall for King Belshazzar?",
+              "main": "Which prophet saw a valley of dry bones?",
               "subs": [
-                "Which prophet married a prostitute as a sign of Israel's unfaithfulness?",
-                "Which prophet was thrown into a cistern and left to die in mud?"
-              ],
-              "answers": {
-                "main": "Daniel",
-                "subs": ["Hosea", "Jeremiah"]
-              }
-            },
-            {
-              "main": "Which prophet saw a vision of dry bones coming back to life?",
-              "subs": [
-                "Which prophet was called while still in his mother's womb?",
-                "Which prophet rebuilt the walls of Jerusalem in 52 days?"
+                "Which prophet was thrown into a cistern and left to die?",
+                "Which prophet anointed David as king?"
               ],
               "answers": {
                 "main": "Ezekiel",
-                "subs": ["Jeremiah", "Nehemiah"]
+                "subs": [
+                  "Jeremiah",
+                  "Samuel"
+                ]
+              }
+            },
+            {
+              "main": "Which prophet confronted King David about Bathsheba?",
+              "subs": [
+                "Which prophet interpreted Nebuchadnezzar's dreams?",
+                "Which prophet rode into Jerusalem on a donkey?"
+              ],
+              "answers": {
+                "main": "Nathan",
+                "subs": [
+                  "Daniel",
+                  "Jesus (fulfilling prophecy)"
+                ]
               }
             }
           ]
@@ -449,36 +548,45 @@
           "name": "Beginnings & Endings",
           "blocks": [
             {
-              "main": "What was the first thing God created according to Genesis 1?",
+              "main": "What is the first book of the Bible?",
               "subs": [
-                "What was the first sin committed by Adam and Eve?",
-                "What was the first murder recorded in the Bible?"
+                "What is the last book of the Old Testament?",
+                "What is the first book of the New Testament?"
               ],
               "answers": {
-                "main": "Light",
-                "subs": ["Eating the forbidden fruit / disobedience", "Cain killing Abel"]
+                "main": "Genesis",
+                "subs": [
+                  "Malachi",
+                  "Matthew"
+                ]
               }
             },
             {
-              "main": "What were the last words Jesus spoke on the cross before He died?",
+              "main": "What is the last book of the Bible?",
               "subs": [
-                "What is the last book of the Bible?",
-                "What is the last word of the Bible?"
+                "What was the first miracle Jesus performed?",
+                "What were Jesus' last words on the cross in John?"
               ],
               "answers": {
-                "main": "\"It is finished\" (or \"Father, into your hands I commit my spirit\")",
-                "subs": ["Revelation", "Amen"]
+                "main": "Revelation",
+                "subs": [
+                  "Turning water into wine",
+                  "It is finished"
+                ]
               }
             },
             {
-              "main": "What was the first miracle Jesus performed?",
+              "main": "Who was the first murderer in the Bible?",
               "subs": [
-                "What was the last meal Jesus shared with His disciples before His death?",
-                "What appeared in the sky when Jesus ascended to heaven?"
+                "Who was the last judge of Israel before the kings?",
+                "Who wrote the final epistle before Revelation in the Bible?"
               ],
               "answers": {
-                "main": "Turning water into wine at Cana",
-                "subs": ["The Last Supper", "A cloud (He was taken up in a cloud)"]
+                "main": "Cain",
+                "subs": [
+                  "Samuel",
+                  "Jude"
+                ]
               }
             }
           ]
