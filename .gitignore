@@ -1,3 +1,4 @@
 node_modules
 .DS_Store
 .quiz-state.json
+.team-scores.json

@@ -24,6 +24,8 @@ const celebrationTotalEl = document.querySelector("[data-celebration-total]");
 const moneyRainEl = document.querySelector("[data-money-rain]");
 const displayTimerEl = document.querySelector("[data-display-timer]");
 const displayTimerValueEl = document.querySelector("[data-display-timer-value]");
+const liveScoresEl = document.querySelector("[data-live-scores]");
+const liveScoresTeamsEl = document.querySelector("[data-live-scores-teams]");
 
 var lastCategoryId = null;
 var chosenTimer = null;
@@ -33,6 +35,35 @@ var quizDisplayLive = false;
 var displayTimerFadeTimer = null;
 var displayTimerExpireTimer = null;
 var displayTimerBuzzMs = 1800;
+var liveScoresPayload = null;
+
+function renderLiveScores(payload) {
+  liveScoresPayload = payload || null;
+  if (!liveScoresEl || !liveScoresTeamsEl) return;
+
+  var show = Boolean(payload && payload.showOnDisplay);
+  liveScoresEl.classList.toggle("hidden", !show);
+  if (!show || !payload.teams) return;
+
+  liveScoresTeamsEl.innerHTML = "";
+  payload.teams.forEach(function (team) {
+    var cell = document.createElement("div");
+    cell.className = "display-live-scores-team";
+    cell.style.setProperty("--team-color", team.color);
+
+    var name = document.createElement("span");
+    name.className = "display-live-scores-name";
+    name.textContent = team.name;
+
+    var score = document.createElement("span");
+    score.className = "display-live-scores-value";
+    score.textContent = String(team.score);
+
+    cell.appendChild(name);
+    cell.appendChild(score);
+    liveScoresTeamsEl.appendChild(cell);
+  });
+}
 
 document.addEventListener(
   "pointerdown",
@@ -416,7 +447,7 @@ function renderQuestionContent(payload, animateOpen) {
     return;
   }
 
-  if (payload.type === "money") {
+  if (payload.type === "money" && payload.round === 5) {
     if (payload.gameOver && payload.round5LastResult === "wrong") {
       return;
     }
@@ -592,6 +623,7 @@ function renderQuiz(payload, options) {
   }
 
   if (
+    payload.round === 5 &&
     payload.type === "money" &&
     payload.gameOver &&
     payload.round5LastResult === "wrong"
@@ -621,9 +653,18 @@ function renderQuiz(payload, options) {
 }
 
 socket.on("state", renderBells);
+socket.on("teamScores", renderLiveScores);
 socket.on("ring", function (ring) {
   flashSlot(ring.order);
 });
+
+fetch("/api/team-scores")
+  .then(function (res) {
+    return res.json();
+  })
+  .then(renderLiveScores)
+  .catch(function () {});
+
 socket.on("quiz:display", function (payload) {
   renderQuiz(payload, { live: quizDisplayLive });
   quizDisplayLive = true;

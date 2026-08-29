@@ -769,6 +769,14 @@ h1 {
   display: none;
 }
 
+.option-list.hidden,
+.pill-row.hidden,
+.question-options.hidden,
+.round5-lifeline.hidden,
+.round5-reset.hidden {
+  display: none !important;
+}
+
 .timer-page {
   min-height: 100vh;
   margin: 0;
@@ -1563,7 +1571,7 @@ h1 {
 .question-body {
   color: #ffffff;
   font-size: clamp(24px, 3.6vw, 48px);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
   text-shadow: var(--display-text-shadow);
@@ -1580,7 +1588,7 @@ h1 {
 .question-options li {
   color: #ffffff;
   font-size: clamp(20px, 2.8vw, 36px);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.25;
   text-shadow: var(--display-text-shadow);
 }
@@ -1626,6 +1634,7 @@ h1 {
   box-shadow: none;
   padding: clamp(8px, 1vh, 12px) clamp(10px, 1.2vw, 14px);
   font-size: clamp(17px, 2vw, 28px);
+  font-weight: 600;
   line-height: 1.2;
   color: #ffffff;
   text-shadow: var(--display-text-shadow);
@@ -2469,5 +2478,219 @@ h1 {
   color: var(--muted);
   font-size: 16px;
   font-weight: 700;
+}
+
+/* Display — live scores (rounds 1–4) */
+.display-live-scores {
+  position: fixed;
+  top: clamp(12px, 1.8vh, 20px);
+  left: clamp(12px, 1.6vw, 20px);
+  z-index: 5;
+  max-width: min(96vw, 920px);
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.34));
+}
+
+.display-live-scores-bar {
+  --score-slant: clamp(14px, 1.5vw, 22px);
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  background: rgba(0, 26, 61, 0.94);
+  clip-path: polygon(
+    var(--score-slant) 0,
+    100% 0,
+    calc(100% - var(--score-slant)) 100%,
+    0 100%
+  );
+}
+
+.display-live-scores-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  margin: 0;
+  padding: clamp(9px, 1.1vh, 12px) clamp(14px, 1.4vw, 18px);
+  padding-left: calc(clamp(14px, 1.4vw, 18px) + var(--score-slant) * 0.35);
+  background: rgba(0, 0, 0, 0.22);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.14);
+}
+
+.display-live-scores-label-line {
+  font-size: clamp(9px, 0.95vw, 11px);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  color: rgba(255, 255, 255, 0.88);
+  white-space: nowrap;
+}
+
+.display-live-scores-label-line--muted {
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.display-live-scores-teams {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.display-live-scores-team {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 0.9vw, 12px);
+  padding: clamp(11px, 1.3vh, 14px) clamp(16px, 1.6vw, 22px);
+  padding-right: calc(clamp(16px, 1.6vw, 22px) + var(--score-slant) * 0.2);
+  background: var(--team-color);
+  border: none;
+  border-radius: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.display-live-scores-team:last-child {
+  padding-right: calc(clamp(16px, 1.6vw, 22px) + var(--score-slant) * 0.55);
+}
+
+.display-live-scores-team + .display-live-scores-team {
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.display-live-scores-name {
+  font-size: clamp(13px, 1.3vw, 16px);
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+.display-live-scores-value {
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: #ffffff;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+/* Scores recording page */
+.scores-page {
+  min-height: 100vh;
+  background: #0a1224;
+  color: #f4f1ea;
+}
+
+.scores-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(28px, 6vh, 56px) clamp(20px, 4vw, 32px);
+}
+
+.scores-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.scores-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.scores-kicker {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.45);
+}
+
+.scores-shell h1 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 38px);
+}
+
+.scores-lede {
+  margin: 0 0 24px;
+  color: rgba(244, 241, 234, 0.72);
+  line-height: 1.5;
+}
+
+.scores-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.scores-card {
+  background: var(--team-color);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+  color: #ffffff;
+}
+
+.scores-card__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.scores-card__name {
+  margin: 0;
+  flex: 1;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.scores-card__value {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.scores-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.scores-card__btn {
+  min-width: 56px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.scores-card__btn:hover {
+  border-color: rgba(227, 162, 28, 0.45);
+  background: rgba(227, 162, 28, 0.12);
+}
+
+@media (min-width: 720px) {
+  .scores-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 

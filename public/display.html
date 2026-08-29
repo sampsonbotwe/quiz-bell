@@ -10,9 +10,19 @@
       href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Cinzel:wght@600;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/css/app.css?v=39" />
+    <link rel="stylesheet" href="/css/app.css?v=48" />
   </head>
   <body class="display">
+    <section class="display-live-scores hidden" data-live-scores aria-label="Live scores">
+      <div class="display-live-scores-bar">
+        <p class="display-live-scores-label">
+          <span class="display-live-scores-label-line">Live</span>
+          <span class="display-live-scores-label-line display-live-scores-label-line--muted">Scores</span>
+        </p>
+        <div class="display-live-scores-teams" data-live-scores-teams></div>
+      </div>
+    </section>
+
     <div class="display-timer hidden" data-display-timer aria-hidden="true">
       <p class="display-timer-value" data-display-timer-value>00</p>
     </div>
@@ -80,6 +90,6 @@
     <script src="/js/dev-reload.js"></script>
     <script src="/js/bells.js"></script>
     <script src="/js/money-animate.js?v=3"></script>
-    <script src="/js/display.js?v=36"></script>
+    <script src="/js/display.js?v=40"></script>
   </body>
 </html>

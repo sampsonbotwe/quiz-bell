@@ -8,6 +8,7 @@ const links = {
   timer: `${origin}/timer`,
   "timer-control": `${origin}/timer-control`,
   host: `${origin}/host`,
+  scores: `${origin}/scores`,
 };
 
 for (const [key, url] of Object.entries(links)) {

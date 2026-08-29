@@ -4,6 +4,7 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 const quiz = require("./quiz-state");
+const teamScoresStore = require("./team-scores");
 
 const PORT = Number(process.env.PORT) || 3000;
 const IS_DEV = process.env.NODE_ENV === "development";
@@ -35,11 +36,43 @@ let timer = createTimer();
 let quizState = quiz.loadPersistedQuizState() || quiz.createQuizState();
 let round5AnswerPending = false;
 const ROUND5_CORRECT_REVEAL_MS = 1300;
+let scoresState = teamScoresStore.loadScoresState();
+let teamScores = scoresState.scores;
+let scoresDisplayVisible = scoresState.displayVisible;
+
+function publicTeamScoresPayload() {
+  var inScoreRound = quizState.round >= 1 && quizState.round <= 4;
+  return {
+    round: quizState.round,
+    displayVisible: scoresDisplayVisible,
+    showOnDisplay: scoresDisplayVisible && inScoreRound,
+    teams: teamScoresStore.TEAM_IDS.map(function (teamId) {
+      var team = TEAMS[teamId];
+      return {
+        id: teamId,
+        name: team.name,
+        color: team.color,
+        score: teamScores[teamId],
+      };
+    }),
+  };
+}
+
+function emitTeamScores() {
+  teamScoresStore.saveScoresState(teamScores, scoresDisplayVisible);
+  io.emit("teamScores", publicTeamScoresPayload());
+}
+
+function setScoresDisplayVisible(visible) {
+  scoresDisplayVisible = Boolean(visible);
+  emitTeamScores();
+}
 
 function emitQuizState() {
   quiz.saveQuizState(quizState);
   io.emit("quiz:display", quiz.publicDisplayPayload(quizState));
   io.emit("quiz:host", quiz.publicHostPayload(quizState));
+  emitTeamScores();
 }
 
 function timerRemainingMs() {
@@ -172,6 +205,7 @@ if (IS_DEV) {
 }
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
 
 function sendPage(file) {
   return (_req, res) => {
@@ -185,6 +219,7 @@ app.get("/display", sendPage("display.html"));
 app.get("/timer", sendPage("timer.html"));
 app.get("/timer-control", sendPage("timer-control.html"));
 app.get("/host", sendPage("host.html"));
+app.get("/scores", sendPage("scores.html"));
 app.get("/dunamis", sendPage("team.html"));
 app.get("/zoe", sendPage("team.html"));
 app.get("/pneuma", sendPage("team.html"));
@@ -201,6 +236,47 @@ app.get("/api/quiz/rounds", (_req, res) => {
   res.json(quiz.getRoundSummaries());
 });
 
+app.get("/api/team-scores", (_req, res) => {
+  res.json(publicTeamScoresPayload());
+});
+
+app.post("/api/team-scores/adjust", (req, res) => {
+  const teamId = req.body && req.body.teamId;
+  const delta = req.body && req.body.delta;
+  if (!teamScoresStore.adjustTeamScore(teamScores, teamId, delta)) {
+    res.status(400).json({ error: "Invalid score update" });
+    return;
+  }
+  emitTeamScores();
+  res.json(publicTeamScoresPayload());
+});
+
+app.post("/api/team-scores/set", (req, res) => {
+  const teamId = req.body && req.body.teamId;
+  const score = req.body && req.body.score;
+  if (!teamScoresStore.setTeamScore(teamScores, teamId, score)) {
+    res.status(400).json({ error: "Invalid score update" });
+    return;
+  }
+  emitTeamScores();
+  res.json(publicTeamScoresPayload());
+});
+
+app.post("/api/team-scores/reset", (_req, res) => {
+  teamScoresStore.resetTeamScores(teamScores);
+  emitTeamScores();
+  res.json(publicTeamScoresPayload());
+});
+
+app.post("/api/team-scores/display-visible", (req, res) => {
+  if (!req.body || typeof req.body.visible !== "boolean") {
+    res.status(400).json({ error: "Invalid visibility value" });
+    return;
+  }
+  setScoresDisplayVisible(req.body.visible);
+  res.json(publicTeamScoresPayload());
+});
+
 io.on("connection", (socket) => {
   if (IS_DEV) {
     socket.emit("dev:session", DEV_SESSION);
@@ -210,6 +286,37 @@ io.on("connection", (socket) => {
   socket.emit("timerState", publicTimerState());
   socket.emit("quiz:display", quiz.publicDisplayPayload(quizState));
   socket.emit("quiz:host", quiz.publicHostPayload(quizState));
+  socket.emit("teamScores", publicTeamScoresPayload());
+
+  socket.on("scores:adjust", (payload) => {
+    if (
+      !payload ||
+      !teamScoresStore.adjustTeamScore(teamScores, payload.teamId, payload.delta)
+    ) {
+      return;
+    }
+    emitTeamScores();
+  });
+
+  socket.on("scores:set", (payload) => {
+    if (
+      !payload ||
+      !teamScoresStore.setTeamScore(teamScores, payload.teamId, payload.score)
+    ) {
+      return;
+    }
+    emitTeamScores();
+  });
+
+  socket.on("scores:reset", () => {
+    teamScoresStore.resetTeamScores(teamScores);
+    emitTeamScores();
+  });
+
+  socket.on("scores:setDisplayVisible", (payload) => {
+    if (!payload || typeof payload.visible !== "boolean") return;
+    setScoresDisplayVisible(payload.visible);
+  });
 
   socket.on("ring", (payload) => {
     const teamId = payload && payload.team;
@@ -406,6 +513,7 @@ function printUrls(host) {
   console.log(`  Timer          http://${host}:${PORT}/timer`);
   console.log(`  Timer Control  http://${host}:${PORT}/timer-control`);
   console.log(`  Quiz Host      http://${host}:${PORT}/host`);
+  console.log(`  Scores         http://${host}:${PORT}/scores`);
 }
 
 server.listen(PORT, "0.0.0.0", function () {

@@ -303,7 +303,7 @@ function renderQuestion(state) {
 
   questionText.classList.remove("hidden");
 
-  if (item.type === "money" && item.gameOver) {
+  if (item.type === "money" && item.gameOver && round === 5) {
     questionText.textContent =
       state.round5LastResult === "correct"
         ? "All questions answered correctly!"
@@ -324,7 +324,7 @@ function renderQuestion(state) {
 
   round5Reset.classList.add("hidden");
 
-  if (item.type === "money") {
+  if (item.type === "money" && round === 5) {
     questionText.textContent = item.question;
     optionList.innerHTML = "";
     if (item.options && item.options.length) {
@@ -433,6 +433,7 @@ subTabs.querySelectorAll("[data-part]").forEach(function (btn) {
 });
 
 document.querySelector("[data-mark-correct]").addEventListener("click", function () {
+  if (!isActiveMoneyQuestion(currentState)) return;
   socket.emit("quiz:round5Answer", { correct: true });
 });
 

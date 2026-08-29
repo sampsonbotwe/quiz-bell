@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Live scores</title>
+    <link rel="stylesheet" href="/css/app.css?v=43" />
+  </head>
+  <body class="scores-page">
+    <main class="scores-shell">
+      <div class="scores-header">
+        <div>
+          <p class="scores-kicker">Quiz control</p>
+          <h1>Live scores</h1>
+        </div>
+        <div class="scores-header-actions">
+          <button type="button" class="host-nav-btn host-nav-primary" data-scores-display-toggle>
+            Hide on display
+          </button>
+          <button type="button" class="host-secondary" data-scores-reset>Reset all</button>
+        </div>
+      </div>
+
+      <p class="scores-lede" data-scores-status>
+        Update team points here. The display shows this bar during rounds 1–4 when visible.
+      </p>
+
+      <section class="scores-grid" data-scores-grid></section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/dev-reload.js"></script>
+    <script src="/js/scores.js?v=2"></script>
+  </body>
+</html>
