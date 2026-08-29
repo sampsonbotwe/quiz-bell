@@ -493,8 +493,6 @@ io.on("connection", (socket) => {
   }));
 
   socket.on("quiz:hostReady", controlOnly(socket, function () {
-    if (quiz.hasActiveQuestion(quizState)) return;
-    quiz.resetRoundFields(quizState, 1);
     emitQuizState();
   }));
 
@@ -502,7 +500,7 @@ io.on("connection", (socket) => {
     var roundNum = payload && Number(payload.round);
     if (!roundNum || roundNum < 1 || roundNum > 5) return;
     scoresResultsVisible = false;
-    quiz.resetRoundFields(quizState, roundNum);
+    quiz.setRound(quizState, roundNum);
     emitQuizState();
   }));
 
@@ -529,6 +527,12 @@ io.on("connection", (socket) => {
   socket.on("quiz:markBlockAnswered", controlOnly(socket, function () {
     if (quizState.round !== 1 && quizState.round !== 2 && quizState.round !== 3) return;
     if (!quiz.markBlockAnswered(quizState)) return;
+    emitQuizState();
+  }));
+
+  socket.on("quiz:markRound3CategoryComplete", controlOnly(socket, function () {
+    if (quizState.round !== 3) return;
+    if (!quiz.markRound3CategoryComplete(quizState)) return;
     emitQuizState();
   }));
 

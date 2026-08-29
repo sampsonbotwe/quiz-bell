@@ -42,10 +42,11 @@ Question content lives in `content/round1.json` through `content/round5.json`.
 
 Open `/host` on the host laptop.
 
-- Switch **R1–R5** at any time
+- Switch **R1–R5** at any time — each round picks up where you left off
+- **Reset round** (top bar) clears progress for the current round only
 - **Round 1:** pick Set A/B/C, choose a category, navigate main/sub questions
 - **Round 2:** pick a category, navigate questions
-- **Round 3:** pick a category — the team answers **all 10 questions** in that category before returning to the picker. Use **Question done** to mark each one and advance; run the 60s timer on Timer Control.
+- **Round 3:** pick a category — the team answers questions in that category. Use **Question done** after each one; tap **Category done** if time runs out before all 10 are finished. That category is then closed and other teams can pick from what remains.
 - **Round 4:** reveal clues to the display; all clues + answer visible to host
 - **Round 5:** mark **Correct** or **Wrong** to advance the money ladder
 - **Hide display** toggles the question overlay off without changing position

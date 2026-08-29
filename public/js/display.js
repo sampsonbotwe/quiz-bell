@@ -24,7 +24,9 @@ const celebrationTotalEl = document.querySelector("[data-celebration-total]");
 const moneyRainEl = document.querySelector("[data-money-rain]");
 const displayTimerEl = document.querySelector("[data-display-timer]");
 const displayTimerValueEl = document.querySelector("[data-display-timer-value]");
+const displayTopBarEl = document.querySelector("[data-display-top-bar]");
 const liveScoresEl = document.querySelector("[data-live-scores]");
+const liveScoresBarEl = document.querySelector(".display-live-scores-bar");
 const liveScoresTeamsEl = document.querySelector("[data-live-scores-teams]");
 const displayPanel = document.querySelector(".display-panel");
 const resultsOverlayEl = document.querySelector("[data-results-overlay]");
@@ -50,6 +52,94 @@ var liveScoresByTeam = {};
 var LIVE_SCORES_ANIM_MS = 580;
 var LIVE_SCORE_CHANGE_MS = 480;
 var resultsConfettiTimer = null;
+var displayTimerLayoutTimer = null;
+var liveScoresResizeObserver = null;
+var TIMER_SCORES_GAP_PX = 60;
+var LIVE_SCORES_EXPAND_MS = 600;
+
+function isDisplayTimerVisible() {
+  if (!displayTimerEl) return false;
+  return (
+    !displayTimerEl.classList.contains("hidden") &&
+    (displayTimerEl.classList.contains("display-timer-visible") ||
+      displayTimerEl.classList.contains("display-timer-fade-out"))
+  );
+}
+
+function isLiveScoresBarVisible() {
+  if (!liveScoresEl) return false;
+  return (
+    !liveScoresEl.classList.contains("hidden") &&
+    liveScoresEl.classList.contains("display-live-scores-visible")
+  );
+}
+
+function syncDisplayTimerVerticalAlign(useAdjacent) {
+  if (!displayTimerEl) return;
+
+  if (useAdjacent) {
+    displayTimerEl.style.top = "";
+    return;
+  }
+
+  var anchorRect = null;
+  if (isLiveScoresBarVisible() && liveScoresBarEl) {
+    anchorRect = liveScoresBarEl.getBoundingClientRect();
+  } else if (displayTopBarEl) {
+    anchorRect = displayTopBarEl.getBoundingClientRect();
+  }
+  if (!anchorRect || !anchorRect.height) return;
+
+  var timerHeight =
+    displayTimerEl.getBoundingClientRect().height || displayTimerEl.offsetHeight;
+  if (!timerHeight) timerHeight = 40;
+
+  var top = anchorRect.top + anchorRect.height / 2 - timerHeight / 2;
+  displayTimerEl.style.top = Math.round(top) + "px";
+}
+
+function updateDisplayTimerLayout() {
+  if (!displayTopBarEl || !displayTimerEl) return;
+
+  if (!isDisplayTimerVisible()) {
+    displayTopBarEl.classList.remove("display-top-bar--timer-adjacent");
+    displayTopBarEl.classList.add("display-top-bar--timer-centered");
+    displayTimerEl.style.top = "";
+    return;
+  }
+
+  var useAdjacent = false;
+
+  if (isLiveScoresBarVisible() && liveScoresBarEl) {
+    var scoresRect = liveScoresBarEl.getBoundingClientRect();
+    var timerWidth = displayTimerEl.getBoundingClientRect().width || displayTimerEl.offsetWidth;
+    if (!timerWidth) timerWidth = 68;
+    var centeredLeft = (window.innerWidth - timerWidth) / 2;
+    if (scoresRect.right + TIMER_SCORES_GAP_PX > centeredLeft) {
+      useAdjacent = true;
+    }
+  }
+
+  displayTopBarEl.classList.toggle("display-top-bar--timer-adjacent", useAdjacent);
+  displayTopBarEl.classList.toggle("display-top-bar--timer-centered", !useAdjacent);
+  syncDisplayTimerVerticalAlign(useAdjacent);
+}
+
+function scheduleDisplayTimerLayout() {
+  if (displayTimerLayoutTimer) clearTimeout(displayTimerLayoutTimer);
+  requestAnimationFrame(function () {
+    requestAnimationFrame(updateDisplayTimerLayout);
+  });
+  displayTimerLayoutTimer = setTimeout(updateDisplayTimerLayout, LIVE_SCORES_EXPAND_MS);
+}
+
+function bindLiveScoresLayoutObserver() {
+  if (!liveScoresBarEl || liveScoresResizeObserver || typeof ResizeObserver === "undefined") {
+    return;
+  }
+  liveScoresResizeObserver = new ResizeObserver(scheduleDisplayTimerLayout);
+  liveScoresResizeObserver.observe(liveScoresBarEl);
+}
 
 function createLiveScoresTeamCell(team) {
   var cell = document.createElement("div");
@@ -120,6 +210,8 @@ function renderLiveScoresTeams(teams) {
 
     liveScoresByTeam[team.id] = newScore;
   });
+
+  scheduleDisplayTimerLayout();
 }
 
 function setLiveScoresVisible(show) {
@@ -131,6 +223,7 @@ function setLiveScoresVisible(show) {
     liveScoresEl.classList.remove("hidden");
     void liveScoresEl.offsetWidth;
     liveScoresEl.classList.add("display-live-scores-visible");
+    scheduleDisplayTimerLayout();
     return;
   }
 
@@ -139,7 +232,9 @@ function setLiveScoresVisible(show) {
     if (!liveScoresEl.classList.contains("display-live-scores-visible")) {
       liveScoresEl.classList.add("hidden");
     }
+    scheduleDisplayTimerLayout();
   }, LIVE_SCORES_ANIM_MS);
+  scheduleDisplayTimerLayout();
 }
 
 function renderLiveScores(payload) {
@@ -1026,6 +1121,7 @@ function hideDisplayTimer() {
   displayTimerEl.classList.remove("display-timer-visible", "display-timer-fade-out");
   displayTimerEl.classList.add("hidden");
   displayTimerEl.setAttribute("aria-hidden", "true");
+  scheduleDisplayTimerLayout();
 }
 
 function showDisplayTimer() {
@@ -1033,6 +1129,7 @@ function showDisplayTimer() {
   displayTimerEl.classList.remove("hidden", "display-timer-fade-out");
   displayTimerEl.classList.add("display-timer-visible");
   displayTimerEl.setAttribute("aria-hidden", "false");
+  scheduleDisplayTimerLayout();
 }
 
 function fadeOutDisplayTimer() {
@@ -1063,6 +1160,8 @@ function renderDisplayTimer(state) {
   if (state.status === "expired") {
     if (displayTimerEl.classList.contains("hidden")) {
       showDisplayTimer();
+    } else {
+      scheduleDisplayTimerLayout();
     }
     if (
       !displayTimerExpireTimer &&
@@ -1078,4 +1177,6 @@ function renderDisplayTimer(state) {
 }
 
 hideDisplayTimer();
+bindLiveScoresLayoutObserver();
+window.addEventListener("resize", scheduleDisplayTimerLayout);
 socket.on("timerState", renderDisplayTimer);

@@ -20,9 +20,14 @@ const navProgressEl = document.querySelector("[data-nav-progress]");
 const prevBtn = document.querySelector("[data-prev]");
 const nextBtn = document.querySelector("[data-next]");
 const markBlockDoneBtn = document.querySelector("[data-mark-block-done]");
+const markCategoryDoneBtn = document.querySelector("[data-mark-category-done]");
 const blockStatusEl = document.querySelector("[data-block-status]");
 const questionCardEl = document.querySelector("[data-question-card]");
 const resetRoundBtn = document.querySelector("[data-reset-round]");
+const riddleNav = document.querySelector("[data-riddle-nav]");
+const riddlePrevBtn = document.querySelector("[data-riddle-prev]");
+const riddleNextBtn = document.querySelector("[data-riddle-next]");
+const riddleNavProgressEl = document.querySelector("[data-riddle-nav-progress]");
 const subNav = document.querySelector("[data-sub-nav]");
 const subTabs = document.querySelector("[data-sub-tabs]");
 const toggleDisplayBtn = document.querySelector("[data-toggle-display]");
@@ -247,16 +252,33 @@ function updateNavControls(state) {
   var isMoneyRound = state.round === 5 && item && item.type === "money";
   var isBlockRound =
     item && item.type === "block" && (state.round === 1 || state.round === 2 || state.round === 3);
+  var isRiddleRound = item && item.type === "riddle" && state.round === 4;
   var emergencyNav = document.querySelector(".host-nav-emergency");
 
-  if (hostNav) hostNav.classList.remove("hidden");
+  if (hostNav) {
+    hostNav.classList.toggle("hidden", isRiddleRound);
+  }
+  if (riddleNav) {
+    riddleNav.classList.toggle("hidden", !isRiddleRound);
+  }
   if (emergencyNav) {
     emergencyNav.classList.toggle("hidden", !isBlockRound);
+  }
+
+  if (isRiddleRound) {
+    if (riddlePrevBtn) riddlePrevBtn.disabled = item.index === 0;
+    if (riddleNextBtn) riddleNextBtn.disabled = item.index >= item.total - 1;
+    if (riddleNavProgressEl) {
+      riddleNavProgressEl.textContent =
+        "Riddle " + (item.index + 1) + " of " + item.total;
+    }
+    return;
   }
 
   if (isMoneyRound) {
     subNav.classList.add("hidden");
     if (markBlockDoneBtn) markBlockDoneBtn.classList.add("hidden");
+    if (markCategoryDoneBtn) markCategoryDoneBtn.classList.add("hidden");
     if (prevBtn) prevBtn.disabled = true;
     if (nextBtn) nextBtn.disabled = true;
     if (item.gameOver) {
@@ -279,6 +301,12 @@ function updateNavControls(state) {
     if (markBlockDoneBtn) {
       markBlockDoneBtn.classList.toggle("hidden", item.isAnswered);
     }
+    if (markCategoryDoneBtn) {
+      markCategoryDoneBtn.classList.toggle(
+        "hidden",
+        !(state.round === 3 && state.categoryId)
+      );
+    }
     navProgressEl.textContent = item.isAnswered
       ? "Question " +
         (item.mainIndex + 1) +
@@ -298,6 +326,9 @@ function updateNavControls(state) {
 
   if (markBlockDoneBtn) {
     markBlockDoneBtn.classList.add("hidden");
+  }
+  if (markCategoryDoneBtn) {
+    markCategoryDoneBtn.classList.add("hidden");
   }
 
   subNav.classList.add("hidden");
@@ -325,12 +356,6 @@ function updateNavControls(state) {
     navProgressEl.textContent = "Complete";
     if (prevBtn) prevBtn.disabled = item.index === 0;
     if (nextBtn) nextBtn.disabled = true;
-    return;
-  }
-
-  if (item.type === "riddle") {
-    navProgressEl.textContent =
-      "Riddle " + (item.index + 1) + " of " + item.total;
     return;
   }
 
@@ -513,6 +538,18 @@ function bindHostTapFeedback() {
 
 bindHostTapFeedback();
 
+if (riddlePrevBtn) {
+  riddlePrevBtn.addEventListener("click", function () {
+    socket.emit("quiz:prev");
+  });
+}
+
+if (riddleNextBtn) {
+  riddleNextBtn.addEventListener("click", function () {
+    socket.emit("quiz:next");
+  });
+}
+
 document.querySelector("[data-prev]").addEventListener("click", function () {
   socket.emit("quiz:prev");
 });
@@ -524,6 +561,12 @@ document.querySelector("[data-next]").addEventListener("click", function () {
 if (markBlockDoneBtn) {
   markBlockDoneBtn.addEventListener("click", function () {
     socket.emit("quiz:markBlockAnswered");
+  });
+}
+
+if (markCategoryDoneBtn) {
+  markCategoryDoneBtn.addEventListener("click", function () {
+    socket.emit("quiz:markRound3CategoryComplete");
   });
 }
 

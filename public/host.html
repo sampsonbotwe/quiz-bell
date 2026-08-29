@@ -74,6 +74,16 @@
         </div>
       </section>
 
+      <div class="host-nav-riddle hidden" data-riddle-nav>
+        <button type="button" class="host-nav-btn host-nav-riddle-btn" data-riddle-prev aria-label="Previous riddle">
+          ← Previous
+        </button>
+        <p class="host-nav-progress" data-riddle-nav-progress>Riddle 1 of 5</p>
+        <button type="button" class="host-nav-btn host-nav-riddle-btn" data-riddle-next aria-label="Next riddle">
+          Next →
+        </button>
+      </div>
+
       <div class="host-nav">
         <div class="host-nav-emergency">
           <button type="button" class="host-nav-btn host-nav-btn--small" data-prev aria-label="Previous question">←</button>
@@ -81,7 +91,10 @@
         </div>
         <div class="host-nav-main">
           <p class="host-nav-progress" data-nav-progress>Select a category</p>
-          <button type="button" class="host-nav-btn host-nav-primary hidden" data-mark-block-done>Question done</button>
+          <div class="host-nav-actions">
+            <button type="button" class="host-nav-btn host-nav-primary hidden" data-mark-block-done>Question done</button>
+            <button type="button" class="host-nav-btn host-secondary hidden" data-mark-category-done>Category done</button>
+          </div>
         </div>
       </div>
 
@@ -104,7 +117,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/dev-reload.js"></script>
     <script src="/js/money-animate.js"></script>
-    <script src="/js/host.js?v=7"></script>
+    <script src="/js/host.js?v=8"></script>
     <script src="/js/control-auth.js?v=1"></script>
   </body>
 </html>

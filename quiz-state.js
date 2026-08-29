@@ -35,6 +35,7 @@ const PERSISTED_QUIZ_FIELDS = [
   "round5HiddenOptions",
   "visible",
   "answeredBlocks",
+  "roundSnapshots",
 ];
 
 function createQuizState() {
@@ -54,6 +55,7 @@ function createQuizState() {
     round5HiddenOptions: [],
     visible: true,
     answeredBlocks: {},
+    roundSnapshots: {},
   };
 }
 
@@ -510,24 +512,121 @@ function publicHostPayload(state) {
   return payload;
 }
 
-function resetRoundFields(state, round) {
+function extractRoundFields(state, round) {
+  if (round === 1) {
+    return {
+      set: state.set,
+      categoryId: state.categoryId,
+      blockIndex: state.blockIndex,
+      part: state.part,
+      visible: state.visible,
+    };
+  }
+  if (round === 2 || round === 3) {
+    return {
+      categoryId: state.categoryId,
+      blockIndex: state.blockIndex,
+      part: state.part,
+      visible: state.visible,
+    };
+  }
+  if (round === 4) {
+    return {
+      riddleIndex: state.riddleIndex,
+      cluesRevealed: state.cluesRevealed,
+      visible: state.visible,
+    };
+  }
+  if (round === 5) {
+    return {
+      questionIndex: state.questionIndex,
+      earnedAmount: state.earnedAmount,
+      round5Complete: state.round5Complete,
+      round5LastResult: state.round5LastResult,
+      round5LifelineUsed: state.round5LifelineUsed,
+      round5HiddenOptions: (state.round5HiddenOptions || []).slice(),
+      visible: state.visible,
+    };
+  }
+  return {};
+}
+
+function applyRoundFields(state, round, fields) {
   state.round = round;
-  state.categoryId = null;
-  state.blockIndex = 0;
-  state.part = "main";
-  state.questionIndex = 0;
-  state.riddleIndex = 0;
-  state.cluesRevealed = 0;
-  state.earnedAmount = 0;
-  state.round5Complete = false;
-  state.round5LastResult = null;
-  state.round5LifelineUsed = false;
-  state.round5HiddenOptions = [];
-  state.visible = round !== 5;
+  if (round === 1) {
+    state.set = fields.set !== undefined ? fields.set : null;
+    state.categoryId = fields.categoryId !== undefined ? fields.categoryId : null;
+    state.blockIndex = fields.blockIndex !== undefined ? fields.blockIndex : 0;
+    state.part = fields.part || "main";
+    state.visible = fields.visible !== undefined ? fields.visible : true;
+    return;
+  }
+  if (round === 2 || round === 3) {
+    state.categoryId = fields.categoryId !== undefined ? fields.categoryId : null;
+    state.blockIndex = fields.blockIndex !== undefined ? fields.blockIndex : 0;
+    state.part = fields.part || "main";
+    state.visible = fields.visible !== undefined ? fields.visible : true;
+    return;
+  }
+  if (round === 4) {
+    state.riddleIndex = fields.riddleIndex !== undefined ? fields.riddleIndex : 0;
+    state.cluesRevealed = fields.cluesRevealed !== undefined ? fields.cluesRevealed : 0;
+    state.visible = fields.visible !== undefined ? fields.visible : true;
+    return;
+  }
+  if (round === 5) {
+    state.questionIndex = fields.questionIndex !== undefined ? fields.questionIndex : 0;
+    state.earnedAmount = fields.earnedAmount !== undefined ? fields.earnedAmount : 0;
+    state.round5Complete = Boolean(fields.round5Complete);
+    state.round5LastResult = fields.round5LastResult || null;
+    state.round5LifelineUsed = Boolean(fields.round5LifelineUsed);
+    state.round5HiddenOptions = (fields.round5HiddenOptions || []).slice();
+    state.visible = fields.visible !== undefined ? fields.visible : false;
+  }
+}
+
+function applyDefaultRoundFields(state, round) {
+  applyRoundFields(state, round, {
+    set: null,
+    categoryId: null,
+    blockIndex: 0,
+    part: "main",
+    questionIndex: 0,
+    riddleIndex: 0,
+    cluesRevealed: 0,
+    earnedAmount: 0,
+    round5Complete: false,
+    round5LastResult: null,
+    round5LifelineUsed: false,
+    round5HiddenOptions: [],
+    visible: round !== 5,
+  });
+}
+
+function setRound(state, roundNum) {
+  if (!roundNum || roundNum < 1 || roundNum > 5) return false;
+  if (roundNum === state.round) return true;
+  if (!state.roundSnapshots) state.roundSnapshots = {};
+  state.roundSnapshots[String(state.round)] = extractRoundFields(
+    state,
+    state.round
+  );
+  var snap = state.roundSnapshots[String(roundNum)];
+  if (snap) {
+    applyRoundFields(state, roundNum, snap);
+  } else {
+    applyDefaultRoundFields(state, roundNum);
+  }
+  return true;
+}
+
+function resetRoundFields(state, round) {
+  if (!state.roundSnapshots) state.roundSnapshots = {};
+  delete state.roundSnapshots[String(round)];
+  applyDefaultRoundFields(state, round);
   if (isCategoryRound(round)) {
     clearAnsweredBlocksForRound(state, round);
   }
-  if (round === 1) state.set = null;
 }
 
 function selectCategory(state, categoryId) {
@@ -574,6 +673,26 @@ function markBlockAnswered(state) {
     }
   }
 
+  state.categoryId = null;
+  state.blockIndex = 0;
+  state.part = "main";
+  return true;
+}
+
+function markRound3CategoryComplete(state) {
+  if (state.round !== 3) return false;
+  if (!state.categoryId) return false;
+  if (isCategoryExhausted(state, state.categoryId)) return false;
+  var category = getCategoryById(state);
+  if (!category || !category.blocks || !category.blocks.length) return false;
+  var key = getCategoryTrackingKey(state, state.categoryId);
+  if (!key) return false;
+  if (!state.answeredBlocks) state.answeredBlocks = {};
+  var allIndices = [];
+  for (var i = 0; i < category.blocks.length; i++) {
+    allIndices.push(i);
+  }
+  state.answeredBlocks[key] = allIndices;
   state.categoryId = null;
   state.blockIndex = 0;
   state.part = "main";
@@ -729,6 +848,7 @@ module.exports = {
   publicDisplayPayload: publicDisplayPayload,
   publicHostPayload: publicHostPayload,
   resetRoundFields: resetRoundFields,
+  setRound: setRound,
   selectCategory: selectCategory,
   navigatePrev: navigatePrev,
   navigateNext: navigateNext,
@@ -737,6 +857,7 @@ module.exports = {
   markRound5Answer: markRound5Answer,
   applyRound5Lifeline: applyRound5Lifeline,
   markBlockAnswered: markBlockAnswered,
+  markRound3CategoryComplete: markRound3CategoryComplete,
   getRoundSummaries: getRoundSummaries,
   hasActiveQuestion: hasActiveQuestion,
   isAtRoundEnd: isAtRoundEnd,
