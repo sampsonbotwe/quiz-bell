@@ -26,43 +26,341 @@ const displayTimerEl = document.querySelector("[data-display-timer]");
 const displayTimerValueEl = document.querySelector("[data-display-timer-value]");
 const liveScoresEl = document.querySelector("[data-live-scores]");
 const liveScoresTeamsEl = document.querySelector("[data-live-scores-teams]");
+const displayPanel = document.querySelector(".display-panel");
+const resultsOverlayEl = document.querySelector("[data-results-overlay]");
+const resultsKickerEl = document.querySelector("[data-results-kicker]");
+const resultsTitleEl = document.querySelector("[data-results-title]");
+const resultsWinnerEl = document.querySelector("[data-results-winner]");
+const resultsListEl = document.querySelector("[data-results-list]");
+const resultsConfettiEl = document.querySelector("[data-results-confetti]");
 
 var lastCategoryId = null;
 var chosenTimer = null;
 var CHOSEN_HOLD_MS = 1400;
 var showingMoneyCelebration = false;
+var resultsOverlayActive = false;
 var quizDisplayLive = false;
+var lastQuizPayload = null;
 var displayTimerFadeTimer = null;
 var displayTimerExpireTimer = null;
 var displayTimerBuzzMs = 1800;
 var liveScoresPayload = null;
+var liveScoresHideTimer = null;
+var liveScoresByTeam = {};
+var LIVE_SCORES_ANIM_MS = 580;
+var LIVE_SCORE_CHANGE_MS = 480;
+var resultsConfettiTimer = null;
+
+function createLiveScoresTeamCell(team) {
+  var cell = document.createElement("div");
+  cell.className = "display-live-scores-team";
+  cell.dataset.team = team.id;
+  cell.style.setProperty("--team-color", team.color);
+
+  var name = document.createElement("span");
+  name.className = "display-live-scores-name";
+  name.textContent = team.name;
+
+  var score = document.createElement("span");
+  score.className = "display-live-scores-value";
+
+  var number = document.createElement("span");
+  number.className = "display-live-scores-number";
+  number.textContent = String(team.score);
+  score.appendChild(number);
+
+  cell.appendChild(name);
+  cell.appendChild(score);
+  return cell;
+}
+
+function getScoreNumberEl(scoreWrap) {
+  var number = scoreWrap.querySelector(".display-live-scores-number");
+  if (!number) {
+    number = document.createElement("span");
+    number.className = "display-live-scores-number";
+    number.textContent = scoreWrap.textContent;
+    scoreWrap.textContent = "";
+    scoreWrap.appendChild(number);
+  }
+  return number;
+}
+
+function animateScoreValue(numberEl, from, to) {
+  numberEl.textContent = String(to);
+  numberEl.classList.remove("display-live-scores-number--up", "display-live-scores-number--down");
+  void numberEl.offsetWidth;
+  numberEl.classList.add(to > from ? "display-live-scores-number--up" : "display-live-scores-number--down");
+
+  setTimeout(function () {
+    numberEl.classList.remove("display-live-scores-number--up", "display-live-scores-number--down");
+  }, LIVE_SCORE_CHANGE_MS);
+}
+
+function renderLiveScoresTeams(teams) {
+  if (!liveScoresTeamsEl || !teams) return;
+
+  teams.forEach(function (team) {
+    var cell = liveScoresTeamsEl.querySelector('[data-team="' + team.id + '"]');
+    if (!cell) {
+      cell = createLiveScoresTeamCell(team);
+      liveScoresTeamsEl.appendChild(cell);
+    }
+
+    var scoreWrap = cell.querySelector(".display-live-scores-value");
+    var scoreEl = scoreWrap ? getScoreNumberEl(scoreWrap) : null;
+    var prevScore = liveScoresByTeam[team.id];
+    var newScore = team.score;
+
+    if (scoreEl && prevScore !== undefined && prevScore !== newScore) {
+      animateScoreValue(scoreEl, prevScore, newScore);
+    } else if (scoreEl) {
+      scoreEl.textContent = String(newScore);
+    }
+
+    liveScoresByTeam[team.id] = newScore;
+  });
+}
+
+function setLiveScoresVisible(show) {
+  if (!liveScoresEl) return;
+
+  clearTimeout(liveScoresHideTimer);
+
+  if (show) {
+    liveScoresEl.classList.remove("hidden");
+    void liveScoresEl.offsetWidth;
+    liveScoresEl.classList.add("display-live-scores-visible");
+    return;
+  }
+
+  liveScoresEl.classList.remove("display-live-scores-visible");
+  liveScoresHideTimer = setTimeout(function () {
+    if (!liveScoresEl.classList.contains("display-live-scores-visible")) {
+      liveScoresEl.classList.add("hidden");
+    }
+  }, LIVE_SCORES_ANIM_MS);
+}
 
 function renderLiveScores(payload) {
   liveScoresPayload = payload || null;
   if (!liveScoresEl || !liveScoresTeamsEl) return;
 
+  if (payload && payload.resultsOverlay) {
+    showResultsOverlay(payload);
+    return;
+  }
+
+  if (resultsOverlayActive) {
+    hideResultsOverlay();
+    if (lastQuizPayload) {
+      renderQuiz(lastQuizPayload, { live: quizDisplayLive });
+    }
+  }
+
+  if (payload && payload.teams) {
+    renderLiveScoresTeams(payload.teams);
+  }
+
   var show = Boolean(payload && payload.showOnDisplay);
-  liveScoresEl.classList.toggle("hidden", !show);
-  if (!show || !payload.teams) return;
+  setLiveScoresVisible(show);
+}
 
-  liveScoresTeamsEl.innerHTML = "";
-  payload.teams.forEach(function (team) {
-    var cell = document.createElement("div");
-    cell.className = "display-live-scores-team";
-    cell.style.setProperty("--team-color", team.color);
+function stopResultsConfetti() {
+  if (resultsConfettiTimer) {
+    clearInterval(resultsConfettiTimer);
+    resultsConfettiTimer = null;
+  }
+  if (resultsConfettiEl) {
+    resultsConfettiEl.innerHTML = "";
+    resultsConfettiEl.classList.add("hidden");
+  }
+}
 
-    var name = document.createElement("span");
-    name.className = "display-live-scores-name";
-    name.textContent = team.name;
+function startResultsConfetti() {
+  if (!resultsConfettiEl) return;
+  stopResultsConfetti();
+  resultsConfettiEl.classList.remove("hidden");
 
-    var score = document.createElement("span");
-    score.className = "display-live-scores-value";
-    score.textContent = String(team.score);
+  var colors = ["#fde68a", "#2563eb", "#e63946", "#ca8a04", "#72c044", "#ffffff"];
 
-    cell.appendChild(name);
-    cell.appendChild(score);
-    liveScoresTeamsEl.appendChild(cell);
-  });
+  function spawnPiece() {
+    if (!resultsConfettiEl) return;
+    var piece = document.createElement("span");
+    piece.className = "display-results-confetti__piece";
+    piece.style.left = Math.random() * 100 + "%";
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDuration = 2.4 + Math.random() * 1.6 + "s";
+    piece.style.animationDelay = Math.random() * 0.35 + "s";
+    piece.style.transform = "rotate(" + Math.floor(Math.random() * 360) + "deg)";
+    resultsConfettiEl.appendChild(piece);
+    setTimeout(function () {
+      piece.remove();
+    }, 4500);
+  }
+
+  for (var i = 0; i < 28; i++) spawnPiece();
+  resultsConfettiTimer = setInterval(spawnPiece, 160);
+}
+
+function hideResultsOverlay() {
+  if (!resultsOverlayEl) return;
+  stopResultsConfetti();
+  resultsOverlayActive = false;
+  resultsOverlayEl.classList.add("hidden");
+  resultsOverlayEl.classList.remove("display-results-overlay--visible");
+  if (displayPanel) displayPanel.classList.remove("hidden");
+}
+
+function showResultsOverlay(payload) {
+  if (!resultsOverlayEl) return;
+
+  var isFinal = Boolean(payload.announceWinner);
+  resultsOverlayActive = true;
+  showingMoneyCelebration = false;
+  stopResultsConfetti();
+
+  resultsOverlayEl.classList.toggle("display-results-overlay--final", isFinal);
+
+  setLiveScoresVisible(false);
+  if (liveScoresEl) liveScoresEl.classList.add("hidden");
+  overlay.classList.add("hidden");
+  if (displayPanel) displayPanel.classList.add("hidden");
+  if (displayTimerEl) {
+    displayTimerEl.classList.add("hidden");
+    displayTimerEl.classList.remove("display-timer-visible", "display-timer-fade-out");
+  }
+  if (ladderPanel) ladderPanel.classList.add("hidden");
+  if (celebrationEl) celebrationEl.classList.add("hidden");
+  if (earnedPanel) earnedPanel.classList.add("hidden");
+  document.body.classList.remove("display-money-active");
+
+  if (resultsKickerEl) {
+    resultsKickerEl.textContent = "Round " + payload.round + " complete";
+  }
+  if (resultsTitleEl) {
+    resultsTitleEl.textContent =
+      payload.round === 4 ? "Final scores" : "Total scores";
+  }
+
+  if (resultsWinnerEl) {
+    if (payload.announceWinner && payload.winnerNames && payload.winnerNames.length) {
+      resultsWinnerEl.classList.remove("hidden", "display-results-overlay__winner--tie");
+      resultsWinnerEl.textContent = payload.isTie
+        ? payload.winnerNames.join(" & ") + " — tied winners"
+        : payload.winnerNames[0];
+      if (payload.isTie) {
+        resultsWinnerEl.classList.add("display-results-overlay__winner--tie");
+      }
+      resultsWinnerEl.style.setProperty(
+        "--results-index",
+        String((payload.resultsTeams || []).length)
+      );
+    } else {
+      resultsWinnerEl.classList.add("hidden");
+      resultsWinnerEl.textContent = "";
+      resultsWinnerEl.style.removeProperty("--results-index");
+    }
+  }
+
+  if (resultsListEl) {
+    resultsListEl.innerHTML = "";
+    (payload.resultsTeams || []).forEach(function (team, index) {
+      var isWinner =
+        isFinal &&
+        payload.winnerIds &&
+        payload.winnerIds.indexOf(team.id) >= 0;
+
+      var row = document.createElement("li");
+      row.className = "display-results-overlay__row";
+      row.style.setProperty("--results-index", String(index));
+
+      if (isWinner) {
+        var cup = document.createElement("span");
+        cup.className = "display-results-overlay__cup";
+        cup.setAttribute("aria-hidden", "true");
+        cup.textContent = "🏆";
+        cup.style.setProperty("--results-index", String(index));
+        row.appendChild(cup);
+      } else if (isFinal) {
+        var cupSpacer = document.createElement("span");
+        cupSpacer.className = "display-results-overlay__cup-spacer";
+        cupSpacer.setAttribute("aria-hidden", "true");
+        row.appendChild(cupSpacer);
+      }
+
+      var item = document.createElement("div");
+      item.className = "display-results-overlay__item";
+      item.style.setProperty("--results-index", String(index));
+      if (isWinner) {
+        item.classList.add("display-results-overlay__item--winner");
+      }
+      item.style.setProperty("--team-color", team.color);
+
+      if (isFinal) {
+        var place = document.createElement("span");
+        place.className = "display-results-overlay__place";
+        if (team.place === 1) place.classList.add("display-results-overlay__place--1");
+        if (team.place === 2) place.classList.add("display-results-overlay__place--2");
+        if (team.place === 3) place.classList.add("display-results-overlay__place--3");
+        place.textContent =
+          team.place === 1
+            ? "1st"
+            : team.place === 2
+              ? "2nd"
+              : team.place === 3
+                ? "3rd"
+                : String(team.place);
+        item.appendChild(place);
+      }
+
+      var copy = document.createElement("div");
+      copy.className = "display-results-overlay__copy";
+
+      var name = document.createElement("span");
+      name.className = "display-results-overlay__name";
+
+      var nameText = document.createElement("span");
+      nameText.className = "display-results-overlay__name-text";
+      nameText.textContent = team.name;
+      name.appendChild(nameText);
+
+      var meta = document.createElement("span");
+      meta.className = "display-results-overlay__meta";
+      meta.textContent = "Total points";
+
+      copy.appendChild(name);
+      copy.appendChild(meta);
+
+      var scoreWrap = document.createElement("span");
+      scoreWrap.className = "display-results-overlay__score";
+
+      var score = document.createElement("span");
+      score.className = "display-results-overlay__score-value";
+      score.textContent = String(team.score);
+
+      var scoreLabel = document.createElement("span");
+      scoreLabel.className = "display-results-overlay__score-label";
+      scoreLabel.textContent = "pts";
+
+      scoreWrap.appendChild(score);
+      scoreWrap.appendChild(scoreLabel);
+
+      item.appendChild(copy);
+      item.appendChild(scoreWrap);
+      row.appendChild(item);
+      resultsListEl.appendChild(row);
+    });
+  }
+
+  resultsOverlayEl.classList.remove("hidden");
+  resultsOverlayEl.classList.remove("display-results-overlay--visible");
+  void resultsOverlayEl.offsetWidth;
+  resultsOverlayEl.classList.add("display-results-overlay--visible");
+
+  if (isFinal) {
+    startResultsConfetti();
+  }
 }
 
 document.addEventListener(
@@ -113,6 +411,7 @@ function updateSlot(node, ring) {
 }
 
 function renderBells(state) {
+  if (resultsOverlayActive) return;
   if (!state.rings.length) {
     slotsContainer.innerHTML = "";
     return;
@@ -585,6 +884,7 @@ function showQuestionPanel(payload, animateOpen) {
 
 function renderQuiz(payload, options) {
   options = options || {};
+  if (resultsOverlayActive) return;
   if (!payload.visible) {
     clearChosenTimer();
     hideQuizPanels();
@@ -666,6 +966,7 @@ fetch("/api/team-scores")
   .catch(function () {});
 
 socket.on("quiz:display", function (payload) {
+  lastQuizPayload = payload;
   renderQuiz(payload, { live: quizDisplayLive });
   quizDisplayLive = true;
 });
@@ -743,6 +1044,10 @@ function fadeOutDisplayTimer() {
 
 function renderDisplayTimer(state) {
   if (!displayTimerEl || !displayTimerValueEl || !state) return;
+  if (resultsOverlayActive) {
+    hideDisplayTimer();
+    return;
+  }
 
   displayTimerValueEl.textContent = formatDisplayTimer(
     state.remainingMs,

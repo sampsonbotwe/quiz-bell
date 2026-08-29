@@ -458,6 +458,8 @@ function publicHostPayload(state) {
     payload.questionIndex = state.questionIndex;
   }
 
+  payload.atRoundEnd = isAtRoundEnd(state);
+
   return payload;
 }
 
@@ -474,7 +476,7 @@ function resetRoundFields(state, round) {
   state.round5LastResult = null;
   state.round5LifelineUsed = false;
   state.round5HiddenOptions = [];
-  state.visible = true;
+  state.visible = round !== 5;
   if (round === 1) state.set = null;
   if (round === 3) state.set = null;
 }
@@ -621,6 +623,16 @@ function hasActiveQuestion(state) {
   return resolveCurrentItem(state) !== null;
 }
 
+function isAtRoundEnd(state) {
+  if (state.round < 1 || state.round > 4) return false;
+  var item = resolveCurrentItem(state);
+  if (!item || !item.total) return false;
+  if (item.type === "block") {
+    return item.mainIndex >= item.mainTotal - 1;
+  }
+  return item.index >= item.total - 1;
+}
+
 function getRoundSummaries() {
   return ROUND_IDS.map(function (id) {
     return { id: id, title: ROUNDS[id].title };
@@ -645,4 +657,5 @@ module.exports = {
   applyRound5Lifeline: applyRound5Lifeline,
   getRoundSummaries: getRoundSummaries,
   hasActiveQuestion: hasActiveQuestion,
+  isAtRoundEnd: isAtRoundEnd,
 };

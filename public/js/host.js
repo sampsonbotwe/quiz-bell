@@ -23,11 +23,33 @@ const subNav = document.querySelector("[data-sub-nav]");
 const subTabs = document.querySelector("[data-sub-tabs]");
 const toggleDisplayBtn = document.querySelector("[data-toggle-display]");
 const hostNav = document.querySelector(".host-nav");
+const roundResultsPanel = document.querySelector("[data-round-results-panel]");
+const showRoundResultsBtn = document.querySelector("[data-show-round-results]");
+const continueRoundBtn = document.querySelector("[data-continue-round]");
 const wrongConfirmDialog = document.querySelector("[data-round5-wrong-dialog]");
 const wrongConfirmBtn = document.querySelector("[data-round5-wrong-confirm]");
 
 var roundsMeta = [];
 var currentState = null;
+var currentScoresState = null;
+
+function updateRoundResultsControls(state) {
+  if (!roundResultsPanel || !showRoundResultsBtn || !continueRoundBtn) return;
+
+  var round = state.round;
+  var atEnd = Boolean(state.atRoundEnd);
+  var overlay = Boolean(currentScoresState && currentScoresState.resultsOverlay);
+  var showResultsBtn = round >= 1 && round <= 4 && atEnd && !overlay;
+  var showContinueBtn = overlay && round < 5;
+
+  roundResultsPanel.classList.toggle("hidden", !showResultsBtn && !showContinueBtn);
+  showRoundResultsBtn.classList.toggle("hidden", !showResultsBtn);
+  continueRoundBtn.classList.toggle("hidden", !showContinueBtn);
+
+  if (showContinueBtn) {
+    continueRoundBtn.textContent = "Continue to Round " + (round + 1);
+  }
+}
 
 function fetchRounds() {
   fetch("/api/quiz/rounds")
@@ -372,6 +394,7 @@ function render(state) {
   }
   setActiveRoundTab(state.round);
   renderQuestion(state);
+  updateRoundResultsControls(state);
 }
 
 fetchRounds();
@@ -468,7 +491,24 @@ toggleDisplayBtn.addEventListener("click", function () {
   socket.emit("quiz:setVisible", { visible: !currentState.visible });
 });
 
+if (showRoundResultsBtn) {
+  showRoundResultsBtn.addEventListener("click", function () {
+    socket.emit("scores:showResults");
+  });
+}
+
+if (continueRoundBtn) {
+  continueRoundBtn.addEventListener("click", function () {
+    socket.emit("quiz:continueRound");
+  });
+}
+
 socket.on("quiz:host", render);
+
+socket.on("teamScores", function (payload) {
+  currentScoresState = payload;
+  if (currentState) updateRoundResultsControls(currentState);
+});
 
 socket.on("connect", function () {
   socket.emit("quiz:hostReady");

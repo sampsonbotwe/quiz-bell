@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Quiz Host</title>
-    <link rel="stylesheet" href="/css/app.css?v=41" />
+    <link rel="stylesheet" href="/css/app.css?v=63" />
   </head>
   <body class="host-page">
     <main class="wrap host-wrap">
@@ -66,6 +66,15 @@
         <p class="host-nav-progress" data-nav-progress>Select a category</p>
         <button type="button" class="host-nav-btn host-nav-primary" data-next>Next →</button>
       </div>
+
+      <section class="host-round-results hidden" data-round-results-panel>
+        <button type="button" class="host-nav-btn host-nav-primary" data-show-round-results>
+          Show total scores
+        </button>
+        <button type="button" class="host-nav-btn host-nav-primary hidden" data-continue-round>
+          Continue to next round
+        </button>
+      </section>
     </main>
 
     <div class="host-confirm hidden" data-round5-wrong-dialog aria-hidden="true">
@@ -85,6 +94,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/dev-reload.js"></script>
     <script src="/js/money-animate.js"></script>
-    <script src="/js/host.js?v=3"></script>
+    <script src="/js/host.js?v=4"></script>
   </body>
 </html>

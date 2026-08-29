@@ -7,10 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Cinzel:wght@600;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Cinzel:wght@600;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/css/app.css?v=48" />
+    <link rel="stylesheet" href="/css/app.css?v=74" />
   </head>
   <body class="display">
     <section class="display-live-scores hidden" data-live-scores aria-label="Live scores">
@@ -46,6 +46,17 @@
         </div>
       </div>
     </main>
+
+    <section class="display-results-overlay hidden" data-results-overlay aria-label="Round results">
+      <div class="display-results-overlay__backdrop" aria-hidden="true"></div>
+      <div class="display-results-confetti hidden" data-results-confetti aria-hidden="true"></div>
+      <div class="display-results-overlay__content">
+        <p class="display-results-overlay__kicker" data-results-kicker>Round complete</p>
+        <h2 class="display-results-overlay__title" data-results-title>Total scores</h2>
+        <ol class="display-results-overlay__list" data-results-list></ol>
+        <p class="display-results-overlay__winner hidden" data-results-winner></p>
+      </div>
+    </section>
 
     <section class="display-money-celebration hidden" data-money-celebration>
       <div class="money-rain" data-money-rain aria-hidden="true"></div>
@@ -90,6 +101,6 @@
     <script src="/js/dev-reload.js"></script>
     <script src="/js/bells.js"></script>
     <script src="/js/money-animate.js?v=3"></script>
-    <script src="/js/display.js?v=40"></script>
+    <script src="/js/display.js?v=50"></script>
   </body>
 </html>

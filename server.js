@@ -39,13 +39,61 @@ const ROUND5_CORRECT_REVEAL_MS = 1300;
 let scoresState = teamScoresStore.loadScoresState();
 let teamScores = scoresState.scores;
 let scoresDisplayVisible = scoresState.displayVisible;
+let scoresResultsVisible = false;
+
+function buildResultsTeams() {
+  var teams = teamScoresStore.TEAM_IDS.map(function (teamId) {
+    var team = TEAMS[teamId];
+    return {
+      id: teamId,
+      name: team.name,
+      color: team.color,
+      score: teamScores[teamId],
+    };
+  });
+
+  teams.sort(function (a, b) {
+    if (b.score !== a.score) return b.score - a.score;
+    return (
+      teamScoresStore.TEAM_IDS.indexOf(a.id) -
+      teamScoresStore.TEAM_IDS.indexOf(b.id)
+    );
+  });
+
+  teams.forEach(function (team, index) {
+    team.place = index + 1;
+  });
+
+  var topScore = teams.length ? teams[0].score : 0;
+  var winners = teams.filter(function (team) {
+    return team.score === topScore;
+  });
+
+  return {
+    resultsTeams: teams,
+    winnerIds: winners.map(function (team) {
+      return team.id;
+    }),
+    winnerNames: winners.map(function (team) {
+      return team.name;
+    }),
+    isTie: winners.length > 1,
+  };
+}
 
 function publicTeamScoresPayload() {
   var inScoreRound = quizState.round >= 1 && quizState.round <= 4;
+  var results = buildResultsTeams();
   return {
     round: quizState.round,
     displayVisible: scoresDisplayVisible,
-    showOnDisplay: scoresDisplayVisible && inScoreRound,
+    showOnDisplay:
+      scoresDisplayVisible && inScoreRound && !scoresResultsVisible,
+    resultsOverlay: scoresResultsVisible,
+    announceWinner: scoresResultsVisible && quizState.round === 4,
+    winnerIds: results.winnerIds,
+    winnerNames: results.winnerNames,
+    isTie: results.isTie,
     teams: teamScoresStore.TEAM_IDS.map(function (teamId) {
       var team = TEAMS[teamId];
       return {
@@ -55,6 +103,7 @@ function publicTeamScoresPayload() {
         score: teamScores[teamId],
       };
     }),
+    resultsTeams: results.resultsTeams,
   };
 }
 
@@ -65,6 +114,11 @@ function emitTeamScores() {
 
 function setScoresDisplayVisible(visible) {
   scoresDisplayVisible = Boolean(visible);
+  emitTeamScores();
+}
+
+function setScoresResultsVisible(visible) {
+  scoresResultsVisible = Boolean(visible);
   emitTeamScores();
 }
 
@@ -318,6 +372,20 @@ io.on("connection", (socket) => {
     setScoresDisplayVisible(payload.visible);
   });
 
+  socket.on("scores:showResults", () => {
+    if (quizState.round < 1 || quizState.round > 4) return;
+    if (!quiz.isAtRoundEnd(quizState)) return;
+    setScoresResultsVisible(true);
+  });
+
+  socket.on("quiz:continueRound", () => {
+    if (!scoresResultsVisible) return;
+    if (quizState.round < 1 || quizState.round >= 5) return;
+    scoresResultsVisible = false;
+    quiz.resetRoundFields(quizState, quizState.round + 1);
+    emitQuizState();
+  });
+
   socket.on("ring", (payload) => {
     const teamId = payload && payload.team;
     const team = TEAMS[teamId];
@@ -372,6 +440,7 @@ io.on("connection", (socket) => {
   socket.on("quiz:setRound", (payload) => {
     var roundNum = payload && Number(payload.round);
     if (!roundNum || roundNum < 1 || roundNum > 5) return;
+    scoresResultsVisible = false;
     quiz.resetRoundFields(quizState, roundNum);
     emitQuizState();
   });
@@ -484,7 +553,7 @@ io.on("connection", (socket) => {
     quizState.round5LastResult = null;
     quizState.round5LifelineUsed = false;
     quizState.round5HiddenOptions = [];
-    quizState.visible = true;
+    quizState.visible = false;
     emitQuizState();
   });
 
